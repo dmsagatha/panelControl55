@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Profession;
 use Illuminate\Database\Seeder;
 
 class ProfessionSeeder extends Seeder
@@ -15,10 +16,23 @@ class ProfessionSeeder extends Seeder
     ]); */
 
     // Constructor de consultas Sql de Laravel
-    DB::table('professions')->insert([
+    /* DB::table('professions')->insert([
       ['title' => 'Desarrollador back-end'],
       ['title' => 'Desarrollador front-end'],
       ['title' => 'Diseñador Web'],
+    ]); */
+
+    // 114 - Seeders con el Modelo
+    Profession::create([
+      'title' => 'Desarrollador back-end'
+    ]);
+
+    Profession::create([
+      'title' => 'Desarrollador front-end',
+    ]);
+
+    Profession::create([
+      'title' => 'Diseñador web',
     ]);
   }
 }
