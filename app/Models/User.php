@@ -18,6 +18,11 @@ class User extends Authenticatable
     'name', 'email', 'password',
   ];
 
+  public function profession()
+  {
+    return $this->belongsTo(Profession::class);
+  }
+
   /**
    * The attributes that should be hidden for arrays.
    *
@@ -42,6 +47,7 @@ class User extends Authenticatable
 
   public function isAdmin()
   {
-    return $this->email === 'superadmin@admin.net';
+    // return $this->email === 'superadmin@admin.net';
+    return $this->is_admin;
   }
 }

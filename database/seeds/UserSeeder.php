@@ -45,7 +45,23 @@ class UserSeeder extends Seeder
       'name'  => 'Super Admin',
       'email' => 'superadmin@admin.net',
       'password' => bcrypt('superadmin'),
-      'profession_id' => $professionId
+      'profession_id' => $professionId,
+      'is_admin' => true,
+    ]);
+
+    // 117 - Relaciones del ORM de Eloquent
+    User::create([
+      'name'  => 'Agatha',
+      'email' => 'agatha@tmp.com',
+      'password' => bcrypt('agatha'),
+      'profession_id' => $professionId,
+    ]);
+
+    User::create([
+      'name'  => 'Doris',
+      'email' => 'dms@tmp.com',
+      'password' => bcrypt('dms'),
+      'profession_id' => null,
     ]);
   }
 }
