@@ -27,6 +27,14 @@ class User extends Authenticatable
     'password', 'remember_token',
   ];
 
+  /**
+   * Convertir de integer a boolean
+   */
+  protected $casts = [
+    'is_admin' => 'boolean'
+  ];
+
+
   public static function findByEmail($email)
   {
     return static::where(compact('email'))->first();
