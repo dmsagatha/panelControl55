@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\User;
+use App\Models\Profession;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -21,11 +23,10 @@ class UserSeeder extends Seeder
     // $profession = DB::table('professions')->select('id', 'title')->whereTitle('Desarrollador back-end')->first();
 
     // Obtener el id
-    $professionId = DB::table('professions')
+    /* $professionId = DB::table('professions')
         ->whereTitle('Desarrollador back-end')
         ->value('id');
     // dd($professionId);
-
 
     DB::table('users')->insert([
       'name'  => 'Super Admin',
@@ -34,6 +35,16 @@ class UserSeeder extends Seeder
       // 'profession_id' => $professions[0]->id
       // 'profession_id' => $professions->first()->id
       // 'profession_id' => $profession->id
+      'profession_id' => $professionId
+    ]); */
+
+    // 114 - Seeders con el Modelo
+    $professionId = Profession::whereTitle('Desarrollador back-end')->value('id');
+
+    User::create([
+      'name'  => 'Super Admin',
+      'email' => 'superadmin@admin.net',
+      'password' => bcrypt('superadmin'),
       'profession_id' => $professionId
     ]);
   }
