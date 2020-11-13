@@ -3,27 +3,45 @@
 @section('title', 'Usuarios')
 
 @section('content')
-  <h1 class="mt-3">{{ $title }}</h1>
+  <div class="d-flex justify-content-between align-items-end mb-2 mt-4">
 
-  <P>
-    <a href="{{ route('users.create') }}">Crear usuario</a>
-  </P>
+    <h1 class="pb-1">{{ $title }}</h1>
 
-  <ul>
-    @forelse ($users as $user)
-    <li>
-      {{ $user->id }} - {{ $user->name }} ({{ $user->email }})
-      <a href="{{ route('users.show', $user) }}">Ver detalles - (route)</a> | 
-      <a href="{{ route('users.edit', $user) }}">Editar</a> | 
+    <P>
+      <a href="{{ route('users.create') }}" class="btn btn-dark">Crear usuario</a>
+    </P>
+  </div>
 
-      <form method="POST" action="{{ route('users.destroy', $user) }}" class="d-inline">
-        @csrf @method('DELETE')
+  @if ($users->isNotEmpty())
+    <table class="table table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Correo Electrónico</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach ($users as $user)
+          <tr>
+            <th scope="row">{{ $user->id }}</th>
+            <td>{{ $user->name }}</td>
+            <td>{{ $user->email }}</td>
+            <td>
+              <a href="{{ route('users.show', $user) }}" class="btn btn-link"><span class="oi oi-eye"></span></a>
+              <a href="{{ route('users.edit', $user) }}" class="btn btn-link"><span class="oi oi-pencil"></span></a>
+              <form method="POST" action="{{ route('users.destroy', $user) }}" class="d-inline">
+                @csrf @method('DELETE')
 
-        <button type="submit">Eliminar</button>
-      </form>
-    </li>
-    @empty
-      <li>No hay usuarios registrados.</li>
-    @endforelse
-  </ul>
+                <button type="submit" class="btn btn-link"><span class="oi oi-trash"></span></button>
+              </form>
+            </td>
+          </tr>            
+        @endforeach
+      </tbody>
+    </table>      
+  @else
+    <p>No hay usuarios registrados.</p>
+  @endif
 @endsection
