@@ -21,12 +21,18 @@ class UserController extends Controller
     return view('users.index', compact('users', 'title'));
   }
 
-  public function show($id)
+  /* public function show($id)
   {
     // /usuarios/1000 ==> 404  No encontrado
     $user = User::findOrFail($id);
     //dd($user);
 
+    return view('users.show', compact('user'));
+  } */
+  
+  public function show(User $user)
+  {
+    // /usuarios/1000 ==> 404  No encontrado
     return view('users.show', compact('user'));
   }
 
