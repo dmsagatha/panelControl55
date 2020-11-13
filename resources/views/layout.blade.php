@@ -14,14 +14,14 @@
     <main role="main" class="flex-shrink-0">
       <div class="container"> 
         <div class="row mt-3">
-          <div class="col-8">       
+          <div class="col-12">       
             @yield('content')
           </div>
-          <div class="col-4">       
+          {{-- <div class="col-4">       
             @section('sidebar')
               <h2>&nbsp;</h2>
             @show
-          </div>
+          </div> --}}
         </div>
       </div>
     </main>
