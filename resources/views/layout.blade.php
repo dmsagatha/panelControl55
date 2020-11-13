@@ -19,7 +19,7 @@
           </div>
           <div class="col-4">       
             @section('sidebar')
-              <h2>Barra lateral</h2>
+              <h2>&nbsp;</h2>
             @show
           </div>
         </div>
