@@ -271,4 +271,25 @@ class UsersModuleTest extends TestCase
         ->assertRedirect("usuarios/{$user->id}/editar")
         ->assertSessionHasErrors(['email']);
   }
+
+  /** @test */
+  function the_users_email_can_stay_the_same_when_updating_the_user()
+  {
+    $user = factory(User::class)->create([
+        'email' => 'superadmin@admin.net'
+    ]);
+
+    $this->from("usuarios/{$user->id}/editar")
+        ->put("usuarios/{$user->id}", [
+            'name'  => 'Super Admin',
+            'email' => 'superadmin@admin.net',
+            'password' => 'superadmin'
+        ])
+        ->assertRedirect("usuarios/{$user->id}"); // (users.show)
+
+    $this->assertDatabaseHas('users', [
+        'name'  => 'Super Admin',
+        'email' => 'superadmin@admin.net',
+    ]);
+  }
 }
