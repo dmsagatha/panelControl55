@@ -88,4 +88,25 @@ class UsersModuleTest extends TestCase
         'password' => 'superadmin',
     ]);
   }
+
+  /** @test */
+  function the_name_is_required()
+  {
+    // $this->withoutExceptionHandling();
+
+    $this->from('usuarios/nuevo')
+        ->post('/usuarios/', [
+          'name'  => '',
+          'email' => 'superadmin@admin.net',
+          'password' => 'superadmin'
+        ])
+        ->assertRedirect('usuarios/nuevo') 
+        ->assertSessionHasErrors(['name' => 'El campo nombre es obligatorio']);
+
+    //  Comprobar que el usuario no se creo
+    $this->assertEquals(0, User::count());
+    /* $this->assertDatabaseMissing('users', [
+      'email' => 'superadmin@admin.net',
+    ]); */
+  }
 }
