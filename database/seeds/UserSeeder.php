@@ -57,11 +57,11 @@ class UserSeeder extends Seeder
       'profession_id' => $professionId,
     ]);
 
-    User::create([
-      'name'  => 'Doris',
-      'email' => 'dms@tmp.com',
-      'password' => bcrypt('dms'),
-      'profession_id' => null,
+    // 118 - Model Factories
+    factory(User::class)->create([
+      'profession_id' => $professionId,
     ]);
+
+    factory(User::class, 47)->create();
   }
 }
