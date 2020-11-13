@@ -199,7 +199,7 @@ class UsersModuleTest extends TestCase
   {
     $user = factory(User::class)->create();
 
-    // $this->withoutExceptionHandling();
+    $this->withoutExceptionHandling();
 
     $this->put("/usuarios/{$user->id}", [
         'name'  => 'Super Admin',
@@ -212,6 +212,84 @@ class UsersModuleTest extends TestCase
         'name'  => 'Super Admin',
         'email' => 'superadmin@admin.net',
         'password' => 'superadmin',
+    ]);
+  }
+
+  /** @test */
+  function the_name_is_required_when_updating_the_user()
+  {
+    $user = factory(User::class)->create();
+
+    $this->from("usuarios/{$user->id}/editar")
+        ->put("usuarios/{$user->id}", [
+          'name'  => '',
+          'email' => 'superadmin@admin.net',
+          'password' => 'superadmin'
+        ])
+        ->assertRedirect("usuarios/{$user->id}/editar")
+        ->assertSessionHasErrors(['name']);
+
+    $this->assertDatabaseMissing('users', ['email' => 'superadmin@admin.net']);
+  }
+
+  /** @test */
+  function the_email_must_be_valid_when_updating_the_user()
+  {
+    $user = factory(User::class)->create();
+
+    $this->from("usuarios/{$user->id}/editar")
+        ->put("usuarios/{$user->id}", [
+          'name'  => 'Super Admin',
+          'email' => 'correo-no-valido',
+          'password' => 'superadmin'
+        ])
+        ->assertRedirect("usuarios/{$user->id}/editar")
+        ->assertSessionHasErrors(['email']);
+
+    $this->assertDatabaseMissing('users', ['name' => 'Super Admin']);
+  }
+
+  /** @test */
+  function the_email_must_be_unique_when_updating_the_user()
+  {
+    //$this->withoutExceptionHandling();
+
+    factory(User::class)->create([
+        'email' => 'existing-email@example.com',
+    ]);
+
+    $user = factory(User::class)->create([
+        'email' => 'superadmin@admin.net'
+    ]);
+
+    $this->from("usuarios/{$user->id}/editar")
+        ->put("usuarios/{$user->id}", [
+            'name'  => 'Super Admin',
+            'email' => 'existing-email@example.com',
+            'password' => 'superadmin'
+        ])
+        ->assertRedirect("usuarios/{$user->id}/editar")
+        ->assertSessionHasErrors(['email']);
+  }
+
+  /** @test */
+  function the_users_email_can_stay_the_same_when_updating_the_user()
+  {
+    $user = factory(User::class)->create([
+        'email' => 'superadmin@admin.net'
+    ]);
+
+    $this->from("usuarios/{$user->id}/editar")
+        ->put("usuarios/{$user->id}", [
+            'name'  => 'Super Admin',
+            'email' => 'superadmin@admin.net',
+            'password' => 'superadmin'
+        ])
+        ->assertRedirect("usuarios/{$user->id}"); // (users.show)
+
+    $this->assertDatabaseHas('users', [
+        'name'  => 'Super Admin',
+        'email' => 'superadmin@admin.net',
     ]);
   }
 }

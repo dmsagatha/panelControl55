@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -74,6 +75,12 @@ class UserController extends Controller
 
   public function update(User $user)
   {
+    $data = request()->validate([
+        'name'  => 'required',
+        'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
+        'password' => 'required'
+    ]);
+
     $data = request()->all();
 
     $data['password'] = bcrypt($data['password']);
