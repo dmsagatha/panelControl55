@@ -77,7 +77,7 @@ class UsersModuleTest extends TestCase
     $this->withoutExceptionHandling();
 
     $this->post('/usuarios/', [
-        'name' => 'Super Admin',
+        'name'  => 'Super Admin',
         'email' => 'superadmin@admin.net',
         'password' => 'superadmin'
     ])->assertRedirect('usuarios');
@@ -92,8 +92,6 @@ class UsersModuleTest extends TestCase
   /** @test */
   function the_name_is_required()
   {
-    // $this->withoutExceptionHandling();
-
     $this->from('usuarios/nuevo')
         ->post('/usuarios/', [
           'name'  => '',
@@ -108,5 +106,75 @@ class UsersModuleTest extends TestCase
     /* $this->assertDatabaseMissing('users', [
       'email' => 'superadmin@admin.net',
     ]); */
+  }
+
+  /** @test */
+  function the_email_is_required()
+  {
+    $this->withExceptionHandling();
+
+    $this->from('usuarios/nuevo')
+        ->post('/usuarios/', [
+          'name'  => 'Super Admin',
+          'email' => '',
+          'password' => 'superadmin'
+        ])
+        ->assertRedirect('usuarios/nuevo') 
+        ->assertSessionHasErrors(['email']);
+
+    //  Comprobar que el usuario no se creo
+    $this->assertEquals(0, User::count());
+  }
+
+  /** @test */
+  function the_email_must_be_valid()
+  {
+    $this->from('usuarios/nuevo')
+        ->post('/usuarios/', [
+            'name'  => 'Super Admin',
+            'email' => 'correo-no-valido',
+            'password' => 'superadmin'
+        ])
+        ->assertRedirect('usuarios/nuevo')
+        ->assertSessionHasErrors(['email']);
+
+    $this->assertEquals(0, User::count());
+  }
+
+  /** @test */
+  function the_email_must_be_unique()
+  {
+    factory(User::class)->create([
+        'email' => 'superadmin@admin.net'
+    ]);
+
+    $this->from('usuarios/nuevo')
+        ->post('/usuarios/', [
+            'name'  => 'Super Admin',
+            'email' => 'superadmin@admin.net',
+            'password' => 'superadmin'
+        ])
+        ->assertRedirect('usuarios/nuevo')
+        ->assertSessionHasErrors(['email']);
+
+    $this->assertEquals(1, User::count());
+  }
+
+  /** @test */
+  function the_password_is_required()
+  {
+    // $this->withExceptionHandling();
+    
+    $this->from('usuarios/nuevo')
+        ->post('/usuarios/', [
+          'name'  => 'Super Admin',
+          'email' => 'superadmin@admin.net',
+          'password' => ''
+        ])
+        ->assertRedirect('usuarios/nuevo') 
+        ->assertSessionHasErrors(['password']);
+
+    //  Comprobar que el usuario no se creo
+    $this->assertEquals(0, User::count());
   }
 }
