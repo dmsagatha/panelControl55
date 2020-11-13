@@ -18,6 +18,7 @@
 
   <form method="POST" action="{{ route('users.update', $user) }}">
     @csrf
+    @method('PUT')
 
     <div class="form-row">
       <div class="form-group col-4">
