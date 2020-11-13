@@ -23,7 +23,9 @@ class UserController extends Controller
 
   public function show($id)
   {
-    $user = User::find($id);
+    // /usuarios/1000 ==> 404  No encontrado
+    $user = User::findOrFail($id);
+    //dd($user);
 
     return view('users.show', compact('user'));
   }
