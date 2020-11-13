@@ -5,18 +5,31 @@
 @section('content')
   <h1 class="mt-3">Crear usuario</h1>
 
+  @if ($errors->any())
+    <div class="alert alert-danger">
+      <h6>Por favor corregir los errores:</h6>
+      <ul>
+        @foreach ($errors->all() as $error)
+          <li>{{ $error }}</li>
+        @endforeach
+      </ul>
+    </div>
+  @endif
+
   <form method="POST" action="{{ route('users.store') }}">
     @csrf
 
     <div class="form-row">
       <div class="form-group col-4">
         <label for="name">Nombre:</label>
-        <input class="form-control" type="text" name="name" id="name">
-        {!! $errors->first('name', '<div class="text-danger">:message</div>') !!}
+        <input class="form-control" type="text" name="name" id="name" value="{{ old('name') }}">
+        @if ($errors->has('name'))
+          <div class="text-danger">{{ $errors->first('name') }}</div>
+        @endif
       </div>
       <div class="form-group col">
         <label for="email">Correo electrónico:</label>
-        <input class="form-control" type="email" name="email" id="email">
+        <input class="form-control" type="email" name="email" id="email" value="{{ old('email') }}">
         {!! $errors->first('email', '<div class="text-danger">:message</div>') !!}
       </div>
     </div>
@@ -33,6 +46,7 @@
       <button type="submit" class="btn btn-info text-center">Crear usuario</button>
     </div>
   </form>
+
   <hr>
   
   <p>
