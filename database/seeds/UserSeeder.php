@@ -47,6 +47,7 @@ class UserSeeder extends Seeder
       'password' => bcrypt('superadmin'),
       'profession_id' => $professionId,
       'is_admin' => true,
+      'created_at' => now(),
     ]);
 
     // 117 - Relaciones del ORM de Eloquent
@@ -62,6 +63,8 @@ class UserSeeder extends Seeder
       'profession_id' => $professionId,
     ]);
 
-    factory(User::class, 47)->create();
+    factory(User::class, 10)->create();
+
+    factory(User::class)->times(37)->create();
   }
 }
