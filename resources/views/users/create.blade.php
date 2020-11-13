@@ -43,7 +43,7 @@
     </div>
     
     <div class="card-header white white-text text-center btn-group-xs">
-      <button type="submit" class="btn btn-info text-center">Crear usuario</button>
+    <button type="submit" class="btn btn-primary text-center">Crear usuario</button>
     </div>
   </form>
 
