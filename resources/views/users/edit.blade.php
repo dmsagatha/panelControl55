@@ -16,7 +16,7 @@
     </div>
   @endif
 
-  <form method="POST" action="{{ url('usuarios') }}">
+  <form method="POST" action="{{ route('users.update', $user) }}">
     @csrf
 
     <div class="form-row">
