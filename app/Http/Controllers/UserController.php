@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
+use App\Models\{User, UserProfile};
+use App\Http\Requests\UserCreateRequest;
 
 class UserController extends Controller
 {
@@ -42,7 +44,7 @@ class UserController extends Controller
     return view('users.create');
   }
 
-  public function store()
+  public function store(UserCreateRequest $request)
   {
     /* $data = request()->all();
 
@@ -51,19 +53,46 @@ class UserController extends Controller
         'name' => 'El campo nombre es obligatorio'
       ]);
     } */
-    $data = request()->validate([
+    /* $data = request()->validate([
         'name'  => 'required',
         'email' => ['required', 'email', 'unique:users,email'],
-        'password' => 'required'
+        'password' => 'required',
+        'bio'      => 'required',
+        'twitter'  => ''
     ], [
         'name.required' => 'El campo nombre es obligatorio'
-    ]);
+    ]); */
 
-    User::create([
+    /* $user = User::create([
       'name'     => $data['name'],
       'email'    => $data['email'],
       'password' => bcrypt($data['password']),
     ]);
+
+    $user->profile()->create([
+      'bio'     => $data['bio'],
+      'twitter' => $data['twitter'],
+    ]); */
+    
+    // Crear con transaction, que los datos no se persistan en la bd
+    /* DB::transaction(function() use ($data) {
+      $user = User::create([
+        'name'     => $data['name'],
+        'email'    => $data['email'],
+        'password' => bcrypt($data['password']),
+      ]);
+
+      $user->profile()->create([
+        'bio'     => $data['bio'],
+        'twitter' => $data['twitter'],
+      ]);
+    }); */
+
+    // User.php
+    // User::createUser($data);
+
+    // UserCreateRequest.php
+    $request->createUser();
     
     return redirect()->route('users.index');
   }
