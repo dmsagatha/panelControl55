@@ -16,7 +16,7 @@ mix.js('resources/js/app.js', 'public/js')
    .version();
 
 mix.browserSync({
-  proxy: 'http://panelControl56.lrv/',    
+  proxy: 'http://panelDeControl.lrv/',    
   browser: 'Google Chrome',    
   open: false
 });

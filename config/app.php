@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'PanelControl'),
+    'name' => env('APP_NAME', 'panelDeControl'),
 
     /*
     |--------------------------------------------------------------------------
@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://panelcontrol56.lrv/'),
+    'url' => env('APP_URL', 'http://panelDeControl.lrv/'),
 
     /*
     |--------------------------------------------------------------------------

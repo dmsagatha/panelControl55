@@ -29,6 +29,6 @@
         <env name="MAIL_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>
-        <env name="DB_DATABASE" value="panelControl56_tests"/>
+        <env name="DB_DATABASE" value="panelDeControl_tests"/>
     </php>
 </phpunit>
