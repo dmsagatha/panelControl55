@@ -5,12 +5,12 @@ namespace Tests\Feature;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
 class UsersModuleTest extends TestCase
 {
-  use RefreshDatabase;
+  use DatabaseMigrations;
 
   /** @test */
   function it_shows_the_users_list()
