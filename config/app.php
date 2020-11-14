@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://panelDeControl.lrv/'),
+    'url' => env('APP_URL', 'http://paneldecontrol.lrv/'),
 
     /*
     |--------------------------------------------------------------------------

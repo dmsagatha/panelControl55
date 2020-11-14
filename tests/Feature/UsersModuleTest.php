@@ -74,7 +74,7 @@ class UsersModuleTest extends TestCase
   /** @test */
   function it_creates_a_new_user()
   {
-    $this->withoutExceptionHandling();
+    //$this->withoutExceptionHandling();
 
     $this->post('/usuarios/', [
         'name'  => 'Super Admin',
