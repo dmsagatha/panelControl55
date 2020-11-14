@@ -1,0 +1,17 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Database\Eloquent\Model;
+
+class {{ class }} extends Model
+{
+  protected $table = '';
+
+  protected $fillable = [];
+
+  public function getRouteKeyName()
+  {
+    return '';
+  }
+}
