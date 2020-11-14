@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -18,10 +19,31 @@ class User extends Authenticatable
     'name', 'email', 'password',
   ];
 
+  public function profile()
+  {
+    return $this->hasOne(UserProfile::class);
+  }
+
   public function profession()
   {
     return $this->belongsTo(Profession::class);
   }
+
+  // Crear con transaction, que los datos no se persistan en la bd
+  /* public static function createUser($data)
+  {
+    DB::transaction(function() use ($data) {
+      $user = User::create([
+        'name'     => $data['name'],
+        'email'    => $data['email'],
+        'password' => bcrypt($data['password']),
+      ]);
+      $user->profile()->create([
+        'bio'     => $data['bio'],
+        'twitter' => $data['twitter'],
+      ]);
+    });
+  } */
 
   /**
    * The attributes that should be hidden for arrays.

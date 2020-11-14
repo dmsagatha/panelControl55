@@ -41,6 +41,19 @@
             <input class="form-control" type="password" name="password" id="password" placeholder="Mayor a 6 caracteres">
             {!! $errors->first('password', '<div class="text-danger">:message</div>') !!}
           </div>
+          <div class="form-group col">
+            <label for="bio">Biografía:</label>
+            <input class="form-control" type="text" name="bio" id="bio">
+            {!! $errors->first('bio', '<div class="text-danger">:message</div>') !!}
+          </div>
+        </div>
+    
+        <div class="form-row">
+          <div class="form-group col">
+            <label for="twitter">Twitter:</label>
+            <input class="form-control" type="text" name="twitter" id="twitter" placeholder="https://twitter.com/Stydenet">
+            {!! $errors->first('twitter', '<div class="text-danger">:message</div>') !!}
+          </div>
         </div>
         
         <div class="card-header white white-text text-center btn-group-xs">
