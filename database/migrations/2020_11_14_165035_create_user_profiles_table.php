@@ -10,8 +10,9 @@ class CreateUserProfilesTable extends Migration
   {
     Schema::create('user_profiles', function (Blueprint $table) {
       $table->id();
-      
+
       $table->foreignId('user_id')->constrained();
+      $table->foreignId('profession_id')->nullable()->constrained();
 
       $table->string('bio', 1000);
       $table->string('twitter')->nullable();

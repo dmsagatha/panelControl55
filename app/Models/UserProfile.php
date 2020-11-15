@@ -8,5 +8,10 @@ class UserProfile extends Model
 {
   protected $table = 'user_profiles';
 
-  protected $fillable = ['bio', 'twitter'];
+  protected $fillable = ['bio', 'twitter', 'profession_id'];
+
+  public function profession()
+  {
+    return $this->belongsTo(Profession::class);
+  }
 }

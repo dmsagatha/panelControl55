@@ -1,7 +1,6 @@
 <?php
 
-use App\Models\User;
-use App\Models\Profession;
+use App\Models\{User, UserProfile, Profession};
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -41,7 +40,7 @@ class UserSeeder extends Seeder
     // 114 - Seeders con el Modelo
     $professionId = Profession::whereTitle('Desarrollador back-end')->value('id');
 
-    User::create([
+    /* User::create([
       'name'  => 'Super Admin',
       'email' => 'superadmin@admin.net',
       'password' => bcrypt('superadmin'),
@@ -61,10 +60,27 @@ class UserSeeder extends Seeder
     // 118 - Model Factories
     factory(User::class)->create([
       'profession_id' => $professionId,
+    ]); */
+
+    // 204 - Selects dinámicos
+    $user = factory(User::class)->create([
+      'name'  => 'Super Admin',
+      'email' => 'superadmin@admin.net',
+      'password' => bcrypt('superadmin'),
+      'is_admin' => true,
+      'created_at' => now(),
     ]);
 
-    factory(User::class, 10)->create();
+    $user->profile()->create([
+      'bio' => 'Programador, editor',
+      'profession_id' => $professionId,
+    ]);
 
-    factory(User::class)->times(37)->create();
+    // Crear Usuarios con Perfil
+    factory(User::class)->times(29)->create()->each(function ($user) {
+      $user->profile()->create(
+        factory(UserProfile::class)->raw()
+      );
+    });
   }
 }

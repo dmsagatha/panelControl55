@@ -50,6 +50,19 @@
     
         <div class="form-row">
           <div class="form-group col">
+            <label for="profession_">Profesión:</label>
+            <select name="profession_id" id="profession_id" class="form-control">
+              <option value="">Seleccionar</option>
+              {{-- @foreach (App\Models\Profession::orderBy('title')->get() as $profession) --}}
+              @foreach ($professions as $profession)
+                <option value="{{ $profession->id }}"{{ old('profession_id') == $profession->id ? ' selected' : '' }}>
+                  {{ $profession->title }}
+                </option>
+              @endforeach
+            </select>
+            {!! $errors->first('profession_', '<div class="text-danger">:message</div>') !!}
+          </div>
+          <div class="form-group col">
             <label for="twitter">Twitter:</label>
             <input class="form-control" type="text" name="twitter" id="twitter" placeholder="https://twitter.com/Stydenet">
             {!! $errors->first('twitter', '<div class="text-danger">:message</div>') !!}

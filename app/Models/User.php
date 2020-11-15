@@ -16,17 +16,12 @@ class User extends Authenticatable
    * @var array
    */
   protected $fillable = [
-    'name', 'email', 'password', 'profession_id'
+    'name', 'email', 'password'
   ];
 
   public function profile()
   {
     return $this->hasOne(UserProfile::class);
-  }
-
-  public function profession()
-  {
-    return $this->belongsTo(Profession::class);
   }
 
   // Crear con transaction, que los datos no se persistan en la bd
