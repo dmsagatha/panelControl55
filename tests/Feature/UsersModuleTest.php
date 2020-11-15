@@ -103,6 +103,7 @@ class UsersModuleTest extends TestCase
         'name'  => 'Super Admin',
         'email' => 'superadmin@admin.net',
         'password' => 'superadmin',
+        'role' => 'user',
     ]);
 
     $user = User::findByEmail('superadmin@admin.net');
@@ -115,17 +116,17 @@ class UsersModuleTest extends TestCase
     ]);
 
     $this->assertDatabaseHas('user_skill', [
-        'user_id' => $user->id,
+        'user_id'  => $user->id,
         'skill_id' => $skillA->id,
     ]);
 
     $this->assertDatabaseHas('user_skill', [
-        'user_id' => $user->id,
+        'user_id'  => $user->id,
         'skill_id' => $skillB->id,
     ]);
 
     $this->assertDatabaseMissing('user_skill', [
-        'user_id' => $user->id,
+        'user_id'  => $user->id,
         'skill_id' => $skillC->id,
     ]);
   }
@@ -150,6 +151,33 @@ class UsersModuleTest extends TestCase
         'twitter' => null,
         'user_id' => User::findByEmail('superadmin@admin.net')->id,
     ]);
+  }
+
+  /** @test */
+  function the_role_field_is_optional()
+  {
+    $this->withoutExceptionHandling();
+
+    $this->post('/usuarios/', $this->getValidData([
+        'role' => null,
+    ]))->assertRedirect('usuarios');
+
+    $this->assertDatabaseHas('users', [
+        'email' => 'superadmin@admin.net',
+        'role'  => 'user',
+    ]);
+  }
+
+  /** @test */
+  function the_role_must_be_valid()
+  {
+    $this->handleValidationExceptions();
+
+    $this->post('/usuarios/', $this->getValidData([
+        'role' => 'invalid-role',
+    ]))->assertSessionHasErrors('role');
+
+    $this->assertDatabaseEmpty('users');
   }
 
   /** @test */
@@ -458,6 +486,7 @@ class UsersModuleTest extends TestCase
         'name'  => 'Super Admin',
         'email' => 'superadmin@admin.net',
         'password' => 'superadmin',
+        'role' => 'user',
         'profession_id' => $this->profession->id,
         'bio'      => 'Programador de Laravel y Vue.js',
         'twitter'  => 'https://twitter.com/superadmin',
