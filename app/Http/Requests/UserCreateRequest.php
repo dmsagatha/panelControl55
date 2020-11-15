@@ -21,16 +21,22 @@ class UserCreateRequest extends FormRequest
       'email'    => ['required', 'email', 'unique:users,email'],
       'password' => 'required',
       'bio'      => 'required',
-      'twitter'  => ['nullable', 'url'],
+      'twitter'  => ['nullable', 'present', 'url'],
       //'profession_id' => 'exists:professions,id',
       // Regla: La profesión este presente en el campo id de la tabla
       // professions y además, que solamente las profesiones donde
       // el campo selectable este como verdadero
       // 'profession_id' => Rule::exists('professions', 'id')->where('selectable', true),
+
+      // El campo profession_id puede ser nulo, pero estar presente
+      // así contenga una cadena vacía
       // Regla: La profesión este presente en el campo id de la tabla
       // professions y además, que solamente las profesiones donde 
       // el campo deleted_at sea Null, pueden ser seleccionadas
-      'profession_id' => Rule::exists('professions', 'id')->whereNull('deleted_at'),
+      'profession_id' => [
+        'nullable', 'present',
+        Rule::exists('professions', 'id')->whereNull('deleted_at')
+      ],
     ];
   }
 
@@ -53,15 +59,17 @@ class UserCreateRequest extends FormRequest
         'name'     => $data['name'],
         'email'    => $data['email'],
         'password' => bcrypt($data['password']),
-        'profession_id' => $data['profession_id'] ?? null,
       ]);
 
       $user->profile()->create([
-        'bio'     => $data['bio'],
+        'bio' => $data['bio'],
         //'twitter' => isset($data['twitter']) ? $data['twitter'] : null,
         //'twitter' => $this->twitter,
         //'twitter' => array_get($data, 'twitter'),
-        'twitter' => $data['twitter'] ?? null,
+        // 'twitter' => $data['twitter'] ?? null,
+        'twitter' => $data['twitter'],    // 'present'
+        // 'profession_id' => $data['profession_id'] ?? null,
+        'profession_id' => $data['profession_id'],    // 'present'
       ]);
     });
   }

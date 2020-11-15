@@ -68,10 +68,15 @@ class UsersModuleTest extends TestCase
   function it_loads_the_new_users_page()
   {
     $this->withoutExceptionHandling();
+
+    $profession = factory(Profession::class)->create();
     
     $this->get('/usuarios/nuevo')
         ->assertStatus(200)
-        ->assertSee('Crear usuario');
+        ->assertSee('Crear usuario')
+        ->assertViewHas('professions', function ($professions) use ($profession) {
+            return $professions->contains($profession);
+        });
   }
 
   /** @test */
@@ -87,12 +92,12 @@ class UsersModuleTest extends TestCase
         'name'  => 'Super Admin',
         'email' => 'superadmin@admin.net',
         'password' => 'superadmin',
-        'profession_id' => $this->profession->id
     ]);
 
     $this->assertDatabaseHas('user_profiles', [
         'bio' => 'Programador de Laravel y Vue.js',
         'twitter' => 'https://twitter.com/superadmin',
+        'profession_id' => $this->profession->id,
         'user_id' => User::findByEmail('superadmin@admin.net')->id,
     ]);
   }
@@ -132,11 +137,11 @@ class UsersModuleTest extends TestCase
         'name' => 'Super Admin',
         'email' => 'superadmin@admin.net',
         'password' => 'superadmin',
-        'profession_id' => null,
     ]);
 
     $this->assertDatabaseHas('user_profiles', [
         'bio' => 'Programador de Laravel y Vue.js',
+        'profession_id' => null,
         'user_id' => User::findByEmail('superadmin@admin.net')->id,
     ]);
   }
@@ -382,21 +387,19 @@ class UsersModuleTest extends TestCase
     $this->assertDatabaseMissing('users', [
         'id' => $user->id
     ]);
-
-    //$this->assertSame(0, User::count());
   }
 
   protected function getValidData(array $custom = [])
   {
     $this->profession = factory(Profession::class)->create();
     
-    return array_filter(array_merge([
+    return array_merge([
         'name'  => 'Super Admin',
         'email' => 'superadmin@admin.net',
         'password' => 'superadmin',
         'profession_id' => $this->profession->id,
         'bio'      => 'Programador de Laravel y Vue.js',
         'twitter'  => 'https://twitter.com/superadmin',
-    ], $custom));
+    ], $custom);
   }
 }

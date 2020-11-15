@@ -8,8 +8,13 @@ class Profession extends Model
 {
   protected $fillable = ['title'];
 
-  public function users()
+  public function getRouteKeyName()
   {
-    return $this->hasMany(User::class);
+    return 'title';
+  }
+
+  public function profiles()
+  {
+      return $this->hasMany(UserProfile::class);
   }
 }

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\{User, UserProfile, Profession};
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
-use App\Models\{User, UserProfile};
+use Illuminate\Http\Request;
 use App\Http\Requests\UserCreateRequest;
 
 class UserController extends Controller
@@ -13,7 +13,7 @@ class UserController extends Controller
   public function index()
   {
     //$users = DB::table('users')->get();
-    $users = User::with('profession')->get();
+    $users = User::all();
 
     $title = 'Listado de usuarios';
 
@@ -41,7 +41,9 @@ class UserController extends Controller
 
   public function create()
   {
-    return view('users.create');
+    $professions = Profession::orderBy('title')->get();
+    
+    return view('users.create', compact('professions'));
   }
 
   public function store(UserCreateRequest $request)
