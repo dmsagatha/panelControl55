@@ -24,6 +24,11 @@ class User extends Authenticatable
     return $this->hasOne(UserProfile::class);
   }
 
+  public function skills()
+  {
+    return$this->belongsToMany(Skill::class, 'user_skill');
+  }
+
   // Crear con transaction, que los datos no se persistan en la bd
   /* public static function createUser($data)
   {

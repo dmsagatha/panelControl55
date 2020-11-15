@@ -37,6 +37,10 @@ class UserCreateRequest extends FormRequest
         'nullable', 'present',
         Rule::exists('professions', 'id')->whereNull('deleted_at')
       ],
+      'skills'   => [
+        'array',
+        Rule::exists('skills', 'id'),
+      ],
     ];
   }
 
@@ -71,6 +75,11 @@ class UserCreateRequest extends FormRequest
         // 'profession_id' => $data['profession_id'] ?? null,
         'profession_id' => $data['profession_id'],    // 'present'
       ]);
+
+      //$user->skills()->attach($data['skills'] ?? []);
+      if (! empty($data['skills'])) {
+        $user->skills()->attach($data['skills']);   // Para usuario nuevo
+      }
     });
   }
 }
