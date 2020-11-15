@@ -2,12 +2,11 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use App\Models\User;
-use App\Models\Profession;
+use App\Models\{User, Profession, Skill};
 use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\TestCase;
 
 class UsersModuleTest extends TestCase
 {
@@ -70,12 +69,18 @@ class UsersModuleTest extends TestCase
     $this->withoutExceptionHandling();
 
     $profession = factory(Profession::class)->create();
+
+    $skillA = factory(Skill::class)->create();
+    $skillB = factory(Skill::class)->create();
     
     $this->get('/usuarios/nuevo')
         ->assertStatus(200)
         ->assertSee('Crear usuario')
         ->assertViewHas('professions', function ($professions) use ($profession) {
             return $professions->contains($profession);
+        })
+        ->assertViewHas('skills', function ($skills) use ($skillA, $skillB) {
+            return $skills->contains($skillA) && $skills->contains($skillB);
         });
   }
 
