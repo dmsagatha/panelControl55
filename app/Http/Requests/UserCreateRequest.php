@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Models\User;
+use App\Models\{User, Role};
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class UserCreateRequest extends FormRequest
 {
@@ -20,6 +20,9 @@ class UserCreateRequest extends FormRequest
       'name'     => 'required',
       'email'    => ['required', 'email', 'unique:users,email'],
       'password' => 'required',
+      // 'role'     => 'in:admin,user',  //Que el rol este dentro de los valores
+      // 'role'     => 'nullable|in:'.implode(',', Role::getList()),  //Role.php
+      'role'     => ['nullable', Rule::in(Role::getList())],  //Role.php
       'bio'      => 'required',
       'twitter'  => ['nullable', 'present', 'url'],
       //'profession_id' => 'exists:professions,id',
@@ -59,11 +62,16 @@ class UserCreateRequest extends FormRequest
     DB::transaction(function() {
       $data = $this->validated();
       
-      $user = User::create([
+      $user = new User([
         'name'     => $data['name'],
         'email'    => $data['email'],
         'password' => bcrypt($data['password']),
       ]);
+
+      // No adicionarlo en fillable()
+      $user->role = $data['role'] ?? 'user';
+
+      $user->save();
 
       $user->profile()->create([
         'bio' => $data['bio'],

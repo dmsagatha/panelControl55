@@ -67,7 +67,8 @@ class UserSeeder extends Seeder
       'name'  => 'Super Admin',
       'email' => 'superadmin@admin.net',
       'password' => bcrypt('superadmin'),
-      'is_admin' => true,
+      // 'is_admin' => true,
+      'role' => 'admin',
       'created_at' => now(),
     ]);
 
@@ -76,7 +77,7 @@ class UserSeeder extends Seeder
       'profession_id' => $professionId,
     ]);
 
-    // Crear Usuarios con Perfil
+    // Crear un perfil por cada usuario creado
     factory(User::class)->times(29)->create()->each(function ($user) {
       $user->profile()->create(
         factory(UserProfile::class)->raw()
