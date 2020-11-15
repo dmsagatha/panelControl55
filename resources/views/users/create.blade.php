@@ -68,6 +68,22 @@
             {!! $errors->first('twitter', '<div class="text-danger">:message</div>') !!}
           </div>
         </div>
+    
+        <h5>Habilidades</h5>
+
+        @foreach ($skills as $skill)
+          <div class="form-check form-check-inline">
+            <input name="skills[{{ $skill->id }}]"
+                id="skill_{{ $skill->id }}"
+                class="form-check-input"
+                type="checkbox"
+                value="{{ $skill->id }}"
+                {{ old("skills.{$skill->id}") ? 'checked' : '' }}>
+            <label class="form-check-label" for="skill_{{ $skill->id }}">
+              {{ $skill->name }}
+            </label>
+          </div>
+        @endforeach
         
         <div class="card-header white white-text text-center btn-group-xs">
           <button type="submit" class="btn btn-primary text-center">Crear usuario</button>
