@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UserCreateRequest extends FormRequest
 {
@@ -21,6 +22,15 @@ class UserCreateRequest extends FormRequest
       'password' => 'required',
       'bio'      => 'required',
       'twitter'  => ['nullable', 'url'],
+      //'profession_id' => 'exists:professions,id',
+      // Regla: La profesión este presente en el campo id de la tabla
+      // professions y además, que solamente las profesiones donde
+      // el campo selectable este como verdadero
+      // 'profession_id' => Rule::exists('professions', 'id')->where('selectable', true),
+      // Regla: La profesión este presente en el campo id de la tabla
+      // professions y además, que solamente las profesiones donde 
+      // el campo deleted_at sea Null, pueden ser seleccionadas
+      'profession_id' => Rule::exists('professions', 'id')->whereNull('deleted_at'),
     ];
   }
 
@@ -43,6 +53,7 @@ class UserCreateRequest extends FormRequest
         'name'     => $data['name'],
         'email'    => $data['email'],
         'password' => bcrypt($data['password']),
+        'profession_id' => $data['profession_id'] ?? null,
       ]);
 
       $user->profile()->create([
