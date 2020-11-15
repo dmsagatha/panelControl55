@@ -9,8 +9,9 @@ class CreateProfessionsTable extends Migration
   public function up()
   {
     Schema::create('professions', function (Blueprint $table) {
-      $table->bigIncrements('id');
+      $table->id();
       $table->string('title', 100)->unique();
+      $table->softDeletes();  // deleted_at
       $table->timestamps();
     });
   }

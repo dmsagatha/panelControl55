@@ -2,15 +2,18 @@
 
 namespace Tests\Feature;
 
+use Tests\TestCase;
 use App\Models\User;
+use App\Models\Profession;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Tests\TestCase;
 
 class UsersModuleTest extends TestCase
 {
   use DatabaseMigrations;
+
+  protected $profession;
 
   /** @test */
   function it_shows_the_users_list()
@@ -76,18 +79,15 @@ class UsersModuleTest extends TestCase
   {
     $this->withoutExceptionHandling();
 
-    $this->post('/usuarios/', [
-        'name'  => 'Super Admin',
-        'email' => 'superadmin@admin.net',
-        'password' => 'superadmin',
-        'bio' => 'Programador de Laravel y Vue.js',
-        'twitter' => 'https://twitter.com/superadmin',
-    ])->assertRedirect('usuarios');
+    $this->post('/usuarios/', $this->getValidData())->assertRedirect('usuarios');
+
+    // dd(User::first());  // Revisar el campo profession_id
 
     $this->assertCredentials([
         'name'  => 'Super Admin',
         'email' => 'superadmin@admin.net',
         'password' => 'superadmin',
+        'profession_id' => $this->profession->id
     ]);
 
     $this->assertDatabaseHas('user_profiles', [
@@ -115,6 +115,28 @@ class UsersModuleTest extends TestCase
     $this->assertDatabaseHas('user_profiles', [
         'bio' => 'Programador de Laravel y Vue.js',
         'twitter' => null,
+        'user_id' => User::findByEmail('superadmin@admin.net')->id,
+    ]);
+  }
+
+  /** @test */
+  function the_profession_id_field_is_optional()
+  {
+    $this->withoutExceptionHandling();
+
+    $this->post('/usuarios/', $this->getValidData([
+        'profession_id' => null,
+    ]))->assertRedirect('usuarios');
+
+    $this->assertCredentials([
+        'name' => 'Super Admin',
+        'email' => 'superadmin@admin.net',
+        'password' => 'superadmin',
+        'profession_id' => null,
+    ]);
+
+    $this->assertDatabaseHas('user_profiles', [
+        'bio' => 'Programador de Laravel y Vue.js',
         'user_id' => User::findByEmail('superadmin@admin.net')->id,
     ]);
   }
@@ -195,6 +217,40 @@ class UsersModuleTest extends TestCase
         ->assertSessionHasErrors(['password']);
 
     //  Comprobar que el usuario no se creo
+    $this->assertDatabaseEmpty('users');
+  }
+
+  /** @test */
+  function the_profession_must_be_valid()
+  {
+    $this->handleValidationExceptions();
+
+    $this->from('usuarios/nuevo')
+        ->post('/usuarios/', $this->getValidData([
+            'profession_id' => '999'
+        ]))
+        ->assertRedirect('usuarios/nuevo')
+        ->assertSessionHasErrors(['profession_id']);
+
+    $this->assertDatabaseEmpty('users');
+  }
+
+  /** @test */
+  function only_not_deleted_professions_can_be_selected()
+  {
+    $deletedProfession = factory(Profession::class)->create([
+        'deleted_at' => now()->format('Y-m-d'),
+    ]);
+
+    $this->handleValidationExceptions();
+
+    $this->from('usuarios/nuevo')
+        ->post('/usuarios/', $this->getValidData([
+            'profession_id' => $deletedProfession->id,
+        ]))
+        ->assertRedirect('usuarios/nuevo')
+        ->assertSessionHasErrors(['profession_id']);
+
     $this->assertDatabaseEmpty('users');
   }
 
@@ -332,10 +388,13 @@ class UsersModuleTest extends TestCase
 
   protected function getValidData(array $custom = [])
   {
+    $this->profession = factory(Profession::class)->create();
+    
     return array_filter(array_merge([
         'name'  => 'Super Admin',
         'email' => 'superadmin@admin.net',
         'password' => 'superadmin',
+        'profession_id' => $this->profession->id,
         'bio'      => 'Programador de Laravel y Vue.js',
         'twitter'  => 'https://twitter.com/superadmin',
     ], $custom));

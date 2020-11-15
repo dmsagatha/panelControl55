@@ -6,29 +6,21 @@ use Illuminate\Database\Migrations\Migration;
 
 class AddProfessionIdToUsers extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-      Schema::table('users', function (Blueprint $table) {
-          $table->unsignedBigInteger('profession_id')->after('name')->nullable();
-          $table->foreign('profession_id')->references('id')->on('professions');
-      });
-    }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-      //        Schema::table('users', function (Blueprint $table) {
-      //            $table->dropForeign(['profession_id']);
-      //            $table->dropColumn('profession_id');
-      //        });
-    }
+  public function up()
+  {
+    Schema::table('users', function (Blueprint $table) {
+      $table->foreignId('profession_id')
+          ->after('name')
+          ->nullable()
+          ->constrained();
+    });
+  }
+  
+  public function down()
+  {
+    //        Schema::table('users', function (Blueprint $table) {
+    //            $table->dropForeign(['profession_id']);
+    //            $table->dropColumn('profession_id');
+    //        });
+  }
 }
