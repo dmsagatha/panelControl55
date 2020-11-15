@@ -17,7 +17,7 @@ class UserCreateRequest extends FormRequest
   {
     return [
       'name'     => 'required',
-      'email'    => 'required|email|unique:users,email',
+      'email'    => ['required', 'email', 'unique:users,email'],
       'password' => 'required',
       'bio'      => 'required',
       'twitter'  => ['nullable', 'url'],
@@ -47,7 +47,10 @@ class UserCreateRequest extends FormRequest
 
       $user->profile()->create([
         'bio'     => $data['bio'],
-        'twitter' => $data['twitter'],
+        //'twitter' => isset($data['twitter']) ? $data['twitter'] : null,
+        //'twitter' => $this->twitter,
+        //'twitter' => array_get($data, 'twitter'),
+        'twitter' => $data['twitter'] ?? null,
       ]);
     });
   }

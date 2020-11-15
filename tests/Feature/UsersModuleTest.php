@@ -98,19 +98,39 @@ class UsersModuleTest extends TestCase
   }
 
   /** @test */
+  function the_twitter_field_is_optional()
+  {
+    $this->withoutExceptionHandling();
+
+    $this->post('/usuarios/', $this->getValidData([
+        'twitter' => null,
+    ]))->assertRedirect('usuarios');
+
+    $this->assertCredentials([
+        'name' => 'Super Admin',
+        'email' => 'superadmin@admin.net',
+        'password' => 'superadmin',
+    ]);
+
+    $this->assertDatabaseHas('user_profiles', [
+        'bio' => 'Programador de Laravel y Vue.js',
+        'twitter' => null,
+        'user_id' => User::findByEmail('superadmin@admin.net')->id,
+    ]);
+  }
+
+  /** @test */
   function the_name_is_required()
   {
     $this->from('usuarios/nuevo')
-        ->post('/usuarios/', [
+        ->post('/usuarios/', $this->getValidData([
           'name'  => '',
-          'email' => 'superadmin@admin.net',
-          'password' => 'superadmin'
-        ])
+        ]))
         ->assertRedirect('usuarios/nuevo') 
         ->assertSessionHasErrors(['name' => 'El campo nombre es obligatorio']);
 
     //  Comprobar que el usuario no se creo
-    $this->assertEquals(0, User::count());
+    $this->assertDatabaseEmpty('users');
     /* $this->assertDatabaseMissing('users', [
       'email' => 'superadmin@admin.net',
     ]); */
@@ -122,31 +142,27 @@ class UsersModuleTest extends TestCase
     $this->withExceptionHandling();
 
     $this->from('usuarios/nuevo')
-        ->post('/usuarios/', [
-          'name'  => 'Super Admin',
+        ->post('/usuarios/', $this->getValidData([
           'email' => '',
-          'password' => 'superadmin'
-        ])
+        ]))
         ->assertRedirect('usuarios/nuevo') 
         ->assertSessionHasErrors(['email']);
 
     //  Comprobar que el usuario no se creo
-    $this->assertEquals(0, User::count());
+    $this->assertDatabaseEmpty('users');
   }
 
   /** @test */
   function the_email_must_be_valid()
   {
     $this->from('usuarios/nuevo')
-        ->post('/usuarios/', [
-            'name'  => 'Super Admin',
-            'email' => 'correo-no-valido',
-            'password' => 'superadmin'
-        ])
+        ->post('/usuarios/', $this->getValidData([
+          'email' => 'correo-no-valido',
+        ]))
         ->assertRedirect('usuarios/nuevo')
         ->assertSessionHasErrors(['email']);
 
-    $this->assertEquals(0, User::count());
+        $this->assertDatabaseEmpty('users');
   }
 
   /** @test */
@@ -157,11 +173,9 @@ class UsersModuleTest extends TestCase
     ]);
 
     $this->from('usuarios/nuevo')
-        ->post('/usuarios/', [
-            'name'  => 'Super Admin',
-            'email' => 'superadmin@admin.net',
-            'password' => 'superadmin'
-        ])
+        ->post('/usuarios/', $this->getValidData([
+          'email' => 'superadmin@admin.net',
+        ]))
         ->assertRedirect('usuarios/nuevo')
         ->assertSessionHasErrors(['email']);
 
@@ -174,16 +188,14 @@ class UsersModuleTest extends TestCase
     // $this->withExceptionHandling();
     
     $this->from('usuarios/nuevo')
-        ->post('/usuarios/', [
-          'name'  => 'Super Admin',
-          'email' => 'superadmin@admin.net',
-          'password' => ''
-        ])
+        ->post('/usuarios/', $this->getValidData([
+          'password' => null,
+        ]))
         ->assertRedirect('usuarios/nuevo') 
         ->assertSessionHasErrors(['password']);
 
     //  Comprobar que el usuario no se creo
-    $this->assertEquals(0, User::count());
+    $this->assertDatabaseEmpty('users');
   }
 
   /** @test */
@@ -316,5 +328,16 @@ class UsersModuleTest extends TestCase
     ]);
 
     //$this->assertSame(0, User::count());
+  }
+
+  protected function getValidData(array $custom = [])
+  {
+    return array_filter(array_merge([
+        'name'  => 'Super Admin',
+        'email' => 'superadmin@admin.net',
+        'password' => 'superadmin',
+        'bio'      => 'Programador de Laravel y Vue.js',
+        'twitter'  => 'https://twitter.com/superadmin',
+    ], $custom));
   }
 }
