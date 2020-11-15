@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\{User, UserProfile, Profession};
+use App\Models\{User, UserProfile, Profession, Skill};
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -69,19 +69,37 @@ class UserSeeder extends Seeder
       'password' => bcrypt('superadmin'),
       // 'is_admin' => true,
       'role' => 'admin',
-      'created_at' => now(),
+      // 'created_at' => now(),
+      'created_at' => now()->addDay(),    // 1 día mas
     ]);
 
     $user->profile()->create([
       'bio' => 'Programador, editor',
+      'twitter' => 'https://twitter.com/superadmin',
       'profession_id' => $professionId,
     ]);
 
     // Crear un perfil por cada usuario creado
-    factory(User::class)->times(29)->create()->each(function ($user) {
+    /* factory(User::class, 19)->create()->each(function ($user) {
       $user->profile()->create(
         factory(UserProfile::class)->raw()
       );
+    }); */
+    
+    // 211-Reutilizar las plantillas con la directiva @include
+    $professions = Profession::all();
+    $skills= Skill::all();
+
+    // Crear un perfil por cada usuario creado
+    factory(User::class)->times(29)->create()->each(function ($user) use ($professions, $skills) {
+      $randomSkills = $skills->random(rand(0, 7));
+
+      $user->skills()->attach($randomSkills);
+
+      factory(UserProfile::class)->create([
+        'user_id' => $user->id,
+        'profession_id' => rand(0, 2) ? $professions->random()->id : null,
+      ]);
     });
   }
 }
