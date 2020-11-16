@@ -43,11 +43,14 @@ class UserController extends Controller
   {
     $user = new User;
     
-    $professions = Profession::orderBy('title')->get();
+    /* $professions = Profession::orderBy('title')->get();
     $skills      = Skill::orderBy('name')->get();
     $roles       = trans('users.roles');
     
-    return view('users.create', compact('user', 'professions', 'skills', 'roles'));
+    return view('users.create', compact('user', 'professions', 'skills', 'roles')); */
+
+    // 2-13 - Compartir datos entre vistas de Laravel con View Composers
+    return view('users.create', compact('user'));
   }
 
   public function store(UserCreateRequest $request)
@@ -105,11 +108,14 @@ class UserController extends Controller
 
   public function edit(User $user)
   {
-    $professions = Profession::orderBy('title')->get();
+    /* $professions = Profession::orderBy('title')->get();
     $skills      = Skill::orderBy('name')->get();
     $roles       = trans('users.roles');
     
-    return view('users.edit', compact('user', 'professions', 'skills', 'roles'));
+    return view('users.edit', compact('user', 'professions', 'skills', 'roles')); */
+
+    // 2-13 - Compartir datos entre vistas de Laravel con View Composers
+    return view('users.edit', compact('user'));
   }
 
   public function update(User $user)
