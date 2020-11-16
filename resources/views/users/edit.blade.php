@@ -10,7 +10,10 @@
 
     <form method="POST" action="{{ route('users.update', $user) }}">
       @csrf @method('PUT')
-      @include('users._fields')
+      {{-- @include('users._fields') --}}
+      
+      {{-- 2-14-View Components y creación de directivas personalizadas para Laravel y Blade	 --}}
+      @render('UserFields', ['user' => $user])
       
       <div class="card-header white white-text text-center btn-group-xs">
         <button type="submit" class="btn btn-success text-center">Actualizar usuario</button>
