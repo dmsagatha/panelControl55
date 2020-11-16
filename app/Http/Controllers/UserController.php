@@ -7,6 +7,7 @@ use App\Http\Forms\UserForm;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\UserCreateRequest;
+use App\Http\Requests\UserUpdateRequest;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -57,7 +58,9 @@ class UserController extends Controller
     /* $user = new User;
     return view('users.create', compact('user'))->with($this->formsData()); */
 
-    return new UserForm('users.create', new User);  // App\Http\Forms/UserForm
+    // return new UserForm('users.create', new User);  // App\Http\Forms/UserForm
+
+    return $this->form('users.create', new User);
   }
 
   public function store(UserCreateRequest $request)
@@ -127,7 +130,9 @@ class UserController extends Controller
     // 2-15-Compartir datos entre vistas con métodos helpers
     // return view('users.edit', compact('user'))->with($this->formsData());
 
-    return new UserForm('users.edit', $user);  // App\Http\Forms/UserForm
+    // return new UserForm('users.edit', $user);  // App\Http\Forms/UserForm
+
+    return $this->form('users.edit', $user);
   }
 
   /**
@@ -144,7 +149,17 @@ class UserController extends Controller
     ];
   } */
 
-  public function update(User $user)
+  protected function form($view, User $user)
+  {
+    return view($view, [
+      'professions' => Profession::orderBy('title', 'ASC')->get(),
+      'skills' => Skill::orderBy('name', 'ASC')->get(),
+      'roles'  => trans('users.roles'),
+      'user'   => $user,
+    ]);
+  }
+
+  /* public function update(User $user)
   {
     $data = request()->validate([
       'name'  => 'required',
@@ -173,6 +188,16 @@ class UserController extends Controller
 
     $user->skills()->sync($data['skills'] ?? []);   // Undefined index: skills
 
+    return redirect()->route('users.show', ['user' => $user]);
+  } */
+  
+  /**
+   * 2-17-Uso de Form Requests para validar la actualización de registros
+   */
+  public function update(UserUpdateRequest $request, User $user)
+  {
+    $request->updateUser($user);
+    
     return redirect()->route('users.show', ['user' => $user]);
   }
   

@@ -8,7 +8,9 @@ class UserProfile extends Model
 {
   protected $table = 'user_profiles';
 
-  protected $fillable = ['bio', 'twitter', 'profession_id'];
+  // protected $fillable = ['bio', 'twitter', 'profession_id'];
+
+  protected $guarded = [];
 
   public function profession()
   {
