@@ -150,7 +150,12 @@ class UserController extends Controller
       'name'  => 'required',
       // 'email'    => 'required|email|unique:users,email,'.$user->id,
       'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
-      'password' => ''
+      'password' => '',
+      'role' => '',
+      'bio' => '',
+      'twitter' => '',
+      'profession_id' => '',
+      'skills'  =>'',
     ]);
 
     if ($data['password'] != null) {
@@ -160,7 +165,13 @@ class UserController extends Controller
       unset($data['password']);
     }
 
-    $user->update($data);
+    $user->fill($data);
+    $user->role = $data['role'];
+    $user->save();
+
+    $user->profile->update($data);
+
+    $user->skills()->sync($data['skills'] ?? []);   // Undefined index: skills
 
     return redirect()->route('users.show', ['user' => $user]);
   }

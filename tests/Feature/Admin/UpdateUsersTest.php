@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Admin;
 
-use App\Models\User;
+use App\Models\{User, UserProfile, Profession, Skill};
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -40,18 +40,73 @@ class UpdateUsersTest extends TestCase
   {
     $user = factory(User::class)->create();
 
-    $this->put("/usuarios/{$user->id}", [
-        'name'  => 'Super Admin',
-        'email' => 'superadmin@admin.net',
-        'password' => 'superadmin'
+    $oldProfession = factory(Profession::class)->create();
 
+    // make() - Crea una nueva instancia del Modelo UserProfile
+    // sin persistirlo en la bd
+    $user->profile()->save(factory(UserProfile::class)->make([
+        'profession_id' => $oldProfession->id,
+    ]));
+
+    $oldSkill1 = factory(Skill::class)->create();
+    $oldSkill2 = factory(Skill::class)->create();
+    $user->skills()->attach([$oldSkill1->id, $oldSkill2->id]);
+
+    $newProfession = factory(Profession::class)->create();
+    $newSkill1 = factory(Skill::class)->create();
+    $newSkill2 = factory(Skill::class)->create();
+
+    $this->put("/usuarios/{$user->id}", [
+            'name' => 'Super Admin',
+            'email' => 'superadmin@admin.net',
+            'password' => 'superadmin',
+            'bio' => 'Programador de Laravel y Vue.js',
+            'twitter' => 'https://twitter.com/superadmin',
+            'role' => 'admin',
+            'profession_id' => $newProfession->id,
+            'skills' => [$newSkill1->id, $newSkill2->id],
     ])->assertRedirect("/usuarios/{$user->id}");
 
     $this->assertCredentials([
         'name'  => 'Super Admin',
         'email' => 'superadmin@admin.net',
         'password' => 'superadmin',
+        'role'     => 'admin',
     ]);
+
+    $this->assertDatabaseHas('user_profiles', [
+        'user_id' => $user->id,
+        'bio' => 'Programador de Laravel y Vue.js',
+        'twitter' => 'https://twitter.com/superadmin',
+        'profession_id' => $newProfession->id,
+    ]);
+
+    $this->assertDatabaseCount('user_skill', 2);
+
+    $this->assertDatabaseHas('user_skill', [
+        'user_id' => $user->id,
+        'skill_id' => $newSkill1->id,
+    ]);
+
+    $this->assertDatabaseHas('user_skill', [
+        'user_id' => $user->id,
+        'skill_id' => $newSkill2->id,
+    ]);
+  }
+
+  /** @test */
+  function it_detaches_all_the_skills_if_none_is_checked()
+  {
+    $user = factory(User::class)->create();
+
+    $oldSkill1 = factory(Skill::class)->create();
+    $oldSkill2 = factory(Skill::class)->create();
+    $user->skills()->attach([$oldSkill1->id, $oldSkill2->id]);
+
+    $this->put("/usuarios/{$user->id}", $this->withData([]))
+        ->assertRedirect("/usuarios/{$user->id}");
+
+    $this->assertDatabaseEmpty('user_skill');
   }
 
   /** @test */
@@ -62,11 +117,9 @@ class UpdateUsersTest extends TestCase
     $user = factory(User::class)->create();
 
     $this->from("usuarios/{$user->id}/editar")
-        ->put("usuarios/{$user->id}", [
-          'name'  => '',
-          'email' => 'superadmin@admin.net',
-          'password' => 'superadmin'
-        ])
+        ->put("usuarios/{$user->id}", $this->withData([
+          'name' => '',
+        ]))
         ->assertRedirect("usuarios/{$user->id}/editar")
         ->assertSessionHasErrors(['name']);
 
@@ -81,11 +134,9 @@ class UpdateUsersTest extends TestCase
     $user = factory(User::class)->create();
 
     $this->from("usuarios/{$user->id}/editar")
-        ->put("usuarios/{$user->id}", [
-          'name'  => 'Super Admin',
+        ->put("usuarios/{$user->id}", $this->withData([
           'email' => 'correo-no-valido',
-          'password' => 'superadmin'
-        ])
+        ]))
         ->assertRedirect("usuarios/{$user->id}/editar")
         ->assertSessionHasErrors(['email']);
 
@@ -106,11 +157,9 @@ class UpdateUsersTest extends TestCase
     ]);
 
     $this->from("usuarios/{$user->id}/editar")
-        ->put("usuarios/{$user->id}", [
-            'name'  => 'Super Admin',
-            'email' => 'existing-email@example.com',
-            'password' => 'superadmin'
-        ])
+        ->put("usuarios/{$user->id}", $this->withData([
+          'email' => 'existing-email@example.com',
+        ]))
         ->assertRedirect("usuarios/{$user->id}/editar")
         ->assertSessionHasErrors(['email']);
   }
@@ -123,11 +172,10 @@ class UpdateUsersTest extends TestCase
     ]);
 
     $this->from("usuarios/{$user->id}/editar")
-        ->put("usuarios/{$user->id}", [
+        ->put("usuarios/{$user->id}", $this->withData([
             'name'  => 'Super Admin',
             'email' => 'superadmin@admin.net',
-            'password' => 'superadmin'
-        ])
+        ]))
         ->assertRedirect("usuarios/{$user->id}"); // (users.show)
 
     $this->assertDatabaseHas('users', [
@@ -136,16 +184,25 @@ class UpdateUsersTest extends TestCase
     ]);
   }
 
-  protected function getValidData(array $custom = [])
+  /** @test */
+  function the_password_is_optional()
   {
-    return array_merge([
+    $oldPassword = 'CLAVE_ANTERIOR';
+
+    $user = factory(User::class)->create([
+        'password' => bcrypt($oldPassword)
+    ]);
+
+    $this->from("usuarios/{$user->id}/editar")
+        ->put("usuarios/{$user->id}", $this->withData([
+            'password' => '',
+        ]))
+        ->assertRedirect("usuarios/{$user->id}");
+
+    $this->assertCredentials([
         'name'  => 'Super Admin',
         'email' => 'superadmin@admin.net',
-        'password' => 'superadmin',
-        'role' => 'user',
-        'profession_id' => '',
-        'bio'      => 'Programador de Laravel y Vue.js',
-        'twitter'  => 'https://twitter.com/superadmin',
-    ], $custom);
+        'password' => $oldPassword // VERY IMPORTANT!
+    ]);
   }
 }
