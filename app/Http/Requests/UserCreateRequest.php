@@ -59,7 +59,7 @@ class UserCreateRequest extends FormRequest
     // validated() - Devuelve un array con los datos validados
     // User::createUser($this->validated());
 
-    DB::transaction(function() {
+    /* DB::transaction(function() {
       $data = $this->validated();
       
       $user = new User([
@@ -87,6 +87,28 @@ class UserCreateRequest extends FormRequest
       //$user->skills()->attach($data['skills'] ?? []);
       if (! empty($data['skills'])) {
         $user->skills()->attach($data['skills']);   // Para usuario nuevo
+      }
+    }); */
+
+    // 2-18-Asignación masiva en Eloquent ORM a fondo (uso de fillable)
+    DB::transaction(function () {
+      $user = User::create([
+          'name'  => $this->name,
+          'email' => $this->email,
+          'password' => bcrypt($this->password),
+          'role' => $this->role ?? 'user',
+      ]);
+
+      $user->save();
+
+      $user->profile()->create([
+          'bio' => $this->bio,
+          'twitter' => $this->twitter,    // 'present'
+          'profession_id' => $this->profession_id,    // 'present'
+      ]);
+
+      if ($this->skills != null) {
+          $user->skills()->attach($this->skills);   // Para usuario nuevo
       }
     });
   }

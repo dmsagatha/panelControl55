@@ -14,7 +14,7 @@ class User extends Authenticatable
     'name', 'email', 'password'
   ]; */
 
-  protected $guarded = [];
+  protected $guarded = [];        // Video 2-18
 
   public function profile()
   {
