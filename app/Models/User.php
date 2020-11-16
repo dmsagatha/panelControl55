@@ -10,9 +10,11 @@ class User extends Authenticatable
 {
   use Notifiable;
   
-  protected $fillable = [
+  /* protected $fillable = [
     'name', 'email', 'password'
-  ];
+  ]; */
+
+  protected $guarded = [];
 
   public function profile()
   {
