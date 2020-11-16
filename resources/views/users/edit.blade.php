@@ -3,15 +3,13 @@
 @section('title', 'Editar usuario')
 
 @section('content')
-<div class="card">
-  <div class="card-body">
-    <h1 class="card-title">Editar usuario</h1>
-      
+  @component('shared._card')
+    @slot('header', 'Editar usuario')
+    
     @include('shared._errors')
 
     <form method="POST" action="{{ route('users.update', $user) }}">
       @csrf @method('PUT')
-
       @include('users._fields')
       
       <div class="card-header white white-text text-center btn-group-xs">
@@ -21,4 +19,5 @@
         </a>
       </div>
     </form>
+  @endcomponent
 @endsection
