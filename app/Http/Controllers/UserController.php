@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\{User, UserProfile, Profession, Skill};
+use App\Http\Forms\UserForm;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
 use App\Http\Requests\UserCreateRequest;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -41,7 +42,7 @@ class UserController extends Controller
 
   public function create()
   {
-    $user = new User;
+    // $user = new User;
     
     /* $professions = Profession::orderBy('title')->get();
     $skills      = Skill::orderBy('name')->get();
@@ -50,7 +51,13 @@ class UserController extends Controller
     return view('users.create', compact('user', 'professions', 'skills', 'roles')); */
 
     // 2-13 - Compartir datos entre vistas de Laravel con View Composers
-    return view('users.create', compact('user'));
+    // return view('users.create', compact('user'));
+
+    // 2-15-Compartir datos entre vistas con métodos helpers
+    /* $user = new User;
+    return view('users.create', compact('user'))->with($this->formsData()); */
+
+    return new UserForm('users.create', new User);  // App\Http\Forms/UserForm
   }
 
   public function store(UserCreateRequest $request)
@@ -115,8 +122,27 @@ class UserController extends Controller
     return view('users.edit', compact('user', 'professions', 'skills', 'roles')); */
 
     // 2-13 - Compartir datos entre vistas de Laravel con View Composers
-    return view('users.edit', compact('user'));
+    // return view('users.edit', compact('user'));
+
+    // 2-15-Compartir datos entre vistas con métodos helpers
+    // return view('users.edit', compact('user'))->with($this->formsData());
+
+    return new UserForm('users.edit', $user);  // App\Http\Forms/UserForm
   }
+
+  /**
+   * Método helper - No esta asociado a una ruta
+   * 2-15-Compartir datos entre vistas con métodos helpers
+   * Cambia a App\Http\Forms/UserForm.php
+   */
+  /* protected function formsData()
+  {
+    return [
+      'professions' => Profession::orderBy('title')->get(),
+      'skills'      => Skill::orderBy('name')->get(),
+      'roles'       => trans('users.roles'),
+    ];
+  } */
 
   public function update(User $user)
   {
