@@ -8,10 +8,10 @@ class Profession extends Model
 {
   protected $fillable = ['title'];
 
-  public function getRouteKeyName()
+  /* public function getRouteKeyName()
   {
     return 'title';
-  }
+  } */
 
   public function profiles()
   {
