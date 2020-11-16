@@ -10,7 +10,7 @@ class UserProfile extends Model
 
   // protected $fillable = ['bio', 'twitter', 'profession_id'];
 
-  protected $guarded = [];
+  protected $guarded = [];        // Video 2-18
 
   public function profession()
   {
