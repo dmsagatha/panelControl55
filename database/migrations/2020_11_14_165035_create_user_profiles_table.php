@@ -21,6 +21,7 @@ class CreateUserProfilesTable extends Migration
 
       $table->string('bio', 1000);
       $table->string('twitter')->nullable();
+      $table->softDeletes();
       $table->timestamps();
     });
   }

@@ -15,18 +15,18 @@ class ListUsersTest extends TestCase
   function it_shows_the_users_list()
   {
     factory(User::class)->create([
-      'name' => 'Joel'
+      'name' => 'Jon'
     ]);
 
     factory(User::class)->create([
-      'name' => 'Ellie'
+      'name' => 'Jane'
     ]);
 
     $this->get('/usuarios')
         ->assertStatus(200)
         ->assertSee('Listado de usuarios')
-        ->assertSee('Joel')
-        ->assertSee('Ellie');
+        ->assertSee('Jon')
+        ->assertSee('Jane');
   }
 
   /** @test */
@@ -38,5 +38,24 @@ class ListUsersTest extends TestCase
     $this->get('/usuarios')
         ->assertStatus(200)
         ->assertSee('No hay usuarios registrados.');
+  }
+
+  /** @test */
+  function it_shows_the_deleted_users()
+  {
+    factory(User::class)->create([
+        'name' => 'Jon',
+        'deleted_at' => now(),
+    ]);
+
+    factory(User::class)->create([
+        'name' => 'Jane',
+    ]);
+
+    $this->get('/usuarios/papelera')
+        ->assertStatus(200)
+        ->assertSee(trans('Listado de usuarios en papelera'))
+        ->assertSee('Jon')
+        ->assertDontSee('Jane');
   }
 }

@@ -26,6 +26,15 @@ class UserController extends Controller
     return view('users.index', compact('users', 'title'));
   }
 
+  public function trashed()
+  {
+    $users = User::onlyTrashed()->get();
+
+    $title = 'Listado de usuarios en papelera';
+
+    return view('users.index', compact('users', 'title'));
+  }
+
   /* public function show($id)
   {
     // /usuarios/1000 ==> 404  No encontrado
@@ -200,11 +209,23 @@ class UserController extends Controller
     
     return redirect()->route('users.show', ['user' => $user]);
   }
-  
-  public function destroy(User $user)
+
+  /** Elimnar el Usuario de forma lógica */
+  public function trash(User $user)
   {
     $user->delete();
-    
+    $user->profile()->delete();
+
     return redirect()->route('users.index');
+  }
+  
+  public function destroy($id)
+  {
+    $user = User::onlyTrashed()->whereId($id)->firstOrFail();
+
+    $user->forceDelete();
+    
+    return redirect()->route('users.index')->with('status', 'El usuario fue eliminado con éxito!');
+    // return redirect()->route('users.trashed');
   }
 }
