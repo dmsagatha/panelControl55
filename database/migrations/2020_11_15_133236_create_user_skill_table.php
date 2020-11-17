@@ -11,6 +11,8 @@ class CreateUserSkillTable extends Migration
     Schema::create('user_skill', function (Blueprint $table) {
       $table->id();
 
+      // Si se eliminar un Usuario, que se elimine la asociación
+      // las habilidades
       $table->foreignId('user_id')->constrained()->onDelete('cascade');
       $table->foreignId('skill_id')->constrained()->onDelete('cascade');
       

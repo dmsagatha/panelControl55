@@ -12,12 +12,12 @@
     {{-- <li class="nav-item">
       <a class="nav-link" href="{{ route('profile.edit') }}">Editar Perfil</a>
     </li> --}}
-    <li class="nav-item">
-      <a class="nav-link" href="#">Profesiones</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Habilidades</a>
-    </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url('/profesiones') }}">Profesiones</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url('/habilidades') }}">Habilidades</a>
+      </li>
     </ul>
   </div>
 </nav>

@@ -11,8 +11,13 @@ class CreateUserProfilesTable extends Migration
     Schema::create('user_profiles', function (Blueprint $table) {
       $table->id();
 
-      $table->foreignId('user_id')->constrained();
-      $table->foreignId('profession_id')->nullable()->constrained();
+      // Al eliminar un usuario, eliminar el perfil
+      $table->foreignId('user_id')->constrained()->onDelete('cascade');
+      $table->foreignId('profession_id')
+          ->nullable()
+          ->constrained()
+          ->onUpdate('restrict')
+          ->onDelete('set null');
 
       $table->string('bio', 1000);
       $table->string('twitter')->nullable();
