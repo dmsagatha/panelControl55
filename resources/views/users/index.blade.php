@@ -8,6 +8,7 @@
     <h1 class="pb-1">{{ $title }}</h1>
 
     <P>
+      <a href="{{ route('users.trashed') }}" class="btn btn-outline-dark">Ver papelera</a>
       <a href="{{ route('users.create') }}" class="btn btn-dark">Crear usuario</a>
     </P>
   </div>
@@ -29,13 +30,32 @@
             <td>{{ $user->name }}</td>
             <td>{{ $user->email }}</td>
             <td>
-              <a href="{{ route('users.show', $user) }}" class="btn btn-link"><span class="oi oi-eye"></span></a>
+              @if ($user->trashed())                
+                <form method="POST" action="{{ route('users.destroy', $user) }}" class="d-inline">
+                  @csrf
+                  @method('DELETE')
+
+                  <button type="submit" class="btn btn-link"><span class="oi oi-circle-x"></span></button>
+                </form>
+              @else
+                <a href="{{ route('users.show', $user) }}" class="btn btn-link"><span class="oi oi-eye"></span></a>
+                <a href="{{ route('users.edit', $user) }}" class="btn btn-link"><span class="oi oi-pencil"></span></a>
+                
+                <form method="POST" action="{{ route('users.trash', $user) }}" class="d-inline">
+                  @csrf
+                  @method('PATCH')
+
+                  <button type="submit" class="btn btn-link"><span class="oi oi-trash"></span></button>
+                </form>
+              @endif
+              {{-- <a href="{{ route('users.show', $user) }}" class="btn btn-link"><span class="oi oi-eye"></span></a>
               <a href="{{ route('users.edit', $user) }}" class="btn btn-link"><span class="oi oi-pencil"></span></a>
-              <form method="POST" action="{{ route('users.destroy', $user) }}" class="d-inline">
-                @csrf @method('DELETE')
+              <form method="POST" action="{{ route('users.trash', $user) }}" class="d-inline">
+                @csrf
+                @method('PATCH')
 
                 <button type="submit" class="btn btn-link"><span class="oi oi-trash"></span></button>
-              </form>
+              </form> --}}
             </td>
           </tr>            
         @endforeach
