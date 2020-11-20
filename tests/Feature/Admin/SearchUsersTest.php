@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Admin;
 
-use App\Models\User;
+use App\Models\{User, Team};
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -81,5 +81,64 @@ class SearchUsersTest extends TestCase
         ->assertViewHas('users', function ($users) use ($joel, $ellie) {
             return $users->contains($joel) && !$users->contains($ellie);
         });
+  }
+
+  /** @test */
+  function search_users_by_team_name()
+  {
+    $joel = factory(User::class)->create([
+        'name' => 'Joel',
+        'team_id' => factory(Team::class)->create(['name' => 'Smuggler'])->id,
+    ]);
+
+    $ellie = factory(User::class)->create([
+        'name' => 'Ellie',
+        'team_id' => null,
+    ]);
+
+    $marlene = factory(User::class)->create([
+        'name' => 'Marlene',
+        'team_id' => factory(Team::class)->create(['name' => 'Firefly'])->id,
+    ]);
+
+    $response = $this->get('/usuarios?search=Firefly')
+        ->assertStatus(200)
+        ->assertViewHas('users', function ($users) use ($marlene, $joel, $ellie) {
+            return $users->contains($marlene)
+                && !$users->contains($joel)
+                && !$users->contains($ellie);
+        });
+
+    $response->assertViewCollection('users')
+        ->contains($marlene)
+        ->notContains($joel)
+        ->notContains($ellie);
+  }
+
+  /** @test */
+  function partial_search_by_team_name()
+  {
+    $joel = factory(User::class)->create([
+        'name' => 'Joel',
+        'team_id' => factory(Team::class)->create(['name' => 'Smuggler'])->id,
+    ]);
+
+    $ellie = factory(User::class)->create([
+        'name' => 'Ellie',
+        'team_id' => null,
+    ]);
+
+    $marlene = factory(User::class)->create([
+        'name' => 'Marlene',
+        'team_id' => factory(Team::class)->create(['name' => 'Firefly'])->id,
+    ]);
+
+    $response = $this->get('/usuarios?search=Fire')
+        ->assertStatus(200);
+
+    $response->assertViewCollection('users')
+        ->contains($marlene)
+        ->notContains($joel)
+        ->notContains($ellie);
   }
 }
