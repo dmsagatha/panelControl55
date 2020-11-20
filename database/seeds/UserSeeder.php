@@ -38,7 +38,7 @@ class UserSeeder extends Seeder
     ]); */
 
     // 1-14 - Seeders con el Modelo
-    $professionId = Profession::whereTitle('Desarrollador back-end')->value('id');
+    // $professionId = Profession::whereTitle('Desarrollador back-end')->value('id');
 
     /* User::create([
       'name'  => 'Super Admin',
@@ -62,6 +62,11 @@ class UserSeeder extends Seeder
       'profession_id' => $professionId,
     ]); */
 
+    // 2-11 - Reutilizar las plantillas con la directiva @include
+    // 2-22 - Listado avanzado de usuarios
+    $professions = Profession::all();
+    $skills= Skill::all();
+
     // 2-04 - Selects dinámicos
     $user = factory(User::class)->create([
       'name'  => 'Super Admin',
@@ -76,7 +81,11 @@ class UserSeeder extends Seeder
     $user->profile()->create([
       'bio' => 'Programador, editor',
       'twitter' => 'https://twitter.com/superadmin',
-      'profession_id' => $professionId,
+      // 'profession_id' => $professionId,
+
+      // 2-22 - Listado avanzado de usuarios
+      // 'profession_id' => $professions->where('title','Desarrollador back-end')->first()->id,
+      'profession_id' => $professions->firstWhere('title','Desarrollador back-end')->id,
     ]);
 
     // Crear un perfil por cada usuario creado
@@ -85,14 +94,10 @@ class UserSeeder extends Seeder
         factory(UserProfile::class)->raw()
       );
     }); */
-    
-    // 2-11-Reutilizar las plantillas con la directiva @include
-    $professions = Profession::all();
-    $skills= Skill::all();
 
     // Crear un perfil por cada usuario creado
-    factory(User::class)->times(29)->create()->each(function ($user) use ($professions, $skills) {
-      $randomSkills = $skills->random(rand(0, 7));
+    factory(User::class)->times(99)->create()->each(function ($user) use ($professions, $skills) {
+      $randomSkills = $skills->random(rand(0, 7));  // Adiconar entre 0 y 7
 
       $user->skills()->attach($randomSkills);
 
@@ -102,6 +107,7 @@ class UserSeeder extends Seeder
       // UserProfileFactory -  'user_id' => factory(User::class),
       factory(UserProfile::class)->create([
         'user_id' => $user->id,
+        // 2/3 de los perfiles tengan profesión y el otro 1/3 no
         'profession_id' => rand(0, 2) ? $professions->random()->id : null,
       ]);
     });

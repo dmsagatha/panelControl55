@@ -18,7 +18,8 @@ class UserController extends Controller
     //$users = User::all();
     // 2-21 Paginación
     // $users = User::orderByDesc('created_at')->paginate(15);
-    $users = User::orderByDesc('created_at')->simplePaginate();
+    // $users = User::orderByDesc('created_at')->simplePaginate();
+    $users = User::with('profile.profession', 'skills')->orderByDesc('created_at')->paginate();
 
     $title = 'Listado de usuarios';
 
@@ -32,7 +33,7 @@ class UserController extends Controller
   public function trashed()
   {
     //$users = User::onlyTrashed()->get();
-    $users = User::onlyTrashed()->simplePaginate();
+    $users = User::with('profile.profession', 'skills')->onlyTrashed()->paginate();
 
     $title = 'Listado de usuarios en papelera';
 
