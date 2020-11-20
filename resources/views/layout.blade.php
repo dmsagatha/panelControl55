@@ -10,17 +10,10 @@
       @include('includes._header')
     </header>
     
-    <main role="main" class="flex-shrink-0">
-      <div class="container"> 
-        <div class="row mt-3">
-          <div class="col-12">       
-            @yield('content')
-          </div>
-          {{-- <div class="col-4">       
-            @section('sidebar')
-              <h2>&nbsp;</h2>
-            @show
-          </div> --}}
+    <main role="main" class="container">
+      <div class="row mt-3">
+        <div class="col-12">       
+          @yield('content')
         </div>
       </div>
     </main>
