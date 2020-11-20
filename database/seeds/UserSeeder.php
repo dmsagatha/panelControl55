@@ -37,7 +37,7 @@ class UserSeeder extends Seeder
       'profession_id' => $professionId
     ]); */
 
-    // 114 - Seeders con el Modelo
+    // 1-14 - Seeders con el Modelo
     $professionId = Profession::whereTitle('Desarrollador back-end')->value('id');
 
     /* User::create([
@@ -49,7 +49,7 @@ class UserSeeder extends Seeder
       'created_at' => now(),
     ]);
 
-    // 117 - Relaciones del ORM de Eloquent
+    // 1-17 - Relaciones del ORM de Eloquent
     User::create([
       'name'  => 'Agatha',
       'email' => 'agatha@tmp.com',
@@ -62,7 +62,7 @@ class UserSeeder extends Seeder
       'profession_id' => $professionId,
     ]); */
 
-    // 204 - Selects dinámicos
+    // 2-04 - Selects dinámicos
     $user = factory(User::class)->create([
       'name'  => 'Super Admin',
       'email' => 'superadmin@admin.net',
@@ -86,7 +86,7 @@ class UserSeeder extends Seeder
       );
     }); */
     
-    // 211-Reutilizar las plantillas con la directiva @include
+    // 2-11-Reutilizar las plantillas con la directiva @include
     $professions = Profession::all();
     $skills= Skill::all();
 
@@ -96,6 +96,10 @@ class UserSeeder extends Seeder
 
       $user->skills()->attach($randomSkills);
 
+      // 2-21 Paginación
+      // No crear Usuarios adicionales dentro del factory UserProfile
+      // y evitar que se ejecute el factory(User::class) dentro del
+      // UserProfileFactory -  'user_id' => factory(User::class),
       factory(UserProfile::class)->create([
         'user_id' => $user->id,
         'profession_id' => rand(0, 2) ? $professions->random()->id : null,

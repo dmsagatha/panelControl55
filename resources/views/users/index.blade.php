@@ -60,7 +60,9 @@
           </tr>            
         @endforeach
       </tbody>
-    </table>      
+    </table>
+    {{-- {{ $users->render() }} --}}
+    {{ $users->links('shared.simple-pagination') }}
   @else
     <p>No hay usuarios registrados.</p>
   @endif
