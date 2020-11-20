@@ -14,7 +14,10 @@
 
   @include('users._filters')
   
-  @if ($users->isNotEmpty())    
+  @if ($users->isNotEmpty()) 
+
+    <p>Viendo página {{ $users->currentPage() }} de {{ $users->lastPage() }}</p>
+
     <div class="table-responsive-lg">
       <table class="table table-sm">
         <thead class="thead-dark text-center">
@@ -39,6 +42,8 @@
   
       {{-- {{ $users->render() }} --}}
       {{-- {{ $users->links('shared.simple-pagination') }} --}}
+      {{-- {{ $users->links() }} --}}
+      {{-- {{ $users->appends(request(['search']))->links() }} --}}
       {{ $users->links() }}
     </div>
   @else
