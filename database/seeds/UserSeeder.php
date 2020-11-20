@@ -91,7 +91,7 @@ class UserSeeder extends Seeder
     $skills= Skill::all();
 
     // Crear un perfil por cada usuario creado
-    factory(User::class)->times(29)->create()->each(function ($user) use ($professions, $skills) {
+    factory(User::class)->times(99)->create()->each(function ($user) use ($professions, $skills) {
       $randomSkills = $skills->random(rand(0, 7));
 
       $user->skills()->attach($randomSkills);

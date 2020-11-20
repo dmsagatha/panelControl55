@@ -20,8 +20,8 @@ class AppServiceProvider extends ServiceProvider
       'edit'   => 'editar',
     ]);
 
-    Paginator::defaultSimpleView('shared.simple-pagination');
-    Paginator::defaultView('shared.pagination');
+    /* Paginator::defaultSimpleView('shared.simple-pagination');
+    Paginator::defaultView('shared.pagination'); */
   }
 
   /**
