@@ -1,8 +1,8 @@
 <tr>
   <td rowspan="2">{{ $user->id }}</td>
   <th scope="row">
-    {{ $user->name }} 
-    <span class="note">Habilidades:</span>
+    {{ $user->name }}
+    <span class="note">Empresa: {{ $user->team->name }}</span>
   </th>
   <td>{{ $user->email }}</td>
   <td>{{ $user->role }}</td>

@@ -19,7 +19,7 @@ class UserController extends Controller
     // $users = User::orderByDesc('created_at')->paginate(15);
     // $users = User::orderByDesc('created_at')->simplePaginate();
     $users = User::query()
-        ->with('profile.profession', 'skills')
+        ->with('profile.profession', 'skills', 'team')
         ->when(request('search'), function ($query, $search) {
             // $query->where('name', $search);
             $query->where('name', 'like', "%{$search}%")
@@ -40,7 +40,9 @@ class UserController extends Controller
   public function trashed()
   {
     //$users = User::onlyTrashed()->get();
-    $users = User::with('profile.profession', 'skills')->onlyTrashed()->paginate();
+    $users = User::with('profile.profession', 'skills', 'team')
+        ->onlyTrashed()
+        ->paginate();
 
     $title = 'Listado de usuarios en papelera';
 
