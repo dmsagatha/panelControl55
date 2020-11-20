@@ -18,7 +18,7 @@ class UserController extends Controller
     // 2-21 Paginación
     // $users = User::orderByDesc('created_at')->paginate(15);
     // $users = User::orderByDesc('created_at')->simplePaginate();
-    $users = User::query()
+    /* $users = User::query()
         ->with('profile.profession', 'skills', 'team')
         ->when(request('search'), function ($query, $search) {
             // $query->where('name', $search);
@@ -26,8 +26,29 @@ class UserController extends Controller
               ->orWhere('email', 'like', "%{$search}%");
         })
         ->orderByDesc('created_at')
-        ->paginate();
+        ->paginate(); */
 
+    $users = User::query()
+        ->with('profile.profession', 'skills', 'team')
+        ->when(request('team'), function ($query, $team) {
+            if ($team === 'with_team') {
+                $query->has('team');
+            } elseif ($team === 'without_team') {
+                $query->doesntHave('team');
+            }
+        })
+        ->when(request('search'), function ($query, $search) {
+            $query->where(function ($query) use ($search) {
+                $query->where('name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%");
+            });
+        })
+        ->orderByDesc('created_at')
+        ->paginate();
+        // ->toSql();
+    
+    // dd($users);
+    
     $title = 'Listado de usuarios';
 
     /* return view('users.index')
