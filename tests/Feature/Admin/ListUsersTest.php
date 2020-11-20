@@ -27,6 +27,8 @@ class ListUsersTest extends TestCase
         ->assertSee('Listado de usuarios')
         ->assertSee('Jon')
         ->assertSee('Jane');
+
+    $this->assertNotRepeatedQueries();
   }
 
   /** @test */

@@ -54,7 +54,7 @@ class UserController extends Controller
     // 2-26 Búsqueda avanzada con Eloquent usando whereHas y Scopes
     // scopeSearch en Userp.php
     $users = User::query()
-        ->with('profile.profession', 'skills', 'team')
+        ->with('team')
         ->search(request('search'))
         ->orderByDesc('created_at')
         ->paginate();
@@ -71,7 +71,7 @@ class UserController extends Controller
   public function trashed()
   {
     //$users = User::onlyTrashed()->get();
-    $users = User::with('profile.profession', 'skills', 'team')
+    $users = User::with('team')
         ->onlyTrashed()
         ->paginate();
 
