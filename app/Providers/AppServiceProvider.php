@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -18,6 +19,9 @@ class AppServiceProvider extends ServiceProvider
       'create' => 'crear',
       'edit'   => 'editar',
     ]);
+
+    Paginator::defaultSimpleView('shared.simple-pagination');
+    Paginator::defaultView('shared.pagination');
   }
 
   /**

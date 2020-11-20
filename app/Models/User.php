@@ -17,6 +17,11 @@ class User extends Authenticatable
 
   protected $guarded = [];        // Video 2-18
 
+  /* public function getPerPage()
+  {
+      return parent::getPerPage() * 2;  // Video 2-21
+  } */
+
   public function profile()
   {
     return $this->hasOne(UserProfile::class)->withDefault();
