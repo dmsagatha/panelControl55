@@ -32,6 +32,11 @@ class User extends Authenticatable
     return$this->belongsToMany(Skill::class, 'user_skill');
   }
 
+  public function team()
+  {
+    return$this->belongsTo(Team::class)->withDefault();
+  }
+
   /**
    * The attributes that should be hidden for arrays.
    *

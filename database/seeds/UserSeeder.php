@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\{User, UserProfile, Profession, Skill};
+use App\Models\{User, UserProfile, Profession, Skill, Team};
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -65,7 +65,8 @@ class UserSeeder extends Seeder
     // 2-11 - Reutilizar las plantillas con la directiva @include
     // 2-22 - Listado avanzado de usuarios
     $professions = Profession::all();
-    $skills= Skill::all();
+    $skills = Skill::all();
+    $teams  = Team::all();
 
     // 2-04 - Selects dinámicos
     $user = factory(User::class)->create([
@@ -76,6 +77,7 @@ class UserSeeder extends Seeder
       'role' => 'admin',
       // 'created_at' => now(),
       'created_at' => now()->addDay(),    // 1 día mas
+      'team_id' => $teams->firstWhere('name', 'Styde'),
     ]);
 
     $user->profile()->create([
@@ -96,7 +98,7 @@ class UserSeeder extends Seeder
     }); */
 
     // Crear un perfil por cada usuario creado
-    factory(User::class)->times(99)->create()->each(function ($user) use ($professions, $skills) {
+    /* factory(User::class)->times(99)->create()->each(function ($user) use ($professions, $skills) {
       $randomSkills = $skills->random(rand(0, 7));  // Adiconar entre 0 y 7
 
       $user->skills()->attach($randomSkills);
@@ -110,6 +112,23 @@ class UserSeeder extends Seeder
         // 2/3 de los perfiles tengan profesión y el otro 1/3 no
         'profession_id' => rand(0, 2) ? $professions->random()->id : null,
       ]);
-    });
+    }); */
+
+    // 2-24 - Creación y asociación de tablas y modelos
+    // Crear 999 Usuarios, asociar el Equipo y las Habilidades de
+    // forma aleatoria y crear el Perfil asociado a dicho Usuario
+    foreach(range(1, 999) as $i) {
+      $user = factory(User::class)->create([
+        'team_id' => rand(0, 2) ? null : $teams->random()->id,
+      ]);
+
+      $user->skills()->attach($skills->random((rand(0, 7))));
+
+      factory(UserProfile::class)->create([
+        'user_id' => $user->id,
+        // 2/3 de los perfiles tengan profesión y el otro 1/3 no
+        'profession_id' => rand(0, 2) ? $professions->random()->id : null,
+      ]);
+    };
   }
 }

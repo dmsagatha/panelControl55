@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Team;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -11,12 +12,14 @@ class DatabaseSeeder extends Seeder
         'user_profiles',
         'user_skill',
         'skills',
-        'professions'
+        'professions',
+        'teams',
     ]);
 
     $this->call([
       ProfessionSeeder::class,
       SkillSeeder::class,
+      TeamSeeder::class,
       UserSeeder::class,
     ]);
   }
