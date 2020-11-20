@@ -27,8 +27,10 @@ class UserController extends Controller
         })
         ->orderByDesc('created_at')
         ->paginate(); */
-
-    $users = User::query()
+    
+    // 2-25 Consultar relaciones existentes usando has y doesntHave 
+    // de Eloquent
+    /* $users = User::query()
         ->with('profile.profession', 'skills', 'team')
         ->when(request('team'), function ($query, $team) {
             if ($team === 'with_team') {
@@ -44,10 +46,18 @@ class UserController extends Controller
             });
         })
         ->orderByDesc('created_at')
-        ->paginate();
+        ->paginate(); */
         // ->toSql();
     
     // dd($users);
+    
+    // 2-26 Búsqueda avanzada con Eloquent usando whereHas y Scopes
+    // scopeSearch en Userp.php
+    $users = User::query()
+        ->with('profile.profession', 'skills', 'team')
+        ->search(request('search'))
+        ->orderByDesc('created_at')
+        ->paginate();
     
     $title = 'Listado de usuarios';
 

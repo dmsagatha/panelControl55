@@ -56,6 +56,20 @@ class User extends Authenticatable
     // return $this->email === 'superadmin@admin.net';
     return $this->role === 'admin';
   }
+
+  public function scopeSearch($query, $search)
+  {
+    // Si la búsqueda esta vacía no se ejecute el método
+    if (empty ($search)) {
+      return;
+    }
+
+    $query->where('name', 'like', "%{$search}%")
+      ->orWhere('email', 'like', "%{$search}%")
+      ->orWhereHas('team', function ($query) use ($search) {
+          $query->where('name', 'like', "%{$search}%");
+      });
+  }
   
   // Crear con transaction, que los datos no se persistan en la bd
   /* public static function createUser($data)
