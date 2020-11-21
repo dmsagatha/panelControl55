@@ -49,6 +49,7 @@ class UserSeeder extends Seeder
         'role' => 'admin',
         'created_at' => now()->addDay(),    // 1 día mas
         'team_id' => $this->teams->firstWhere('name', 'Styde'),
+        'active' => true,
     ]);
 
     $admin->skills()->attach($this->skills);
@@ -69,6 +70,7 @@ class UserSeeder extends Seeder
   {
     $user = factory(User::class)->create([
         'team_id' => rand(0, 2) ? null : $this->teams->random()->id,
+        'active'  => rand(0, 3) ? true : false,
     ]);
 
     $user->skills()->attach($this->skills->random(rand(0, 7)));

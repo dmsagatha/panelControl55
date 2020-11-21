@@ -25,9 +25,9 @@
     <div class="col-md-6">
       <div class="form-inline form-search">
         <div class="input-group">
-          <input type="search" name="search" value="{{ request('search') }}" class="form-control form-control-sm" placeholder="Buscar. . .">
+          <input type="search" name="search" value="{{ request('search') }}" class="form-control form-control-sm mr-2" placeholder="Buscar. . .">
 
-          <div class="btn-group">
+          <div class="form-group mr-2">
             <select name="role" id="role" class="select-field">
               @foreach($roles as $value => $text)
                 <option value="{{ $value }}"{{ request('role') == $value ? ' selected' : '' }}>{{ $text }}</option>
@@ -35,24 +35,23 @@
             </select>
           </div>
         </div>
-        &nbsp;
 
-        <div class="btn-group drop-skills">
+        <div class="form-group drop-skills">
           <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Habilidades
           </button>
           <div class="drop-menu skills-list">
-          @foreach($skills as $skill)
-            <div class="form-group form-check">
-              <input name="skills[]"
-                   type="checkbox"
-                   class="form-check-input"
-                   id="skill_{{ $skill->id }}"
-                   value="{{ $skill->id }}"
-                   {{ $checkedSkills->contains($skill->id) ? 'checked' : '' }}>
-              <label class="form-check-label" for="skill_{{ $skill->id }}">{{ $skill->name }}</label>
-            </div>
-          @endforeach
+            @foreach($skills as $skill)
+              <div class="form-group form-check">
+                <input name="skills[]"
+                    type="checkbox"
+                    class="form-check-input"
+                    id="skill_{{ $skill->id }}"
+                    value="{{ $skill->id }}"
+                    {{ $checkedSkills->contains($skill->id) ? 'checked' : '' }}>
+                <label class="form-check-label" for="skill_{{ $skill->id }}">{{ $skill->name }}</label>
+              </div>
+            @endforeach
           </div>
         </div>
       </div>
