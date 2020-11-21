@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use App\Models\UserProfile;
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 
@@ -16,4 +17,12 @@ $factory->define(User::class, function (Faker $faker) {
       'remember_token' => Str::random(10),
       'role'  => 'user',
   ];
+});
+
+// Después que se cree el Usuario, se ejecute la función anónima
+// Para crear un Perfil
+$factory->afterCreating(User::class, function ($user, $faker) {
+  // Obtener el objeto con el Perfil, luego guardarlo asociado
+  // al Usuario a través de la asociación profile()
+  $user->profile()->save(factory(UserProfile::class)->make());
 });
