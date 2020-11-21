@@ -17,7 +17,8 @@ class UserCreateRequest extends FormRequest
   public function rules()
   {
     return [
-      'name'     => 'required',
+      'first_name' => 'required',
+      'last_name'  => 'required',
       'email'    => ['required', 'email', 'unique:users,email'],
       'password' => 'required',
       // 'role'     => 'in:admin,user',  //Que el rol este dentro de los valores
@@ -93,7 +94,8 @@ class UserCreateRequest extends FormRequest
     // 2-18-Asignación masiva en Eloquent ORM a fondo (uso de fillable)
     DB::transaction(function () {
       $user = User::create([
-          'name'  => $this->name,
+          'first_name' => $this->first_name,
+          'last_name'  => $this->last_name,
           'email' => $this->email,
           'password' => bcrypt($this->password),
           'role' => $this->role ?? 'user',

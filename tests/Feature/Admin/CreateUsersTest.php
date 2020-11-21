@@ -12,13 +12,14 @@ class CreateUsersTest extends TestCase
   use RefreshDatabase;
 
   protected $defaultData = [
-      'name'  => 'Super Admin',
-      'email' => 'superadmin@admin.net',
-      'password' => 'superadmin',
-      'role' => 'user',
-      'bio'      => 'Programador de Laravel y Vue.js',
-      'twitter'  => 'https://twitter.com/superadmin',
-      'profession_id' => '',
+    'first_name' => 'Super',
+    'last_name'  => 'Admin',
+    'email' => 'superadmin@admin.net',
+    'password' => 'superadmin',
+    'role' => 'user',
+    'bio'      => 'Programador de Laravel y Vue.js',
+    'twitter'  => 'https://twitter.com/superadmin',
+    'profession_id' => '',
   ];
   
   /** @test */
@@ -58,10 +59,11 @@ class CreateUsersTest extends TestCase
     // dd(User::first());  // Revisar el campo profession_id
 
     $this->assertCredentials([
-        'name'  => 'Super Admin',
-        'email' => 'superadmin@admin.net',
-        'password' => 'superadmin',
-        'role' => 'user',
+      'first_name' => 'Super',
+      'last_name'  => 'Admin',
+      'email' => 'superadmin@admin.net',
+      'password' => 'superadmin',
+      'role' => 'user',
     ]);
 
     $user = User::findByEmail('superadmin@admin.net');
@@ -97,7 +99,7 @@ class CreateUsersTest extends TestCase
     ]))->assertRedirect('usuarios');
 
     $this->assertCredentials([
-        'name' => 'Super Admin',
+        'first_name' => 'Super',
         'email' => 'superadmin@admin.net',
         'password' => 'superadmin',
     ]);
@@ -142,7 +144,7 @@ class CreateUsersTest extends TestCase
     ]))->assertRedirect('usuarios');
 
     $this->assertCredentials([
-        'name' => 'Super Admin',
+        'first_name' => 'Super',
         'email' => 'superadmin@admin.net',
         'password' => 'superadmin',
     ]);
@@ -170,15 +172,29 @@ class CreateUsersTest extends TestCase
     $this->handleValidationExceptions();
 
     $this->post('/usuarios/', $this->withData([
-          'name'  => '',
+          'first_name'  => '',
         ]))
-        ->assertSessionHasErrors(['name' => 'El campo nombre es obligatorio']);
+        ->assertSessionHasErrors(['first_name']);
 
     //  Comprobar que el usuario no se creo
     $this->assertDatabaseEmpty('users');
     /* $this->assertDatabaseMissing('users', [
       'email' => 'superadmin@admin.net',
     ]); */
+  }
+
+  /** @test */
+  function the_last_name_is_required()
+  {
+    $this->handleValidationExceptions();
+
+    $this->post('/usuarios/', $this->withData([
+          'last_name'  => '',
+        ]))
+        ->assertSessionHasErrors(['last_name']);
+
+    //  Comprobar que el usuario no se creo
+    $this->assertDatabaseEmpty('users');
   }
 
   /** @test */
