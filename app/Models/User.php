@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-  use Notifiable, SoftDeletes;
+  use Notifiable, SoftDeletes, Searchable;
   
   /* protected $fillable = [
     'name', 'email', 'password'
@@ -57,7 +58,16 @@ class User extends Authenticatable
     return $this->role === 'admin';
   }
 
-  public function scopeSearch($query, $search)
+  public function toSearchableArray()
+  {
+      return [
+          'name' => $this->name,
+          'email' => $this->email,
+          'team' => $this->team->name,
+      ];
+  }
+
+  /* public function scopeSearch($query, $search)
   {
     // Si la búsqueda esta vacía no se ejecute el método
     if (empty ($search)) {
@@ -70,12 +80,12 @@ class User extends Authenticatable
       ->orWhereHas('team', function ($query) use ($search) {
           $query->where('name', 'like', "%{$search}%");
       });
-  }
+  } */
 
-  public function getNameAttribute()
+  /* public function getNameAttribute()
   {
     return "{$this->first_name} {$this->last_name}";
-  }
+  } */
   
   // Crear con transaction, que los datos no se persistan en la bd
   /* public static function createUser($data)
