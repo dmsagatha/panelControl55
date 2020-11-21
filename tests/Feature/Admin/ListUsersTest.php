@@ -15,11 +15,11 @@ class ListUsersTest extends TestCase
   function it_shows_the_users_list()
   {
     factory(User::class)->create([
-      'name' => 'Jon'
+      'first_name' => 'Jon'
     ]);
 
     factory(User::class)->create([
-      'name' => 'Jane'
+      'first_name' => 'Jane'
     ]);
 
     $this->get('/usuarios')
@@ -35,7 +35,7 @@ class ListUsersTest extends TestCase
   function it_paginates_the_users()
   {
     factory(User::class)->create([
-        'name' => 'Tercer Usuario',
+        'first_name' => 'Tercer Usuario',
         'created_at' => now()->subDays(5),
     ]);
 
@@ -44,22 +44,22 @@ class ListUsersTest extends TestCase
     ]);
 
     factory(User::class)->create([
-        'name' => 'Decimoséptimo Usuario',
+        'first_name' => 'Decimoséptimo Usuario',
         'created_at' => now()->subDays(2),
     ]);
 
     factory(User::class)->create([
-        'name' => 'Segundo Usuario',
+        'first_name' => 'Segundo Usuario',
         'created_at' => now()->subDays(6),
     ]);
 
     factory(User::class)->create([
-        'name' => 'Primer Usuario',
+        'first_name' => 'Primer Usuario',
         'created_at' => now()->subWeek(),
     ]);
 
     factory(User::class)->create([
-        'name' => 'Decimosexto Usuario',
+        'first_name' => 'Decimosexto Usuario',
         'created_at' => now()->subDays(3),
     ]);
 
@@ -96,12 +96,12 @@ class ListUsersTest extends TestCase
   function it_shows_the_deleted_users()
   {
     factory(User::class)->create([
-        'name' => 'Jon',
+        'first_name' => 'Jon',
         'deleted_at' => now(),
     ]);
 
     factory(User::class)->create([
-        'name' => 'Jane',
+        'first_name' => 'Jane',
     ]);
 
     $this->get('/usuarios/papelera')

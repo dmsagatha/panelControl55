@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
      * Crear 999 Usuarios, asociar un Equipo y Habilidades de
      * forma aleatoria y crear el Perfil asociado a dicho Usuario
     */
-    foreach(range(1, 999) as $i) {
+    foreach(range(1, 9) as $i) {
       $this->createRandomUser();
     }
   }
@@ -42,7 +42,8 @@ class UserSeeder extends Seeder
   protected function createAdmin()
   {
     $admin = factory(User::class)->create([
-        'name'  => 'Super Admin',
+        'first_name' => 'Super',
+        'last_name'  => 'Admin',
         'email' => 'superadmin@admin.net',
         'password' => bcrypt('superadmin'),
         'role' => 'admin',
