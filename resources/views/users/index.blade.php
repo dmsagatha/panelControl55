@@ -12,38 +12,27 @@
     </P>
   </div>
 
-  @include('users._filters')
+  @includeWhen(isset($states), 'users._filters')
   
   @if ($users->isNotEmpty()) 
-
-    <p>Viendo página {{ $users->currentPage() }} de {{ $users->lastPage() }}</p>
-
     <div class="table-responsive-lg">
       <table class="table table-sm">
         <thead class="thead-dark text-center">
           <tr>
             <th scope="col"># <span class="oi oi-caret-bottom"></span><span class="oi oi-caret-top"></span></th>
             <th scope="col" class="sort-desc">Nombre <span class="oi oi-caret-bottom"></span><span class="oi oi-caret-top"></span></th>
-            <th scope="col">Empresa <span class="oi oi-caret-bottom"></span><span class="oi oi-caret-top"></span></th>
-            <th scope="col">Correo <span class="oi oi-caret-bottom"></span><span class="oi oi-caret-top"></span></th>
-            <th scope="col">Rol <span class="oi oi-caret-bottom"></span><span class="oi oi-caret-top"></span></th>
-            {{-- <th scope="col">Fechas <span class="oi oi-caret-bottom"></span><span class="oi oi-caret-top"></span></th> --}}
+            <th scope="col">Correo electrónico <span class="oi oi-caret-bottom"></span><span class="oi oi-caret-top"></span></th>
+            <th scope="col">Fechas <span class="oi oi-caret-bottom"></span><span class="oi oi-caret-top"></span></th>
             <th scope="col" class="th-actions">Acciones</th>
           </tr>
         </thead>
         <tbody>
-          {{-- @foreach ($users as $user)
-            @include('users._row', ['user' => $user])
-          @endforeach --}}
 
           @each('users._row', $users, 'user')
+
         </tbody>
       </table>
-  
-      {{-- {{ $users->render() }} --}}
-      {{-- {{ $users->links('shared.simple-pagination') }} --}}
-      {{-- {{ $users->links() }} --}}
-      {{-- {{ $users->appends(request(['search']))->links() }} --}}
+      
       {{ $users->links() }}
     </div>
   @else

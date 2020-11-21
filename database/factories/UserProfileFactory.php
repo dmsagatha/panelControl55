@@ -9,7 +9,7 @@ $factory->define(UserProfile::class, function (Faker $faker) {
   $professions = Profession::pluck('id')->all();
 
   return [
-    'user_id' => factory(User::class),
+    // 'user_id' => factory(User::class),
     'bio' => $faker->paragraph(),
     'profession_id' => $faker->randomElement($professions),
   ];

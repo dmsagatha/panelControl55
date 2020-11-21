@@ -22,9 +22,9 @@ class DeleteUsersTest extends TestCase
 
     // Evitar que se cree un segundo usuario
     // 'user_id' => factory(User::class), // UserProfileFactory
-    factory(UserProfile::class)->create([
+    /* factory(UserProfile::class)->create([
       'user_id' => $user->id
-    ]);
+    ]); */
     
     $this->patch("usuarios/{$user->id}/papelera")
         ->assertRedirect('usuarios');
@@ -57,9 +57,9 @@ class DeleteUsersTest extends TestCase
 
     // Evitar que se cree un segundo usuario
     // 'user_id' => factory(User::class), // UserProfileFactory
-    factory(UserProfile::class)->create([
+    /* factory(UserProfile::class)->create([
       'user_id' => $user->id
-    ]);
+    ]); */
 
     $this->delete("usuarios/{$user->id}")
         // ->assertRedirect('usuarios/papelera');
@@ -79,9 +79,9 @@ class DeleteUsersTest extends TestCase
 
     // Evitar que se cree un segundo usuario
     // 'user_id' => factory(User::class), // UserProfileFactory
-    factory(UserProfile::class)->create([
+    /* factory(UserProfile::class)->create([
       'user_id' => $user->id
-    ]);
+    ]); */
 
     /* $user->profile()->save(factory(UserProfile::class)->create([
       'user_id' => $user->id
