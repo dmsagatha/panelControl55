@@ -72,6 +72,21 @@ class User extends Authenticatable
       });
   }
 
+  public function scopeByState($query, $state)
+  {
+    if ($state == 'active') {
+      return $query->where('active', true);
+    }
+
+    if ($state == 'inactive') {
+      return $query->where('active', false);
+    }
+  }
+
+  protected $casts = [
+    'active' => 'bool',
+  ];
+
   public function getNameAttribute()
   {
     return "{$this->first_name} {$this->last_name}";

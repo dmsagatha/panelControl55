@@ -2,10 +2,10 @@
 
 namespace Tests\Feature\Admin;
 
-use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class FilterUsersTest extends TestCase
 {
@@ -14,22 +14,22 @@ class FilterUsersTest extends TestCase
   /** @test */
   function filter_users_by_state_active()
   {
-    $activeUser = factory(User::class)->create();
+    $activeUser = factory(User::class)->create(['active' => true]);
 
-    $inactiveUser = factory(User::class)->create();
+    $inactiveUser = factory(User::class)->create(['active' => false]);
 
     $response = $this->get('/usuarios?state=active');
 
     $response->assertViewCollection('users')
-      ->contains($activeUser)
-      ->notContains($inactiveUser);
+        ->contains($activeUser)
+        ->notContains($inactiveUser);
   }
 
   /** @test */
   function filter_users_by_state_inactive()
   {
-    $activeUser = factory(User::class)->create();
-    $inactiveUser = factory(User::class)->create();
+    $activeUser = factory(User::class)->create(['active' => true]);
+    $inactiveUser = factory(User::class)->create(['active' => false]);
 
     $response = $this->get('usuarios?state=inactive');
 
