@@ -42,8 +42,7 @@ class UserSeeder extends Seeder
   protected function createAdmin()
   {
     $admin = factory(User::class)->create([
-        'first_name' => 'Super',
-        'last_name'  => 'Admin',
+        'name'  => 'Super Admin',
         'email' => 'superadmin@admin.net',
         'password' => bcrypt('superadmin'),
         'role' => 'admin',

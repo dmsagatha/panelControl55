@@ -12,14 +12,14 @@ class SearchUsersTest extends TestCase
   use RefreshDatabase;
 
   /** @test */
-  function search_users_by_first_name()
+  function search_users_by_name()
   {
     $joel = factory(User::class)->create([
-        'first_name' => 'Joel'
+        'name' => 'Joel'
     ]);
 
     $ellie = factory(User::class)->create([
-        'first_name' => 'Ellie',
+        'name' => 'Ellie',
     ]);
 
     $this->get('/usuarios?search=Joel')
@@ -30,57 +30,17 @@ class SearchUsersTest extends TestCase
   }
 
   /** @test */
-  function partial_search_by_first_name()
+  function partial_search_by_name()
   {
     $joel = factory(User::class)->create([
-        'first_name' => 'Joel'
+        'name' => 'Joel'
     ]);
 
     $ellie = factory(User::class)->create([
-        'first_name' => 'Ellie',
+        'name' => 'Ellie',
     ]);
 
     $this->get('/usuarios?search=Jo')
-        ->assertStatus(200)
-        ->assertViewHas('users', function ($users) use ($joel, $ellie) {
-            return $users->contains($joel) && !$users->contains($ellie);
-        });
-  }
-
-  /** @test */
-  function search_users_by_full_name()
-  {
-    $joel = factory(User::class)->create([
-        'first_name' => 'Joel',
-        'last_name'  => 'Miller',
-    ]);
-
-    $ellie = factory(User::class)->create([
-        'first_name' => 'Ellie',
-        'last_name'  => 'Williams',
-    ]);
-
-    $this->get('/usuarios?search=Joel Miller')
-        ->assertStatus(200)
-        ->assertViewHas('users', function ($users) use ($joel, $ellie) {
-            return $users->contains($joel) && !$users->contains($ellie);
-        });
-  }
-
-  /** @test */
-  function partial_search_by_full_name()
-  {
-    $joel = factory(User::class)->create([
-        'first_name' => 'Joel',
-        'last_name'  => 'Miller',
-    ]);
-
-    $ellie = factory(User::class)->create([
-        'first_name' => 'Ellie',
-        'last_name'  => 'Williams',
-    ]);
-
-    $this->get('/usuarios?search=Joel M')
         ->assertStatus(200)
         ->assertViewHas('users', function ($users) use ($joel, $ellie) {
             return $users->contains($joel) && !$users->contains($ellie);
@@ -127,17 +87,17 @@ class SearchUsersTest extends TestCase
   function search_users_by_team_name()
   {
     $joel = factory(User::class)->create([
-        'first_name' => 'Joel',
+        'name' => 'Joel',
         'team_id' => factory(Team::class)->create(['name' => 'Smuggler'])->id,
     ]);
 
     $ellie = factory(User::class)->create([
-        'first_name' => 'Ellie',
+        'name' => 'Ellie',
         'team_id' => null,
     ]);
 
     $marlene = factory(User::class)->create([
-        'first_name' => 'Marlene',
+        'name' => 'Marlene',
         'team_id' => factory(Team::class)->create(['name' => 'Firefly'])->id,
     ]);
 
@@ -159,17 +119,17 @@ class SearchUsersTest extends TestCase
   function partial_search_by_team_name()
   {
     $joel = factory(User::class)->create([
-        'first_name' => 'Joel',
+        'name' => 'Joel',
         'team_id' => factory(Team::class)->create(['name' => 'Smuggler'])->id,
     ]);
 
     $ellie = factory(User::class)->create([
-        'first_name' => 'Ellie',
+        'name' => 'Ellie',
         'team_id' => null,
     ]);
 
     $marlene = factory(User::class)->create([
-        'first_name' => 'Marlene',
+        'name' => 'Marlene',
         'team_id' => factory(Team::class)->create(['name' => 'Firefly'])->id,
     ]);
 

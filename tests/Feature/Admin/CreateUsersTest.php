@@ -12,14 +12,13 @@ class CreateUsersTest extends TestCase
   use RefreshDatabase;
 
   protected $defaultData = [
-    'first_name' => 'Super',
-    'last_name'  => 'Admin',
+    'name'  => 'Super Admin',
     'email' => 'superadmin@admin.net',
     'password' => 'superadmin',
-    'role' => 'user',
     'bio'      => 'Programador de Laravel y Vue.js',
     'twitter'  => 'https://twitter.com/superadmin',
     'profession_id' => '',
+    'role' => 'user',
   ];
   
   /** @test */
@@ -59,8 +58,7 @@ class CreateUsersTest extends TestCase
     // dd(User::first());  // Revisar el campo profession_id
 
     $this->assertCredentials([
-      'first_name' => 'Super',
-      'last_name'  => 'Admin',
+      'name'  => 'Super Admin',
       'email' => 'superadmin@admin.net',
       'password' => 'superadmin',
       'role' => 'user',
@@ -99,7 +97,7 @@ class CreateUsersTest extends TestCase
     ]))->assertRedirect('usuarios');
 
     $this->assertCredentials([
-        'first_name' => 'Super',
+        'name' => 'Super Admin',
         'email' => 'superadmin@admin.net',
         'password' => 'superadmin',
     ]);
@@ -144,7 +142,7 @@ class CreateUsersTest extends TestCase
     ]))->assertRedirect('usuarios');
 
     $this->assertCredentials([
-        'first_name' => 'Super',
+        'name'  => 'Super Admin',
         'email' => 'superadmin@admin.net',
         'password' => 'superadmin',
     ]);
@@ -172,29 +170,15 @@ class CreateUsersTest extends TestCase
     $this->handleValidationExceptions();
 
     $this->post('/usuarios/', $this->withData([
-          'first_name'  => '',
+          'name'  => '',
         ]))
-        ->assertSessionHasErrors(['first_name']);
+        ->assertSessionHasErrors(['name']);
 
     //  Comprobar que el usuario no se creo
     $this->assertDatabaseEmpty('users');
     /* $this->assertDatabaseMissing('users', [
       'email' => 'superadmin@admin.net',
     ]); */
-  }
-
-  /** @test */
-  function the_last_name_is_required()
-  {
-    $this->handleValidationExceptions();
-
-    $this->post('/usuarios/', $this->withData([
-          'last_name'  => '',
-        ]))
-        ->assertSessionHasErrors(['last_name']);
-
-    //  Comprobar que el usuario no se creo
-    $this->assertDatabaseEmpty('users');
   }
 
   /** @test */
