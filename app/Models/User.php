@@ -64,8 +64,7 @@ class User extends Authenticatable
       return;
     }
 
-    // $query->where(DB::raw('CONCAT(first_name, " ", last_name)'), 'like', "%{$search}%")
-    $query->whereRaw('CONCAT(first_name, " ", last_name) like ?', "%{$search}%")
+    $query->where('name', 'like', "%{$search}%")
       ->orWhere('email', 'like', "%{$search}%")
       ->orWhereHas('team', function ($query) use ($search) {
           $query->where('name', 'like', "%{$search}%");
@@ -87,10 +86,10 @@ class User extends Authenticatable
     'active' => 'bool',
   ];
 
-  public function getNameAttribute()
+  /* public function getNameAttribute()
   {
     return "{$this->first_name} {$this->last_name}";
-  }
+  } */
   
   // Crear con transaction, que los datos no se persistan en la bd
   /* public static function createUser($data)

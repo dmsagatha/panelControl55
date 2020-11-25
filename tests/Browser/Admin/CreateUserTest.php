@@ -18,10 +18,9 @@ class CreateUserTest extends DuskTestCase
     $skillA = factory(Skill::class)->create();
     $skillB = factory(Skill::class)->create();
 
-    $this->browse(function (Browser $browser, $browser2) use ($profession, $skillA, $skillB) {
+    $this->browse(function (Browser $browser) use ($profession, $skillA, $skillB) {
         $browser->visit('/usuarios/nuevo')
-            ->type('first_name', 'Super')
-            ->type('last_name', 'Admin')
+            ->type('name', 'Super Admin')
             ->type('email', 'superadmin@admin.net')
             ->type('password', 'superadmin')
             ->type('bio', 'Programador')
@@ -37,8 +36,7 @@ class CreateUserTest extends DuskTestCase
     });
 
     $this->assertCredentials([
-        'first_name' => 'Super',
-        'last_name'  => 'Admin',
+        'name'  => 'Super Admin',
         'email' => 'superadmin@admin.net',
         'password' => 'superadmin',
         'role' => 'user',
