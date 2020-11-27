@@ -44,6 +44,9 @@ class UserCreateRequest extends FormRequest
         'array',
         Rule::exists('skills', 'id'),
       ],
+      'state' => [
+        Rule::in(['active', 'inactive']),
+      ]
     ];
   }
 
@@ -97,6 +100,8 @@ class UserCreateRequest extends FormRequest
           'email' => $this->email,
           'password' => bcrypt($this->password),
           'role' => $this->role ?? 'user',
+          // 'active' => $this->state == 'active',
+          'state'  => $this->state,  // 2-34 Usar campos y atributos diferentes
       ]);
 
       $user->save();

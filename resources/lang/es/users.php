@@ -1,10 +1,8 @@
 <?php
 
 return [
-  'roles' => [
-    'admin' => 'Admin', 
-    'user' => 'Usuario'
-  ],
+  'roles'  => ['admin' => 'Admin', 'user' => 'Usuario'],
+  'states' => ['active' => 'Activo', 'inactive' => 'Inactivo'],
 
   'filters' => [
       'roles' => [

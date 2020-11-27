@@ -15,6 +15,7 @@ $factory->define(User::class, function (Faker $faker) {
       // 'password' => $password ?: $password = bcrypt('secret'),
       'remember_token' => Str::random(10),
       'role'  => $faker->randomElement(['user', 'admin']),
+      'active' => true,
   ];
 });
 
@@ -24,4 +25,12 @@ $factory->afterCreating(User::class, function ($user, $faker) {
   // Obtener el objeto con el Perfil, luego guardarlo asociado
   // al Usuario a través de la asociación profile()
   $user->profile()->save(factory(UserProfile::class)->make());
+});
+
+// 2-34 Usar campos y atributos diferentes a los de la base de datos
+// Definir un state para estado inactivo del campo active
+$factory->state(User::class, 'inactive', function ($faker) {
+  return [
+      'active' => false,
+  ];
 });

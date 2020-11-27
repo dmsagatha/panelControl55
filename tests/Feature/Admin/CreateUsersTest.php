@@ -18,7 +18,8 @@ class CreateUsersTest extends TestCase
     'bio'      => 'Programador de Laravel y Vue.js',
     'twitter'  => 'https://twitter.com/superadmin',
     'profession_id' => '',
-    'role' => 'user',
+    'role'  => 'user',
+    'state' => 'active',    // 2-34 Usar campos y atributos diferentes
   ];
   
   /** @test */
@@ -61,7 +62,8 @@ class CreateUsersTest extends TestCase
       'name'  => 'Super Admin',
       'email' => 'superadmin@admin.net',
       'password' => 'superadmin',
-      'role' => 'user',
+      'role'     => 'user',
+      'active'   => true,    // 2-34 Usar campos y atributos diferentes
     ]);
 
     $user = User::findByEmail('superadmin@admin.net');
@@ -296,6 +298,30 @@ class CreateUsersTest extends TestCase
             'skills' => [$skillA->id, $skillB->id + 1],
         ]))
         ->assertSessionHasErrors(['skills']);
+
+    $this->assertDatabaseEmpty('users');
+  }
+
+  /** @test */
+  function the_state_is_required()
+  {
+    $this->handleValidationExceptions();
+
+    $this->post('/usuarios/', $this->withData([
+        'state' => null,
+    ]))->assertSessionHasErrors('state');
+
+    $this->assertDatabaseEmpty('users');
+  }
+
+  /** @test */
+  function the_state_must_be_valid()
+  {
+    $this->handleValidationExceptions();
+
+    $this->post('/usuarios/', $this->withData([
+        'state' => 'invalid-state',
+    ]))->assertSessionHasErrors('state');
 
     $this->assertDatabaseEmpty('users');
   }

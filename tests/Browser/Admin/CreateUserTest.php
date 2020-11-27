@@ -29,6 +29,7 @@ class CreateUserTest extends DuskTestCase
             ->check("skills[{$skillA->id}]")
             ->check("skills[{$skillB->id}]")
             ->radio('role', 'user')
+            ->radio('state', 'active')
             ->press('Crear usuario')
             ->assertPathIs('/usuarios')   // Redirigir
             ->assertSee('Super Admin')
@@ -40,6 +41,7 @@ class CreateUserTest extends DuskTestCase
         'email' => 'superadmin@admin.net',
         'password' => 'superadmin',
         'role' => 'user',
+        'active' => true,
     ]);
 
     $user = User::findByEmail('superadmin@admin.net');
