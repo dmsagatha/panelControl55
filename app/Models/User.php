@@ -71,6 +71,10 @@ class User extends Authenticatable
       });
   }
 
+  protected $casts = [
+    'active' => 'bool',
+  ];
+
   public function scopeByState($query, $state)
   {
     if ($state == 'active') {
@@ -82,9 +86,15 @@ class User extends Authenticatable
     }
   }
 
-  protected $casts = [
-    'active' => 'bool',
-  ];
+  /**
+   * Buscar si el rol dado es admin o user
+   */
+  public function scopeByRole($query, $role)
+  {
+    if (in_array($role, ['user', 'admin'])) {
+        $query->where('role', $role);
+    }
+  }
 
   public function setStateAttribute($value)
   {

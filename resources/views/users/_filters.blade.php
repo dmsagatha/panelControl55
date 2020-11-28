@@ -1,7 +1,7 @@
 <form method="get" action="{{ url('usuarios') }}">
   <div class="row row-filters">
     <div class="col-md-6">
-      @foreach ($states as $value => $text)
+      @foreach (trans('users.filters.states') as $value => $text)
         <div class="form-check form-check-inline">
           <input class="form-check-input" type="radio" name="state"
                id="state_{{ $value }}" value="{{ $value }}" {{ $value == request('state') ? 'checked' : '' }}>
@@ -10,17 +10,7 @@
       @endforeach
     </div>
   </div>
-  {{-- <div class="row row-filters">
-    <div class="col-12">
-      @foreach (['' => 'Todos', 'with_team' => 'Con equipo', 'without_team' => 'Sin equipo'] as $value => $text)
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="team"
-               id="team_{{ $value ?: 'all' }}" value="{{ $value }}" {{ $value == request('team') ? 'checked' : '' }}>
-          <label class="form-check-label" for="team_{{ $value ?: 'all' }}">{{ $text }}</label>
-        </div>
-      @endforeach
-    </div>
-  </div> --}}
+  
   <div class="row row-filters">
     <div class="col-md-6">
       <div class="form-inline form-search">
@@ -29,7 +19,7 @@
 
           <div class="form-group mr-2">
             <select name="role" id="role" class="select-field">
-              @foreach($roles as $value => $text)
+              @foreach(trans('users.filters.roles') as $value => $text)
                 <option value="{{ $value }}"{{ request('role') == $value ? ' selected' : '' }}>{{ $text }}</option>
               @endforeach
             </select>
