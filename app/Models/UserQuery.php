@@ -2,51 +2,50 @@
 
 namespace App\Models;
 
+use App\Models\FiltersQueries;
 use Illuminate\Database\Eloquent\Builder;
 
 class UserQuery extends Builder
 {
+  use FiltersQueries;
+  
   public function findByEmail($email)
   {
     return static::where(compact('email'))->first();
   }
 
-  public function search($search)
+  protected function filterRules(): array
   {
-    // Si la búsqueda esta vacía no se ejecute el método
-    if (empty ($search)) {
-      return $this;
-    }
-
-    return $this->where('name', 'like', "%{$search}%")
-      ->orWhere('email', 'like', "%{$search}%")
-      ->orWhereHas('team', function ($query) use ($search) {
-          $query->where('name', 'like', "%{$search}%");
-      });
+    return [
+        'search' => 'filled',
+        'state'  => 'in:active,inactive',
+        'role'   => 'in:admin,user',
+    ];
   }
 
-  public function byState($state)
+  public function filterBySearch($search)
   {
-    if ($state == 'active') {
-      return $this->where('active', true);
-    }
+    return $this->where('name', 'like', "%{$search}%")
+        ->orWhere('email', 'like', "%{$search}%")
+        ->orWhereHas('team', function ($query) use ($search) {
+            $query->where('name', 'like', "%{$search}%");
+        });
+  }
 
-    if ($state == 'inactive') {
-      return $this->where('active', false);
-    }
-
-    return $this;
+  public function filterByState($state)
+  {
+    return $this->where('active', $state == 'active');
   }
 
   /**
    * Buscar si el rol dado es admin o user
    */
-  public function byRole($role)
+  /* public function filterByRole($role)
   {
     if (in_array($role, ['user', 'admin'])) {
         return $this->where('role', $role);
     }
 
     return $this;
-  }
+  } */
 }
