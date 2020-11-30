@@ -2,24 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{User, UserProfile, Profession, Skill};
+use App\Models\{User, Profession, Skill};
+use App\Models\UserFilter;
 use App\Http\Requests\{UserCreateRequest, UserUpdateRequest};
-use App\Http\Forms\UserForm;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-  public function index(Request $request)
-  {    
-    // 2-26 Búsqueda avanzada con Eloquent usando whereHas y Scopes
-    // scopeSearch en Userp.php
-    // 2-33 Filtrar datos por campos de tipo radio
-    // 2-35 Filtrar datos por campos de select - UserQuery - Trait
+  public function index(Request $request, UserFilter $filters)
+  {
+    // 2.38 Creación de la clase QueryFilter - UserFilter
     $users = User::query()
         ->with('team', 'skills', 'profile.profession')
-        ->filterBy($request->only(['state', 'role', 'search']))
+        ->filterBy($filters, $request->only(['state', 'role', 'search']))
         ->orderByDesc('created_at')
         ->paginate()
         ->appends(request(['search']));
@@ -34,12 +29,9 @@ class UserController extends Controller
 
   public function trashed()
   {
-    //$users = User::onlyTrashed()->get();
     $users = User::with('team', 'skills', 'profile.profession')
         ->onlyTrashed()
         ->paginate();
-
-    $title = 'Listado de usuarios en papelera';
 
     return view('users.index', [
       'users' => $users,
@@ -49,7 +41,6 @@ class UserController extends Controller
   
   public function show(User $user)
   {
-    // /usuarios/1000 ==> 404  No encontrado
     return view('users.show', compact('user'));
   }
 
@@ -78,38 +69,6 @@ class UserController extends Controller
       'user'   => $user,
     ]);
   }
-
-  /* public function update(User $user)
-  {
-    $data = request()->validate([
-      'name'  => 'required',
-      // 'email'    => 'required|email|unique:users,email,'.$user->id,
-      'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
-      'password' => '',
-      'role' => '',
-      'bio' => '',
-      'twitter' => '',
-      'profession_id' => '',
-      'skills'  =>'',
-    ]);
-
-    if ($data['password'] != null) {
-      $data['password'] = bcrypt($data['password']);
-    } else {
-      // Si es nula, eliminarla del array de los  datos
-      unset($data['password']);
-    }
-
-    $user->fill($data);
-    $user->role = $data['role'];
-    $user->save();
-
-    $user->profile->update($data);
-
-    $user->skills()->sync($data['skills'] ?? []);   // Undefined index: skills
-
-    return redirect()->route('users.show', ['user' => $user]);
-  } */
   
   /**
    * 2-17-Uso de Form Requests para validar la actualización de registros
@@ -137,6 +96,5 @@ class UserController extends Controller
     $user->forceDelete();
     
     return redirect()->route('users.index')->with('status', 'El usuario fue eliminado con éxito!');
-    // return redirect()->route('users.trashed');
   }
 }
