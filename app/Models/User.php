@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -29,15 +28,6 @@ class User extends Authenticatable
   }
 
   /**
-   * The attributes that should be hidden for arrays.
-   *
-   * @var array
-   */
-  protected $hidden = [
-    'password', 'remember_token',
-  ];
-
-  /**
    * Create a new Eloquent query builder for the model.
    *
    * @param  \Illuminate\Database\Query\Builder  $query
@@ -47,6 +37,20 @@ class User extends Authenticatable
   {
     return new UserQuery($query);
   }
+
+  public function scopeFilterBy($query, QueryFilter $filters, array $data)
+  {
+    return $filters->applyTo($query, $data);
+  }
+
+  /**
+   * The attributes that should be hidden for arrays.
+   *
+   * @var array
+   */
+  protected $hidden = [
+    'password', 'remember_token',
+  ];
 
   public function isAdmin()
   {
