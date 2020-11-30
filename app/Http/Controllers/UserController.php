@@ -17,7 +17,7 @@ class UserController extends Controller
         ->filterBy($filters, $request->only(['state', 'role', 'search']))
         ->orderByDesc('created_at')
         ->paginate()
-        ->appends(request(['search']));
+        ->appends($filters->valid());
 
     return view('users.index', [
       'users'  => $users,

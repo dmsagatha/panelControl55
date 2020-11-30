@@ -18,10 +18,10 @@ class UserFilter extends QueryFilter
   public function filterBySearch($query, $search)
   {
     return $query->where('name', 'like', "%{$search}%")
-      ->orWhere('email', 'like', "%{$search}%")
-      ->orWhereHas('team', function ($query) use ($search) {
-        $query->where('name', 'like', "%{$search}%");
-      });
+        ->orWhere('email', 'like', "%{$search}%")
+        ->orWhereHas('team', function ($query) use ($search) {
+          $query->where('name', 'like', "%{$search}%");
+        });
   }
 
   public function filterByState($query, $state)
