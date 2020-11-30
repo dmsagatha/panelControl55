@@ -36,16 +36,4 @@ class UserQuery extends Builder
   {
     return $this->where('active', $state == 'active');
   }
-
-  /**
-   * Buscar si el rol dado es admin o user
-   */
-  /* public function filterByRole($role)
-  {
-    if (in_array($role, ['user', 'admin'])) {
-        return $this->where('role', $role);
-    }
-
-    return $this;
-  } */
 }
