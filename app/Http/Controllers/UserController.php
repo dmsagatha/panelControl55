@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-  public function index()
+  public function index(Request $request)
   {    
     // 2-26 Búsqueda avanzada con Eloquent usando whereHas y Scopes
     // scopeSearch en Userp.php
@@ -19,9 +19,7 @@ class UserController extends Controller
     // 2-35 Filtrar datos por campos de select
     $users = User::query()
         ->with('team', 'skills', 'profile.profession')
-        ->byState(request('state'))
-        ->byRole(request('role'))
-        ->search(request('search'))
+        ->filterBy($request->only(['state', 'role', 'search']))
         ->orderByDesc('created_at')
         ->paginate()
         ->appends(request(['search']));
