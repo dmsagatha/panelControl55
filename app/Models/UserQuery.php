@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\QueryBuilder;
 
-class UserQuery extends Builder
+class UserQuery extends QueryBuilder
 {
   public function findByEmail($email)
   {

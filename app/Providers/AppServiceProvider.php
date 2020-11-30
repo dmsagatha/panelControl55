@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Eloquent\Builder;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,8 +22,10 @@ class AppServiceProvider extends ServiceProvider
       'edit'   => 'editar',
     ]);
 
-    /* Paginator::defaultSimpleView('shared.simple-pagination');
-    Paginator::defaultView('shared.pagination'); */
+    /* Builder::macro('whereQuery', function ($subquery, $value) {
+        $this->addBinding($subquery->getBindings());
+        $this->where(DB::raw("({$subquery->toSql()})"), $value);
+    }); */
   }
 
   /**
