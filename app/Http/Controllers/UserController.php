@@ -16,7 +16,7 @@ class UserController extends Controller
     // 2-26 Búsqueda avanzada con Eloquent usando whereHas y Scopes
     // scopeSearch en Userp.php
     // 2-33 Filtrar datos por campos de tipo radio
-    // 2-35 Filtrar datos por campos de select
+    // 2-35 Filtrar datos por campos de select - UserQuery - Trait
     $users = User::query()
         ->with('team', 'skills', 'profile.profession')
         ->filterBy($request->only(['state', 'role', 'search']))
