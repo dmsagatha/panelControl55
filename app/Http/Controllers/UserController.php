@@ -11,7 +11,9 @@ class UserController extends Controller
 {
   public function index(Request $request, UserFilter $filters)
   {
-    // 2.38 Creación de la clase QueryFilter - UserFilter
+    // 2-38 Creación de la clase QueryFilter - UserFilter
+    // 2-39 Filtros complejos con subconsultas de SQL y uso de macros
+    // 2-40 Filtros por rango de fechas
     $users = User::query()
         ->with('team', 'skills', 'profile.profession')
         ->filterBy($filters, $request->only(['state', 'role', 'search', 'skills', 'from', 'to']))
