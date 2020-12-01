@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{User, Profession, Skill, Sortable};
-use App\Models\UserFilter;
+use App\Models\{User, Profession, Skill, Sortable, UserFilter};
 use App\Http\Requests\{UserCreateRequest, UserUpdateRequest};
 use Illuminate\Http\Request;
 

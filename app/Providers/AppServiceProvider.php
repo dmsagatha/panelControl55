@@ -2,9 +2,10 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Route;
+use App\Models\Sortable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -35,5 +36,8 @@ class AppServiceProvider extends ServiceProvider
    */
   public function register()
   {
+    $this->app->bind(Sortable::class, function ($app) {
+      return new Sortable(request()->url());
+    });
   }
 }
