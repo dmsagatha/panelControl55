@@ -46,14 +46,14 @@ class UserSeeder extends Seeder
         'email' => 'superadmin@admin.net',
         'password' => bcrypt('superadmin'),
         'role' => 'admin',
-        'created_at' => now()->addDay(),    // 1 día mas
+        'created_at' => now(), //->addDay(),    // 1 día mas
         'team_id' => $this->teams->firstWhere('name', 'Styde'),
         'active' => true,
     ]);
 
     $admin->skills()->attach($this->skills);
 
-    $admin->profile()->create([
+    $admin->profile->update([
         'bio'     => 'Programador, editor',
         'twitter' => 'https://twitter.com/superadmin',
         'profession_id' => $this->professions->firstWhere('title','Desarrollador back-end')->id,
@@ -70,13 +70,19 @@ class UserSeeder extends Seeder
     $user = factory(User::class)->create([
         'team_id' => rand(0, 2) ? null : $this->teams->random()->id,
         'active'  => rand(0, 3) ? true : false,
+        'created_at' => now()->subDays(rand(1, 90)),
     ]);
 
     $user->skills()->attach($this->skills->random(rand(0, 7)));
 
-    factory(UserProfile::class)->create([
+    /* factory(UserProfile::class)->create([
         'user_id' => $user->id,
         'profession_id' => rand(0, 2) ? $this->professions->random()->id : null,
+    ]); */
+
+    // 2-40 Actualizar el perfil del usuario ya existente
+    $user->profile->update([
+      'profession_id' => rand(0, 2) ? $this->professions->random()->id : null,
     ]);
   }
 }

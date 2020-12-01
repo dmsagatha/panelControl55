@@ -45,9 +45,9 @@ class UpdateUsersTest extends TestCase
 
     // make() - Crea una nueva instancia del Modelo UserProfile
     // sin persistirlo en la bd
-    $user->profile()->save(factory(UserProfile::class)->make([
+    $user->profile->update([
         'profession_id' => $oldProfession->id,
-    ]));
+    ]);
 
     $oldSkill1 = factory(Skill::class)->create();
     $oldSkill2 = factory(Skill::class)->create();
