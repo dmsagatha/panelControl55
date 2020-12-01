@@ -12,7 +12,7 @@ class CreateUserProfilesTable extends Migration
       $table->id();
 
       // Al eliminar un usuario, eliminar el perfil
-      $table->foreignId('user_id')->constrained()->onDelete('cascade');
+      $table->foreignId('user_id')->unique()->constrained()->onDelete('cascade');
       $table->foreignId('profession_id')
           ->nullable()
           ->constrained()
