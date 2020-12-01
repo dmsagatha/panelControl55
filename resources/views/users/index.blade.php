@@ -23,10 +23,10 @@
       <table class="table table-sm">
         <thead class="thead-dark text-center">
           <tr>
-            <th scope="col"># <span class="oi oi-caret-bottom"></span><span class="oi oi-caret-top"></span></th>
-            <th scope="col" class="sort-desc">Nombre <span class="oi oi-caret-bottom"></span><span class="oi oi-caret-top"></span></th>
-            <th scope="col">Correo electrónico <span class="oi oi-caret-bottom"></span><span class="oi oi-caret-top"></span></th>
-            <th scope="col">Fechas <span class="oi oi-caret-bottom"></span><span class="oi oi-caret-top"></span></th>
+            <th scope="col">#</th>
+            <th scope="col"><a href="#" class="{{ $sortable->classes('name') }}">Nombre <i class="icon-sort"></i></a></th>
+            <th scope="col"><a href="#" class="{{ $sortable->classes('email') }}">Correo electrónico <i class="icon-sort"></i></a></th>
+            <th scope="col"><a href="#" class="{{ $sortable->classes('created_at') }}">Fechas <i class="icon-sort"></i></a></th>
             <th scope="col" class="th-actions">Acciones</th>
           </tr>
         </thead>
