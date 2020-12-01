@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{User, Profession, Skill};
+use App\Models\{User, Profession, Skill, Sortable};
 use App\Models\UserFilter;
 use App\Http\Requests\{UserCreateRequest, UserUpdateRequest};
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-  public function index(Request $request, UserFilter $filters)
+  public function index(Request $request, UserFilter $filters, Sortable $sortable)
   {
     // 2-38 Creación de la clase QueryFilter - UserFilter
     // 2-39 Filtros complejos con subconsultas de SQL y uso de macros
@@ -20,12 +20,15 @@ class UserController extends Controller
         ->orderByDesc('created_at')
         ->paginate()
         ->appends($filters->valid());
+    
+    $sortable->setCurrentOrder(request('order'), request('direction'));
 
     return view('users.index', [
       'users'  => $users,
       'view'   => 'index',
       'skills' => Skill::orderBy('name')->get(),
-      'checkedSkills' => collect(request('skills'))
+      'checkedSkills' => collect(request('skills')),
+      'sortable' => $sortable,
     ]);
   }
 
