@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{User, Profession, Skill, Sortable};
-use App\Models\UserFilter;
+use App\Models\{User, Profession, Skill, Sortable, UserFilter};
 use App\Http\Requests\{UserCreateRequest, UserUpdateRequest};
 use Illuminate\Http\Request;
 
@@ -32,7 +31,7 @@ class UserController extends Controller
     ]);
   }
 
-  public function trashed()
+  public function trashed(Sortable $sortable)
   {
     $users = User::with('team', 'skills', 'profile.profession')
         ->onlyTrashed()
@@ -41,6 +40,7 @@ class UserController extends Controller
     return view('users.index', [
       'users' => $users,
       'view'  => 'trash',
+      'sortable' => $sortable,
     ]);
   }
   
