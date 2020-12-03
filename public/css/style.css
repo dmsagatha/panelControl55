@@ -1,13 +1,35 @@
 body {
   padding-top: 60px;
+  background-color: #f5f8fa;
 }
 
 .navbar-logo {
   margin-right: 24px;
 }
 
+.btn-primary {
+  background-color: #1b739a;
+  border-color: #1b739a;
+}
+
+.btn-primary:hover {
+  background-color: #165c7b;
+  border-color: #165c7b;
+}
+
+.pagination .page-item.active .page-link {
+  color: #fff;
+  background-color: #1b739a;
+  border-color: #1b739a;
+}
+
+.pagination .page-item .page-link {
+  color: #1b739a;
+}
+
 .table {
   margin: 24px 0;
+  background-color: #fff;
   border-bottom: 1px solid #DEE2E5;
 }
 
@@ -37,7 +59,7 @@ body {
 }
 
 .table tbody td {
-  color: #969ea2;
+  color: #717b7f;
   vertical-align: middle;
 }
 
@@ -106,7 +128,7 @@ body {
 .skills-list {
   position: absolute;
   z-index: 1;
-  top: 99%;
+  top: 100%;
   left: 0;
   padding: 0;
   border: 1px solid transparent;
@@ -213,4 +235,27 @@ body {
 
 .link-sortable.link-sorted-down .icon-sort {
   background-image: url(/images/sorted-down.png?892a04a6217585a4080bd3228913fdfb);
+}
+
+.footer {
+  margin-top: 2rem;
+  background-color: #e0eaf1;
+  padding: 1rem 0;
+  color: rgba(99, 107, 111, 0.75);
+  -webkit-box-shadow: 0 2px 6px inset rgba(142, 180, 203, 0.5);
+          box-shadow: 0 2px 6px inset rgba(142, 180, 203, 0.5);
+}
+
+@media (min-width: 980px) {
+  main.container {
+    min-height: 80vh;
+  }
+
+  .card-body {
+    padding: 1.25rem 2.5rem;
+  }
+
+  .form-group {
+    margin-bottom: 2rem;
+  }
 }
