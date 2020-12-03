@@ -12,18 +12,16 @@ class UserController extends Controller
   {
     // 2-44 Orden dinámico de registros
     // 2-45 Validación para el orden dinámico
+    // 2-46 Combinando la funcionalidad de filtros, orden dinámico y paginación
     $users = User::query()
-        /* ->when($request->routeIs('users.trashed'), function ($q) {
-          $q->onlyTrashed();
-        }) */
         ->onlyTrashedIf($request->routeIs('users.trashed'))   //QueryBuilder
         ->with('team', 'skills', 'profile.profession')
         ->filterBy($filters, $request->only(['state', 'role', 'search', 'skills', 'from', 'to', 'order', 'direction']))
         ->orderByDesc('created_at')
         ->paginate()
         ->appends($filters->valid());
-    
-    $sortable->setCurrentOrder(request('order'), request('direction'));
+
+    $sortable->appends($filters->valid());
 
     return view('users.index', [
       'view'   => $request->routeIs('users.trashed') ? 'trash' : 'index',
