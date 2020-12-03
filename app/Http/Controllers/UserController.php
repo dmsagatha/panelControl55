@@ -10,11 +10,11 @@ class UserController extends Controller
 {
   public function index(Request $request, UserFilter $filters, Sortable $sortable)
   {
-    // 2-38 Creación de la clase QueryFilter - UserFilter
-    // 2-39 Filtros complejos con subconsultas de SQL y uso de macros
-    // 2-40 Filtros por rango de fechas
     // 2-44 Orden dinámico de registros
     $users = User::query()
+        ->when($request->routeIs('users.trashed'), function ($q) {
+          $q->onlyTrashed();
+        })
         ->with('team', 'skills', 'profile.profession')
         ->filterBy($filters, $request->only(['state', 'role', 'search', 'skills', 'from', 'to']))
         ->when(request('order'), function ($q) {
@@ -28,23 +28,10 @@ class UserController extends Controller
     $sortable->setCurrentOrder(request('order'), request('direction'));
 
     return view('users.index', [
+      'view'   => $request->routeIs('users.trashed') ? 'trash' : 'index',
       'users'  => $users,
-      'view'   => 'index',
       'skills' => Skill::orderBy('name')->get(),
       'checkedSkills' => collect(request('skills')),
-      'sortable' => $sortable,
-    ]);
-  }
-
-  public function trashed(Sortable $sortable)
-  {
-    $users = User::with('team', 'skills', 'profile.profession')
-        ->onlyTrashed()
-        ->paginate();
-
-    return view('users.index', [
-      'users' => $users,
-      'view'  => 'trash',
       'sortable' => $sortable,
     ]);
   }
