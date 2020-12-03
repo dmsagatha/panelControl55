@@ -11,17 +11,15 @@ class UserController extends Controller
   public function index(Request $request, UserFilter $filters, Sortable $sortable)
   {
     // 2-44 Orden dinámico de registros
+    // 2-45 Validación para el orden dinámico
     $users = User::query()
-        ->when($request->routeIs('users.trashed'), function ($q) {
+        /* ->when($request->routeIs('users.trashed'), function ($q) {
           $q->onlyTrashed();
-        })
+        }) */
+        ->onlyTrashedIf($request->routeIs('users.trashed'))   //QueryBuilder
         ->with('team', 'skills', 'profile.profession')
-        ->filterBy($filters, $request->only(['state', 'role', 'search', 'skills', 'from', 'to']))
-        ->when(request('order'), function ($q) {
-            $q->orderBy(request('order'), request('direction', 'asc'));
-        }, function ($q) {
-            $q->orderByDesc('created_at');
-        })
+        ->filterBy($filters, $request->only(['state', 'role', 'search', 'skills', 'from', 'to', 'order', 'direction']))
+        ->orderByDesc('created_at')
         ->paginate()
         ->appends($filters->valid());
     
