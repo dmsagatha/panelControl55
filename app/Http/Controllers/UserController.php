@@ -2,26 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{User, Profession, Skill, Sortable, UserFilter};
+use App\Models\{User, Profession, Skill, Sortable};
 use App\Http\Requests\{UserCreateRequest, UserUpdateRequest};
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-  public function index(Request $request, UserFilter $filters, Sortable $sortable)
+  public function index(Request $request, Sortable $sortable)
   {
     // 2-44 Orden dinámico de registros
     // 2-45 Validación para el orden dinámico
     // 2-46 Combinando la funcionalidad de filtros, orden dinámico y paginación
+    // 2-49 Refactorización para reducir duplicación en los controladores
     $users = User::query()
-        ->onlyTrashedIf($request->routeIs('users.trashed'))   //QueryBuilder
         ->with('team', 'skills', 'profile.profession')
-        ->filterBy($filters, $request->only(['state', 'role', 'search', 'skills', 'from', 'to', 'order']))
+        ->onlyTrashedIf($request->routeIs('users.trashed'))   //QueryBuilder
+        ->applyFilters()    // QueryBuilder
         ->orderByDesc('created_at')
-        ->paginate()
-        ->appends($filters->valid());
+        ->paginate();
 
-    $sortable->appends($filters->valid());
+    $sortable->appends($users->parameters());
 
     return view('users.index', [
       'view'   => $request->routeIs('users.trashed') ? 'trash' : 'index',
