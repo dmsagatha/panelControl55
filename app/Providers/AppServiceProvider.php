@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Sortable;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +28,8 @@ class AppServiceProvider extends ServiceProvider
         $this->addBinding($subquery->getBindings());
         $this->where(DB::raw("({$subquery->toSql()})"), $value);
     }); */
+
+    $this->app->bind(LengthAwarePaginator::class, \App\LengthAwarePaginator::class);
   }
 
   /**

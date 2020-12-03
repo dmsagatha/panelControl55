@@ -38,11 +38,6 @@ class User extends Authenticatable
     return new UserQuery($query);
   }
 
-  public function scopeFilterBy($query, QueryFilter $filters, array $data)
-  {
-    return $filters->applyTo($query, $data);
-  }
-
   /**
    * The attributes that should be hidden for arrays.
    *
@@ -52,15 +47,14 @@ class User extends Authenticatable
     'password', 'remember_token',
   ];
 
-  public function isAdmin()
-  {
-    // return $this->email === 'superadmin@admin.net';
-    return $this->role === 'admin';
-  }
-
   protected $casts = [
     'active' => 'bool',
   ];
+
+  public function isAdmin()
+  {
+    return $this->role === 'admin';
+  }
 
   public function setStateAttribute($value)
   {
