@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use App\Models\Sortable;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class SorteableTest extends TestCase
 {

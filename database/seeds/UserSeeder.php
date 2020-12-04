@@ -1,7 +1,8 @@
 <?php
 
-use App\Models\{User, UserProfile, Profession, Skill, Team};
+use App\Models\Login;
 use Illuminate\Database\Seeder;
+use App\Models\{User, UserProfile, Profession, Skill, Team};
 
 class UserSeeder extends Seeder
 {
@@ -83,6 +84,10 @@ class UserSeeder extends Seeder
     // 2-40 Actualizar el perfil del usuario ya existente
     $user->profile->update([
       'profession_id' => rand(0, 2) ? $this->professions->random()->id : null,
+    ]);
+
+    factory(Login::class)->times(rand(1, 10))->create([
+        'user_id' => $user->id,
     ]);
   }
 }
