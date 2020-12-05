@@ -11,9 +11,10 @@ class UserController extends Controller
   public function index(Request $request, Sortable $sortable)
   {
     // 2-49 Refactorización para reducir duplicación en los controladores
-    // 2-51 Selección con subconsultas de SQL en Eloquent ORM
+    // 2-51-52 Selección con subconsultas de SQL en Eloquent ORM
     $users = User::query()
-        ->with('team', 'skills', 'profile.profession', 'lastLogin')
+        ->with('team', 'skills', 'profile.profession')
+        ->withLastLogin()    // QueryBuilder
         ->onlyTrashedIf($request->routeIs('users.trashed'))   //QueryBuilder
         ->applyFilters()    // QueryBuilder
         ->orderByDesc('created_at')
