@@ -25,7 +25,7 @@ class CreateUsersTest extends TestCase
   ];
   
     /** @test */
-    function it_loads_the_new_users_page()
+    public function it_loads_the_new_users_page()
     {
         $profession = factory(Profession::class)->create();
 
@@ -45,7 +45,7 @@ class CreateUsersTest extends TestCase
     }
 
     /** @test */
-    function it_creates_a_new_user()
+    public function it_creates_a_new_user()
     {
         $profession = factory(Profession::class)->create();
 
@@ -94,7 +94,7 @@ class CreateUsersTest extends TestCase
     }
 
     /** @test */
-    function the_twitter_field_is_optional()
+    public function the_twitter_field_is_optional()
     {
         $this->post('/usuarios/', $this->withData([
         'twitter' => null,
@@ -114,7 +114,7 @@ class CreateUsersTest extends TestCase
     }
 
     /** @test */
-    function the_role_field_is_optional()
+    public function the_role_field_is_optional()
     {
         $this->post('/usuarios/', $this->withData([
         'role' => null,
@@ -127,7 +127,7 @@ class CreateUsersTest extends TestCase
     }
 
     /** @test */
-    function the_role_must_be_valid()
+    public function the_role_must_be_valid()
     {
         $this->handleValidationExceptions();
 
@@ -139,7 +139,7 @@ class CreateUsersTest extends TestCase
     }
 
     /** @test */
-    function the_profession_id_field_is_optional()
+    public function the_profession_id_field_is_optional()
     {
         $this->post('/usuarios/', $this->withData([
         'profession_id' => null,
@@ -159,7 +159,7 @@ class CreateUsersTest extends TestCase
     }
 
     /** @test */
-    function the_user_is_redirected_to_the_previous_page_when_the_validation_fails()
+    public function the_user_is_redirected_to_the_previous_page_when_the_validation_fails()
     {
         $this->handleValidationExceptions();
 
@@ -169,7 +169,7 @@ class CreateUsersTest extends TestCase
     }
 
     /** @test */
-    function the_name_is_required()
+    public function the_name_is_required()
     {
         $this->handleValidationExceptions();
 
@@ -186,7 +186,7 @@ class CreateUsersTest extends TestCase
     }
 
     /** @test */
-    function the_email_is_required()
+    public function the_email_is_required()
     {
         $this->handleValidationExceptions();
 
@@ -200,7 +200,7 @@ class CreateUsersTest extends TestCase
     }
 
     /** @test */
-    function the_email_must_be_valid()
+    public function the_email_must_be_valid()
     {
         $this->handleValidationExceptions();
     
@@ -213,7 +213,7 @@ class CreateUsersTest extends TestCase
     }
 
     /** @test */
-    function the_email_must_be_unique()
+    public function the_email_must_be_unique()
     {
         $this->handleValidationExceptions();
     
@@ -230,7 +230,7 @@ class CreateUsersTest extends TestCase
     }
 
     /** @test */
-    function the_password_is_required()
+    public function the_password_is_required()
     {
         $this->handleValidationExceptions();
         
@@ -244,7 +244,7 @@ class CreateUsersTest extends TestCase
     }
 
     /** @test */
-    function the_profession_must_be_valid()
+    public function the_profession_must_be_valid()
     {
         $this->handleValidationExceptions();
 
@@ -257,7 +257,7 @@ class CreateUsersTest extends TestCase
     }
 
     /** @test */
-    function only_not_deleted_professions_can_be_selected()
+    public function only_not_deleted_professions_can_be_selected()
     {
         $this->withExceptionHandling();
 
@@ -276,7 +276,7 @@ class CreateUsersTest extends TestCase
     }
 
     /** @test */
-    function the_skills_must_be_an_array()
+    public function the_skills_must_be_an_array()
     {
         $this->handleValidationExceptions();
 
@@ -289,7 +289,7 @@ class CreateUsersTest extends TestCase
     }
 
     /** @test */
-    function the_skills_must_be_valid()
+    public function the_skills_must_be_valid()
     {
         $this->handleValidationExceptions();
 
@@ -305,7 +305,7 @@ class CreateUsersTest extends TestCase
     }
 
     /** @test */
-    function the_state_is_required()
+    public function the_state_is_required()
     {
         $this->handleValidationExceptions();
 
@@ -317,7 +317,7 @@ class CreateUsersTest extends TestCase
     }
 
     /** @test */
-    function the_state_must_be_valid()
+    public function the_state_must_be_valid()
     {
         $this->handleValidationExceptions();
 

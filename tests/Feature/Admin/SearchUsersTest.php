@@ -13,7 +13,7 @@ class SearchUsersTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    function search_users_by_name()
+    public function search_users_by_name()
     {
         $john = factory(User::class)->create([
         'name'  => 'John',
@@ -33,7 +33,7 @@ class SearchUsersTest extends TestCase
     }
 
     /** @test */
-    function partial_search_by_name()
+    public function partial_search_by_name()
     {
         $john = factory(User::class)->create([
         'name' => 'John'
@@ -51,7 +51,7 @@ class SearchUsersTest extends TestCase
     }
 
     /** @test */
-    function search_users_by_email()
+    public function search_users_by_email()
     {
         $john = factory(User::class)->create([
         'email' => 'john@example.com',
@@ -69,7 +69,7 @@ class SearchUsersTest extends TestCase
     }
 
     /** @test */
-    function show_results_with_a_partial_search_by_email()
+    public function show_results_with_a_partial_search_by_email()
     {
         $john = factory(User::class)->create([
         'email' => 'john@example.com',
@@ -87,7 +87,7 @@ class SearchUsersTest extends TestCase
     }
 
     /** @test */
-    function search_users_by_team_name()
+    public function search_users_by_team_name()
     {
         $john = factory(User::class)->create([
         'name' => 'John',
@@ -119,7 +119,7 @@ class SearchUsersTest extends TestCase
     }
 
     /** @test */
-    function partial_search_by_team_name()
+    public function partial_search_by_team_name()
     {
         $john = factory(User::class)->create([
         'name' => 'John',

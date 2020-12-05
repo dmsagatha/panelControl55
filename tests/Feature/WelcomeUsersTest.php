@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class WelcomeUsersTest extends TestCase
 {
     /** @test */
-    function it_welcomes_users_with_nickname()
+    public function it_welcomes_users_with_nickname()
     {
         $this->get('saludo/doris/agatha')
         ->assertStatus(200)
@@ -17,7 +17,7 @@ class WelcomeUsersTest extends TestCase
     }
   
     /** @test */
-    function it_welcomes_users_without_nickname()
+    public function it_welcomes_users_without_nickname()
     {
         $this->get('saludo/Doris')
         ->assertStatus(200)

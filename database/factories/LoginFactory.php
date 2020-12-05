@@ -6,7 +6,7 @@ use App\Models\Login;
 use Faker\Generator as Faker;
 
 $factory->define(Login::class, function (Faker $faker) {
-    return [
+  return [
     'created_at' => $faker->dateTime('now', 'America/Bogota'),
   ];
 });

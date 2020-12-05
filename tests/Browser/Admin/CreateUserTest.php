@@ -14,7 +14,7 @@ class CreateUserTest extends DuskTestCase
     use DatabaseMigrations;
 
     /** @test */
-    function a_user_can_be_created()
+    public function a_user_can_be_created()
     {
         $profession = factory(Profession::class)->create();
         $skillA = factory(Skill::class)->create();

@@ -13,7 +13,7 @@ class DeleteProfessionsTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    function it_deletes_a_profession()
+    public function it_deletes_a_profession()
     {
         $profession = factory(Profession::class)->create();
 
@@ -26,7 +26,7 @@ class DeleteProfessionsTest extends TestCase
     }
 
     /** @test */
-    function a_profession_associated_to_a_profile_cannot_be_deleted()
+    public function a_profession_associated_to_a_profile_cannot_be_deleted()
     {
         $this->withExceptionHandling();
 

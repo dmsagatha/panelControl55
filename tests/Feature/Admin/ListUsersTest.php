@@ -12,7 +12,7 @@ class ListUsersTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    function it_shows_the_users_list()
+    public function it_shows_the_users_list()
     {
         factory(User::class)->create([
       'name' => 'Jon'
@@ -32,7 +32,7 @@ class ListUsersTest extends TestCase
     }
 
     /** @test */
-    function it_paginates_the_users()
+    public function it_paginates_the_users()
     {
         factory(User::class)->create([
         'name' => 'Tercer Usuario',
@@ -82,7 +82,7 @@ class ListUsersTest extends TestCase
     }
     
     /** @test */
-    function users_are_ordered_by_name()
+    public function users_are_ordered_by_name()
     {
         factory(User::class)->create(['name' => 'John Doe']);
         factory(User::class)->create(['name' => 'Richard Roe']);
@@ -104,7 +104,7 @@ class ListUsersTest extends TestCase
     }
 
     /** @test */
-    function users_are_ordered_by_email()
+    public function users_are_ordered_by_email()
     {
         factory(User::class)->create(['email' => 'john.doe@example.com']);
         factory(User::class)->create(['email' => 'richard.roe@example.com']);
@@ -126,7 +126,7 @@ class ListUsersTest extends TestCase
     }
 
     /** @test */
-    function users_are_ordered_by_registration_date()
+    public function users_are_ordered_by_registration_date()
     {
         factory(User::class)->create(['name' => 'John Doe', 'created_at' => now()->subDays(2)]);
         factory(User::class)->create(['name' => 'Jane Doe', 'created_at' => now()->subDays(5)]);
@@ -148,7 +148,7 @@ class ListUsersTest extends TestCase
     }
 
     /** @test */
-    function users_are_ordered_by_login_date()
+    public function users_are_ordered_by_login_date()
     {
         factory(Login::class)->create([
         'created_at' => now()->subDays(3),
@@ -179,7 +179,7 @@ class ListUsersTest extends TestCase
     }
 
     /** @test */
-    function invalid_order_query_data_is_ignored_and_the_default_order_is_used_instead()
+    public function invalid_order_query_data_is_ignored_and_the_default_order_is_used_instead()
     {
         factory(User::class)->create(['name' => 'John Doe', 'created_at' => now()->subDays(2)]);
         factory(User::class)->create(['name' => 'Jane Doe', 'created_at' => now()->subDays(5)]);
@@ -227,7 +227,7 @@ class ListUsersTest extends TestCase
     }
 
     /** @test */
-    function it_shows_a_default_message_if_the_users_list_is_empty()
+    public function it_shows_a_default_message_if_the_users_list_is_empty()
     {
         $this->get('/usuarios')
         ->assertStatus(200)
@@ -235,7 +235,7 @@ class ListUsersTest extends TestCase
     }
 
     /** @test */
-    function it_shows_the_deleted_users()
+    public function it_shows_the_deleted_users()
     {
         factory(User::class)->create([
         'name' => 'Jon',

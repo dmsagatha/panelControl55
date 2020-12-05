@@ -13,7 +13,7 @@ class UserTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    function gets_the_last_login_datetime_of_each_user()
+    public function gets_the_last_login_datetime_of_each_user()
     {
         $john = factory(User::class)->create(['name' => 'John']);
         factory(Login::class)->create([

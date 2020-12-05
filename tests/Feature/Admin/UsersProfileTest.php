@@ -22,7 +22,7 @@ class UsersProfileTest extends TestCase
   ];
 
     /** @test */
-    function a_user_can_edit_its_profile()
+    public function a_user_can_edit_its_profile()
     {
         $user = factory(User::class)->create();
 
@@ -57,7 +57,7 @@ class UsersProfileTest extends TestCase
     }
 
     /** @test */
-    function the_user_cannot_change_its_role()
+    public function the_user_cannot_change_its_role()
     {
         $user = factory(User::class)->create([
       'role' => 'user'
@@ -76,7 +76,7 @@ class UsersProfileTest extends TestCase
     }
 
     /** @test */
-    function the_user_cannot_change_its_password()
+    public function the_user_cannot_change_its_password()
     {
         factory(User::class)->create([
       'password' => bcrypt('old123'),

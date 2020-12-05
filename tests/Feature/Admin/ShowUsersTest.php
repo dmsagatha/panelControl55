@@ -12,7 +12,7 @@ class ShowUsersTest extends TestCase
     use RefreshDatabase;
   
     /** @test */
-    function it_displays_the_users_details()
+    public function it_displays_the_users_details()
     {
         $user = factory(User::class)->create([
       'name' => 'Super Admin',
@@ -24,7 +24,7 @@ class ShowUsersTest extends TestCase
     }
 
     /** @test */
-    function it_displays_a_404_error_if_the_user_is_not_found()
+    public function it_displays_a_404_error_if_the_user_is_not_found()
     {
         $this->withExceptionHandling();
     

@@ -8,7 +8,7 @@ use Tests\TestCase;
 class SortableColumnTest extends TestCase
 {
     /** @test */
-    function validates_sortable_values()
+    public function validates_sortable_values()
     {
         $rule = new SortableColumn(['id', 'name', 'email']);
 

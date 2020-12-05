@@ -26,7 +26,7 @@ class UpdateUsersTest extends TestCase
   ];
 
     /** @test */
-    function it_loads_the_edit_user_page()
+    public function it_loads_the_edit_user_page()
     {
         $user = factory(User::class)->create();
 
@@ -40,7 +40,7 @@ class UpdateUsersTest extends TestCase
     }
 
     /** @test */
-    function it_updates_a_user()
+    public function it_updates_a_user()
     {
         $user = factory(User::class)->create();
 
@@ -96,7 +96,7 @@ class UpdateUsersTest extends TestCase
     }
 
     /** @test */
-    function it_detaches_all_the_skills_if_none_is_checked()
+    public function it_detaches_all_the_skills_if_none_is_checked()
     {
         $user = factory(User::class)->create();
 
@@ -111,7 +111,7 @@ class UpdateUsersTest extends TestCase
     }
 
     /** @test */
-    function the_name_is_required()
+    public function the_name_is_required()
     {
         $this->handleValidationExceptions();
     
@@ -128,7 +128,7 @@ class UpdateUsersTest extends TestCase
     }
 
     /** @test */
-    function the_email_must_be_valid()
+    public function the_email_must_be_valid()
     {
         $this->handleValidationExceptions();
     
@@ -145,7 +145,7 @@ class UpdateUsersTest extends TestCase
     }
 
     /** @test */
-    function the_email_must_be_unique()
+    public function the_email_must_be_unique()
     {
         $this->handleValidationExceptions();
     
@@ -166,7 +166,7 @@ class UpdateUsersTest extends TestCase
     }
 
     /** @test */
-    function the_users_email_can_stay_the_same()
+    public function the_users_email_can_stay_the_same()
     {
         $user = factory(User::class)->create([
         'email' => 'superadmin@admin.net'
@@ -186,7 +186,7 @@ class UpdateUsersTest extends TestCase
     }
 
     /** @test */
-    function the_password_is_optional()
+    public function the_password_is_optional()
     {
         $oldPassword = 'CLAVE_ANTERIOR';
 
@@ -208,7 +208,7 @@ class UpdateUsersTest extends TestCase
     }
 
     /** @test */
-    function the_role_is_required()
+    public function the_role_is_required()
     {
         $this->handleValidationExceptions();
 
@@ -225,7 +225,7 @@ class UpdateUsersTest extends TestCase
     }
 
     /** @test */
-    function the_state_is_required()
+    public function the_state_is_required()
     {
         $this->handleValidationExceptions();
 
@@ -242,7 +242,7 @@ class UpdateUsersTest extends TestCase
     }
 
     /** @test */
-    function the_state_must_be_valid()
+    public function the_state_must_be_valid()
     {
         $this->handleValidationExceptions();
 

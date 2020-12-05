@@ -13,7 +13,7 @@ class FilterUsersTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    function filter_users_by_state_active()
+    public function filter_users_by_state_active()
     {
         $activeUser = factory(User::class)->create();
         $inactiveUser = factory(User::class)->state('inactive')->create();
@@ -26,7 +26,7 @@ class FilterUsersTest extends TestCase
     }
 
     /** @test */
-    function filter_users_by_state_inactive()
+    public function filter_users_by_state_inactive()
     {
         $activeUser = factory(User::class)->create();
         $inactiveUser = factory(User::class)->state('inactive')->create();
@@ -41,7 +41,7 @@ class FilterUsersTest extends TestCase
     }
 
     /** @test */
-    function filter_users_by_role_admin()
+    public function filter_users_by_role_admin()
     {
         $admin = factory(User::class)->create(['role' => 'admin']);
 
@@ -55,7 +55,7 @@ class FilterUsersTest extends TestCase
     }
 
     /** @test */
-    function filter_users_by_role_user()
+    public function filter_users_by_role_user()
     {
         $admin = factory(User::class)->create(['role' => 'admin']);
 
@@ -71,7 +71,7 @@ class FilterUsersTest extends TestCase
     }
 
     /** @test */
-    function filter_users_by_skill()
+    public function filter_users_by_skill()
     {
         $php = factory(Skill::class)->create(['name' => 'php']);
         $css = factory(Skill::class)->create(['name' => 'css']);
@@ -96,7 +96,7 @@ class FilterUsersTest extends TestCase
     }
 
     /** @test */
-    function filter_users_created_from_date()
+    public function filter_users_created_from_date()
     {
         $newestUser = factory(User::class)->create([
         'created_at' => '2018-10-02 12:00:00',
@@ -126,7 +126,7 @@ class FilterUsersTest extends TestCase
     }
 
     /** @test */
-    function filter_users_created_to_date()
+    public function filter_users_created_to_date()
     {
         $newestUser = factory(User::class)->create([
         'created_at' => '2018-10-02 12:00:00',
