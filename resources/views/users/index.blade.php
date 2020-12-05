@@ -49,3 +49,7 @@
     <p>No hay usuarios registrados.</p>
   @endif
 @endsection
+
+@section('sidebar')
+  @parent
+@endsection
