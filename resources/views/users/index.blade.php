@@ -31,7 +31,10 @@
               <a href="{{ $sortable->url('email') }}" class="{{ $sortable->classes('email') }}">Correo <i class="icon-sort"></i></a>
             </th>
             <th scope="col">
-              <a href="{{ $sortable->url('date') }}" class="{{ $sortable->classes('created_at') }}">Registrado el <i class="icon-sort"></i></a>
+              <a href="{{ $sortable->url('date') }}" class="{{ $sortable->classes('date') }}">Registrado el <i class="icon-sort"></i></a>
+            </th>
+            <th scope="col">
+              <a href="{{ $sortable->url('login') }}" class="{{ $sortable->classes('login') }}">Último login <i class="icon-sort"></i></a>
             </th>
             <th scope="col" class="th-actions">Acciones</th>
           </tr>
