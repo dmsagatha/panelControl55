@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
   {
     Route::resourceVerbs([
       'create' => 'crear',
-      'edit'   => 'editar',
+      'edit' => 'editar',
     ]);
 
     /* Builder::macro('whereQuery', function ($subquery, $value) {

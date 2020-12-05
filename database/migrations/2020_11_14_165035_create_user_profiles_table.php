@@ -25,7 +25,7 @@ class CreateUserProfilesTable extends Migration
       $table->timestamps();
     });
   }
-  
+
   public function down()
   {
     Schema::dropIfExists('user_profiles');

@@ -15,14 +15,14 @@ class ProfessionController extends Controller
         ->get();
 
     return view('professions.index', [
-        'professions' => $professions,
+      'professions' => $professions,
     ]);
   }
 
   public function destroy(Profession $profession)
   {
     abort_if($profession->profiles()->exists(), 400, 'No se puede eliminar una profesión vinculada a un perfil.');
-    
+
     $profession->delete();
 
     return redirect('profesiones');

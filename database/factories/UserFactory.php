@@ -9,13 +9,13 @@ $factory->define(User::class, function (Faker $faker) {
   static $password;
 
   return [
-      'name'     => $faker->name,
-      'email'    => $faker->unique()->safeEmail,
-      'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
-      // 'password' => $password ?: $password = bcrypt('secret'),
-      'remember_token' => Str::random(10),
-      'role'  => $faker->randomElement(['user', 'admin']),
-      'active' => true,
+    'name' => $faker->name,
+    'email' => $faker->unique()->safeEmail,
+    'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
+    // 'password' => $password ?: $password = bcrypt('secret'),
+    'remember_token' => Str::random(10),
+    'role' => $faker->randomElement(['user', 'admin']),
+    'active' => true,
   ];
 });
 
@@ -31,6 +31,6 @@ $factory->afterCreating(User::class, function ($user, $faker) {
 // Definir un state para estado inactivo del campo active
 $factory->state(User::class, 'inactive', function ($faker) {
   return [
-      'active' => false,
+    'active' => false,
   ];
 });

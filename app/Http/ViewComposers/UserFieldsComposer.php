@@ -2,7 +2,8 @@
 
 namespace App\Http\ViewComposers;
 
-use App\Models\{Profession, Skill};
+use App\Models\Profession;
+use App\Models\Skill;
 use Illuminate\Contracts\View\View;
 
 class UserFieldsComposer

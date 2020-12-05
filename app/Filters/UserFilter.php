@@ -11,19 +11,19 @@ use App\Filters\QueryFilter;
 class UserFilter extends QueryFilter
 {
   protected $aliases = [
-      'date'  => 'created_at',
-      'login' => 'last_login_at',
+    'date' => 'created_at',
+    'login' => 'last_login_at',
   ];
-  
+
   public function rules(): array
   {
     return [
       'search' => 'filled',
-      'state'  => 'in:active,inactive',
-      'role'   => 'in:admin,user',
+      'state' => 'in:active,inactive',
+      'role' => 'in:admin,user',
       'skills' => 'array|exists:skills,id',
-      'from'   => 'date_format:d/m/Y',
-      'to'     => 'date_format:d/m/Y',
+      'from' => 'date_format:d/m/Y',
+      'to' => 'date_format:d/m/Y',
       'order' => [new SortableColumn(['name', 'email', 'date', 'login'])],
     ];
   }
@@ -31,7 +31,7 @@ class UserFilter extends QueryFilter
   public function search($query, $search)
   {
     return $query->where(function ($query) use ($search) {
-        $query->where('name', 'like', "%{$search}%")
+      $query->where('name', 'like', "%{$search}%")
           ->orWhere('email', 'like', "%{$search}%")
           ->orWhereHas('team', function ($query) use ($search) {
             $query->where('name', 'like', "%{$search}%");
@@ -43,7 +43,7 @@ class UserFilter extends QueryFilter
   {
     return $query->where('active', $state == 'active');
   }
-  
+
   public function skills($query, $skills)
   {
     /*

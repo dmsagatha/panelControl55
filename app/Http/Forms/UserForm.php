@@ -2,7 +2,9 @@
 
 namespace App\Http\Forms;
 
-use App\Models\{User, Profession, Skill};
+use App\Models\User;
+use App\Models\Profession;
+use App\Models\Skill;
 use Illuminate\Contracts\Support\Responsable;
 
 class UserForm implements Responsable

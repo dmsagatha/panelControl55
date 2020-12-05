@@ -2,7 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Models\{User, Role};
+use App\Models\User;
+use App\Models\Role;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -12,25 +13,25 @@ class UserUpdateRequest extends FormRequest
   {
     return true;
   }
-  
+
   public function rules()
   {
     return [
-      'name'     => 'required',
+      'name' => 'required',
       // 'email'    => 'required|email|unique:users,email,'.$user->id,
-      'email'    => [
-        'required', 'email', 
+      'email' => [
+        'required', 'email',
         Rule::unique('users')->ignore($this->user)
       ],
       'password' => '',
       'role' => [Rule::in(Role::getList())],   //Role.php
-      'bio'      => 'required',
-      'twitter'  => ['nullable', 'present', 'url'],
+      'bio' => 'required',
+      'twitter' => ['nullable', 'present', 'url'],
       'profession_id' => [
         'nullable', 'present',
         Rule::exists('professions', 'id')->whereNull('deleted_at')
       ],
-      'skills'   => [
+      'skills' => [
         'array',
         Rule::exists('skills', 'id'),
       ],
@@ -44,22 +45,22 @@ class UserUpdateRequest extends FormRequest
   {
     // $user->fill([
     $user->forceFill([
-        'name'  => $this->name,
-        'email' => $this->email,
-        'role'  => $this->role,
-        'state' => $this->state,
+      'name' => $this->name,
+      'email' => $this->email,
+      'role' => $this->role,
+      'state' => $this->state,
     ]);
 
     if ($this->password != null) {
-        $user->password = bcrypt($this->password);
+      $user->password = bcrypt($this->password);
     }
 
     $user->save();
 
     $user->profile->update([
-        'twitter' => $this->twitter,
-        'bio' => $this->bio,
-        'profession_id' => $this->profession_id,
+      'twitter' => $this->twitter,
+      'bio' => $this->bio,
+      'profession_id' => $this->profession_id,
     ]);
 
     $user->skills()->sync($this->skills ?: []);

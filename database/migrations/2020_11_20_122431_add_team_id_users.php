@@ -17,7 +17,7 @@ class AddTeamIdUsers extends Migration
           ->onDelete('set null');
     });
   }
-  
+
   public function down()
   {
     Schema::table('users', function (Blueprint $table) {

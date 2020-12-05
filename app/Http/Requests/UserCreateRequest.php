@@ -2,7 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Models\{User, Role};
+use App\Models\User;
+use App\Models\Role;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Http\FormRequest;
@@ -13,18 +14,18 @@ class UserCreateRequest extends FormRequest
   {
     return true;
   }
-  
+
   public function rules()
   {
     return [
-      'name'     => 'required',
-      'email'    => ['required', 'email', 'unique:users,email'],
+      'name' => 'required',
+      'email' => ['required', 'email', 'unique:users,email'],
       'password' => 'required',
       // 'role'     => 'in:admin,user',  //Que el rol este dentro de los valores
       // 'role'     => 'nullable|in:'.implode(',', Role::getList()),  //Role.php
-      'role'     => ['nullable', Rule::in(Role::getList())],  //Role.php
-      'bio'      => 'required',
-      'twitter'  => ['nullable', 'present', 'url'],
+      'role' => ['nullable', Rule::in(Role::getList())],  //Role.php
+      'bio' => 'required',
+      'twitter' => ['nullable', 'present', 'url'],
       //'profession_id' => 'exists:professions,id',
       // Regla: La profesión este presente en el campo id de la tabla
       // professions y además, que solamente las profesiones donde
@@ -34,13 +35,13 @@ class UserCreateRequest extends FormRequest
       // El campo profession_id puede ser nulo, pero estar presente
       // así contenga una cadena vacía
       // Regla: La profesión este presente en el campo id de la tabla
-      // professions y además, que solamente las profesiones donde 
+      // professions y además, que solamente las profesiones donde
       // el campo deleted_at sea Null, pueden ser seleccionadas
       'profession_id' => [
         'nullable', 'present',
         Rule::exists('professions', 'id')->whereNull('deleted_at')
       ],
-      'skills'   => [
+      'skills' => [
         'array',
         Rule::exists('skills', 'id'),
       ],
@@ -64,7 +65,7 @@ class UserCreateRequest extends FormRequest
 
     /* DB::transaction(function() {
       $data = $this->validated();
-      
+
       $user = new User([
         'name'     => $data['name'],
         'email'    => $data['email'],
@@ -96,24 +97,24 @@ class UserCreateRequest extends FormRequest
     // 2-18-Asignación masiva en Eloquent ORM a fondo (uso de fillable)
     DB::transaction(function () {
       $user = User::create([
-          'name'  => $this->name,
-          'email' => $this->email,
-          'password' => bcrypt($this->password),
-          'role' => $this->role ?? 'user',
-          // 'active' => $this->state == 'active',
-          'state'  => $this->state,  // 2-34 Usar campos y atributos diferentes
+        'name' => $this->name,
+        'email' => $this->email,
+        'password' => bcrypt($this->password),
+        'role' => $this->role ?? 'user',
+        // 'active' => $this->state == 'active',
+        'state' => $this->state,  // 2-34 Usar campos y atributos diferentes
       ]);
 
       $user->save();
 
       $user->profile()->create([
-          'bio' => $this->bio,
-          'twitter' => $this->twitter,    // 'present'
-          'profession_id' => $this->profession_id,    // 'present'
+        'bio' => $this->bio,
+        'twitter' => $this->twitter,    // 'present'
+        'profession_id' => $this->profession_id,    // 'present'
       ]);
 
       if ($this->skills != null) {
-          $user->skills()->attach($this->skills);   // Para usuario nuevo
+        $user->skills()->attach($this->skills);   // Para usuario nuevo
       }
     });
   }

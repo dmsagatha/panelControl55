@@ -19,7 +19,7 @@ class UserQuery extends QueryBuilder
         ->limit(1);
 
     $this->addSelect([
-        'last_login_at' => $subselect,
+      'last_login_at' => $subselect,
     ]);
 
     return $this;

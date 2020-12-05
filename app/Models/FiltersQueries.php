@@ -10,13 +10,13 @@ trait FiltersQueries
   public function filterBy(array $filters)
   {
     $rules = $this->filterRules();
-    
+
     $validator = Validator::make(array_intersect_key($filters, $rules), $rules);
 
     foreach ($validator->valid() as $name => $value) {
       $this->applyFilter($name, $value);   // search --> Search
     }
-    
+
     return $this;
   }
 

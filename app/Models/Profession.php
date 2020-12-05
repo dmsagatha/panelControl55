@@ -15,6 +15,6 @@ class Profession extends Model
 
   public function profiles()
   {
-      return $this->hasMany(UserProfile::class);
+    return $this->hasMany(UserProfile::class);
   }
 }

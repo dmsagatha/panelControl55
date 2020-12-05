@@ -19,22 +19,22 @@ class QueryBuilder extends Builder
   protected function newQueryFilter()
   {
     if (method_exists($this->model, 'newQueryFilter')) {
-        return $this->model->newQueryFilter();
+      return $this->model->newQueryFilter();
     }
 
-    if (class_exists($filtersClass = '\App\Filters\\'.class_basename($this->model).'Filter')) {
-        return new $filtersClass;
+    if (class_exists($filtersClass = '\App\Filters\\' . class_basename($this->model) . 'Filter')) {
+      return new $filtersClass;
     }
 
     throw new BadMethodCallException(
-        sprintf('No query filter was found for the model [%s]', get_class($this->model))
+      sprintf('No query filter was found for the model [%s]', get_class($this->model))
     );
   }
 
   public function filterBy(QueryFilter $filters, array $data)
   {
     $this->filters = $filters;
-    
+
     return $filters->applyTo($this, $data);
   }
 
@@ -49,7 +49,7 @@ class QueryBuilder extends Builder
   public function onlyTrashedIf($value)
   {
     if ($value) {
-        $this->onlyTrashed();
+      $this->onlyTrashed();
     }
 
     return $this;
@@ -60,7 +60,7 @@ class QueryBuilder extends Builder
     $paginator = parent::paginate($perPage, $columns, $pageName, $page);
 
     if ($this->filters) {
-        $paginator->appends($this->filters->valid());
+      $paginator->appends($this->filters->valid());
     }
 
     return $paginator;

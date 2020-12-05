@@ -9,23 +9,23 @@ use Tests\TestCase;
 
 class ListProfessionsTest extends TestCase
 {
-  use RefreshDatabase;
+    use RefreshDatabase;
 
-  /** @test */
-  function it_shows_the_professions_list()
-  {
-    factory(Profession::class)->create(['title' => 'Diseñador']);
+    /** @test */
+    public function it_shows_the_professions_list()
+    {
+        factory(Profession::class)->create(['title' => 'Diseñador']);
 
-    factory(Profession::class)->create(['title' => 'Programador']);
+        factory(Profession::class)->create(['title' => 'Programador']);
 
-    factory(Profession::class)->create(['title' => 'Administrador']);
+        factory(Profession::class)->create(['title' => 'Administrador']);
 
-    $this->get('/profesiones')
+        $this->get('/profesiones')
         ->assertStatus(200)
         ->assertSeeInOrder([
             'Administrador',
             'Diseñador',
             'Programador',
         ]);
-  }
+    }
 }

@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{User, Profession};
+use App\Models\User;
+use App\Models\Profession;
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller
@@ -12,8 +13,8 @@ class ProfileController extends Controller
     $user = User::first(); //or auth()->user()
 
     return view('profile.edit', [
-        'user' => $user,
-        'professions' => Profession::orderBy('title')->get(),
+      'user' => $user,
+      'professions' => Profession::orderBy('title')->get(),
     ]);
   }
 
@@ -34,14 +35,14 @@ class ProfileController extends Controller
     $user->profile->update($data); */
 
     $user->update([
-        'name'  => $request->name,
-        'email' => $request->email,
+      'name' => $request->name,
+      'email' => $request->email,
     ]);
 
     $user->profile->update([
-        'bio' => $request->bio,
-        'twitter' => $request->twitter,
-        'profession_id' => $request->profession_id,
+      'bio' => $request->bio,
+      'twitter' => $request->twitter,
+      'profession_id' => $request->profession_id,
     ]);
 
     return redirect()->route('users.index');

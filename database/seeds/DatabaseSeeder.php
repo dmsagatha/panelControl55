@@ -8,12 +8,12 @@ class DatabaseSeeder extends Seeder
   public function run()
   {
     $this->truncateTables([
-        'users',
-        'user_profiles',
-        'user_skill',
-        'skills',
-        'professions',
-        'teams',
+      'users',
+      'user_profiles',
+      'user_skill',
+      'skills',
+      'professions',
+      'teams',
     ]);
 
     $this->call([

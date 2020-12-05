@@ -1,6 +1,10 @@
 <?php
 
-use App\Models\{User, UserProfile, Profession, Skill, Team};
+use App\Models\User;
+use App\Models\UserProfile;
+use App\Models\Profession;
+use App\Models\Skill;
+use App\Models\Team;
 use Illuminate\Database\Seeder;
 
 class UserOriginalSeeder extends Seeder
@@ -11,7 +15,7 @@ class UserOriginalSeeder extends Seeder
     // $professions = DB::select('SELECT id FROM professions WHERE title = "Desarrollador back-end"');   // No recomendado
     // $professions = DB::select('SELECT id FROM professions WHERE title = ?', ['Desarrollador back-end']);
 
-    // Constructor de consultas Sql de Lravel - 
+    // Constructor de consultas Sql de Lravel -
     // take obtener un solo resultado
     // $professions = DB::table('professions')->select('id')->take(1)->get();
     // dd($professions->first()->id);
@@ -66,11 +70,11 @@ class UserOriginalSeeder extends Seeder
     // 2-22 - Listado avanzado de usuarios
     $professions = Profession::all();
     $skills = Skill::all();
-    $teams  = Team::all();
+    $teams = Team::all();
 
     // 2-04 - Selects dinámicos
     $user = factory(User::class)->create([
-      'name'  => 'Super Admin',
+      'name' => 'Super Admin',
       'email' => 'superadmin@admin.net',
       'password' => bcrypt('superadmin'),
       // 'is_admin' => true,
@@ -87,7 +91,7 @@ class UserOriginalSeeder extends Seeder
 
       // 2-22 - Listado avanzado de usuarios
       // 'profession_id' => $professions->where('title','Desarrollador back-end')->first()->id,
-      'profession_id' => $professions->firstWhere('title','Desarrollador back-end')->id,
+      'profession_id' => $professions->firstWhere('title', 'Desarrollador back-end')->id,
     ]);
 
     // Crear un perfil por cada usuario creado
@@ -117,7 +121,7 @@ class UserOriginalSeeder extends Seeder
     // 2-24 - Creación y asociación de tablas y modelos
     // Crear 999 Usuarios, asociar el Equipo y las Habilidades de
     // forma aleatoria y crear el Perfil asociado a dicho Usuario
-    foreach(range(1, 999) as $i) {
+    foreach (range(1, 999) as $i) {
       $user = factory(User::class)->create([
         'team_id' => rand(0, 2) ? null : $teams->random()->id,
       ]);

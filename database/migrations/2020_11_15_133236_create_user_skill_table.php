@@ -15,11 +15,11 @@ class CreateUserSkillTable extends Migration
       // las habilidades
       $table->foreignId('user_id')->constrained()->onDelete('cascade');
       $table->foreignId('skill_id')->constrained()->onDelete('cascade');
-      
+
       $table->timestamps();
     });
   }
-  
+
   public function down()
   {
     Schema::dropIfExists('user_skill');

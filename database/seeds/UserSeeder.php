@@ -2,7 +2,11 @@
 
 use App\Models\Login;
 use Illuminate\Database\Seeder;
-use App\Models\{User, UserProfile, Profession, Skill, Team};
+use App\Models\User;
+use App\Models\UserProfile;
+use App\Models\Profession;
+use App\Models\Skill;
+use App\Models\Team;
 
 class UserSeeder extends Seeder
 {
@@ -28,7 +32,7 @@ class UserSeeder extends Seeder
      * Crear 999 Usuarios, asociar un Equipo y Habilidades de
      * forma aleatoria y crear el Perfil asociado a dicho Usuario
     */
-    foreach(range(1, 39) as $i) {
+    foreach (range(1, 39) as $i) {
       $this->createRandomUser();
     }
   }
@@ -43,21 +47,21 @@ class UserSeeder extends Seeder
   protected function createAdmin()
   {
     $admin = factory(User::class)->create([
-        'name'  => 'Super Admin',
-        'email' => 'superadmin@admin.net',
-        'password' => bcrypt('superadmin'),
-        'role' => 'admin',
-        'created_at' => now(), //->addDay(),    // 1 día mas
-        'team_id' => $this->teams->firstWhere('name', 'Styde'),
-        'active' => true,
+      'name' => 'Super Admin',
+      'email' => 'superadmin@admin.net',
+      'password' => bcrypt('superadmin'),
+      'role' => 'admin',
+      'created_at' => now(), //->addDay(),    // 1 día mas
+      'team_id' => $this->teams->firstWhere('name', 'Styde'),
+      'active' => true,
     ]);
 
     $admin->skills()->attach($this->skills);
 
     $admin->profile->update([
-        'bio'     => 'Programador, editor',
-        'twitter' => 'https://twitter.com/superadmin',
-        'profession_id' => $this->professions->firstWhere('title','Desarrollador back-end')->id,
+      'bio' => 'Programador, editor',
+      'twitter' => 'https://twitter.com/superadmin',
+      'profession_id' => $this->professions->firstWhere('title', 'Desarrollador back-end')->id,
     ]);
   }
 
@@ -69,9 +73,9 @@ class UserSeeder extends Seeder
   protected function createRandomUser()
   {
     $user = factory(User::class)->create([
-        'team_id' => rand(0, 2) ? null : $this->teams->random()->id,
-        'active'  => rand(0, 3) ? true : false,
-        'created_at' => now()->subDays(rand(1, 90)),
+      'team_id' => rand(0, 2) ? null : $this->teams->random()->id,
+      'active' => rand(0, 3) ? true : false,
+      'created_at' => now()->subDays(rand(1, 90)),
     ]);
 
     $user->skills()->attach($this->skills->random(rand(0, 7)));
@@ -87,7 +91,7 @@ class UserSeeder extends Seeder
     ]);
 
     factory(Login::class)->times(rand(1, 10))->create([
-        'user_id' => $user->id,
+      'user_id' => $user->id,
     ]);
   }
 }

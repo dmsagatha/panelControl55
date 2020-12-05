@@ -2,7 +2,9 @@
 
 namespace App\Http\ViewComponents;
 
-use App\Models\{User, Profession, Skill};
+use App\Models\User;
+use App\Models\Profession;
+use App\Models\Skill;
 use Illuminate\Contracts\Support\Htmlable;
 
 class UserFields implements Htmlable
