@@ -5,9 +5,9 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-  public function run()
-  {
-    $this->truncateTables([
+    public function run()
+    {
+        $this->truncateTables([
         'users',
         'user_profiles',
         'user_skill',
@@ -16,22 +16,22 @@ class DatabaseSeeder extends Seeder
         'teams',
     ]);
 
-    $this->call([
+        $this->call([
       ProfessionSeeder::class,
       SkillSeeder::class,
       TeamSeeder::class,
       UserSeeder::class,
     ]);
-  }
-
-  protected function truncateTables(array $tables)
-  {
-    DB::statement('SET FOREIGN_KEY_CHECKS = 0;');
-
-    foreach ($tables as $table) {
-      DB::table($table)->truncate();
     }
 
-    DB::statement('SET FOREIGN_KEY_CHECKS = 1;');
-  }
+    protected function truncateTables(array $tables)
+    {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0;');
+
+        foreach ($tables as $table) {
+            DB::table($table)->truncate();
+        }
+
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1;');
+    }
 }

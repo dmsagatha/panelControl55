@@ -2,17 +2,18 @@
 
 namespace App\Http\ViewComposers;
 
-use App\Models\{Profession, Skill};
+use App\Models\Profession;
+use App\Models\Skill;
 use Illuminate\Contracts\View\View;
 
 class UserFieldsComposer
 {
-  public function compose(View $view)
-  {
-    $professions = Profession::orderBy('title', 'ASC')->get();
-    $skills = Skill::orderBy('name', 'ASC')->get();
-    $roles = trans('users.roles');
+    public function compose(View $view)
+    {
+        $professions = Profession::orderBy('title', 'ASC')->get();
+        $skills = Skill::orderBy('name', 'ASC')->get();
+        $roles = trans('users.roles');
 
-    $view->with(compact('professions', 'skills', 'roles'));
-  }
+        $view->with(compact('professions', 'skills', 'roles'));
+    }
 }

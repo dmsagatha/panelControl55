@@ -7,36 +7,36 @@ use Illuminate\Support\Facades\Validator;
 
 abstract class QueryFilter
 {
-  protected $valid = [];
+    protected $valid = [];
 
-  abstract public function rules(): array;
+    abstract public function rules(): array;
 
-  public function applyTo($query, array $filters)
-  {
-    $rules = $this->rules();
+    public function applyTo($query, array $filters)
+    {
+        $rules = $this->rules();
 
-    $validator = Validator::make(array_intersect_key($filters, $rules), $rules);
+        $validator = Validator::make(array_intersect_key($filters, $rules), $rules);
 
-    $this->valid = $validator->valid();
+        $this->valid = $validator->valid();
 
-    foreach ($this->valid as $name => $value) {
-      $this->applyFilter($query, $name, $value);
+        foreach ($this->valid as $name => $value) {
+            $this->applyFilter($query, $name, $value);
+        }
+
+        return $query;
     }
 
-    return $query;
-  }
-
-  protected function applyFilter($query, $name, $value)
-  {
-    if (method_exists($this, $method = Str::camel($name))) {
-      $this->$method($query, $value);
-    } else {
-      $query->where($name, $value);
+    protected function applyFilter($query, $name, $value)
+    {
+        if (method_exists($this, $method = Str::camel($name))) {
+            $this->$method($query, $value);
+        } else {
+            $query->where($name, $value);
+        }
     }
-  }
 
-  public function valid()
-  {
-    return $this->valid;
-  }
+    public function valid()
+    {
+        return $this->valid;
+    }
 }

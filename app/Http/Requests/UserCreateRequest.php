@@ -2,21 +2,22 @@
 
 namespace App\Http\Requests;
 
-use App\Models\{User, Role};
+use App\Models\User;
+use App\Models\Role;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserCreateRequest extends FormRequest
 {
-  public function authorize()
-  {
-    return true;
-  }
+    public function authorize()
+    {
+        return true;
+    }
   
-  public function rules()
-  {
-    return [
+    public function rules()
+    {
+        return [
       'name'     => 'required',
       'email'    => ['required', 'email', 'unique:users,email'],
       'password' => 'required',
@@ -34,7 +35,7 @@ class UserCreateRequest extends FormRequest
       // El campo profession_id puede ser nulo, pero estar presente
       // así contenga una cadena vacía
       // Regla: La profesión este presente en el campo id de la tabla
-      // professions y además, que solamente las profesiones donde 
+      // professions y además, que solamente las profesiones donde
       // el campo deleted_at sea Null, pueden ser seleccionadas
       'profession_id' => [
         'nullable', 'present',
@@ -48,54 +49,54 @@ class UserCreateRequest extends FormRequest
         Rule::in(['active', 'inactive']),
       ]
     ];
-  }
+    }
 
-  public function messages()
-  {
-    return [
+    public function messages()
+    {
+        return [
       'name.required' => 'El campo nombre es obligatorio'
     ];
-  }
+    }
 
-  public function createUser()
-  {
-    // validated() - Devuelve un array con los datos validados
-    // User::createUser($this->validated());
+    public function createUser()
+    {
+        // validated() - Devuelve un array con los datos validados
+        // User::createUser($this->validated());
 
-    /* DB::transaction(function() {
-      $data = $this->validated();
-      
-      $user = new User([
-        'name'     => $data['name'],
-        'email'    => $data['email'],
-        'password' => bcrypt($data['password']),
-      ]);
+        /* DB::transaction(function() {
+          $data = $this->validated();
 
-      // No adicionarlo en fillable()
-      $user->role = $data['role'] ?? 'user';
+          $user = new User([
+            'name'     => $data['name'],
+            'email'    => $data['email'],
+            'password' => bcrypt($data['password']),
+          ]);
 
-      $user->save();
+          // No adicionarlo en fillable()
+          $user->role = $data['role'] ?? 'user';
 
-      $user->profile()->create([
-        'bio' => $data['bio'],
-        //'twitter' => isset($data['twitter']) ? $data['twitter'] : null,
-        //'twitter' => $this->twitter,
-        //'twitter' => array_get($data, 'twitter'),
-        // 'twitter' => $data['twitter'] ?? null,
-        'twitter' => $data['twitter'],    // 'present'
-        // 'profession_id' => $data['profession_id'] ?? null,
-        'profession_id' => $data['profession_id'],    // 'present'
-      ]);
+          $user->save();
 
-      //$user->skills()->attach($data['skills'] ?? []);
-      if (! empty($data['skills'])) {
-        $user->skills()->attach($data['skills']);   // Para usuario nuevo
-      }
-    }); */
+          $user->profile()->create([
+            'bio' => $data['bio'],
+            //'twitter' => isset($data['twitter']) ? $data['twitter'] : null,
+            //'twitter' => $this->twitter,
+            //'twitter' => array_get($data, 'twitter'),
+            // 'twitter' => $data['twitter'] ?? null,
+            'twitter' => $data['twitter'],    // 'present'
+            // 'profession_id' => $data['profession_id'] ?? null,
+            'profession_id' => $data['profession_id'],    // 'present'
+          ]);
 
-    // 2-18-Asignación masiva en Eloquent ORM a fondo (uso de fillable)
-    DB::transaction(function () {
-      $user = User::create([
+          //$user->skills()->attach($data['skills'] ?? []);
+          if (! empty($data['skills'])) {
+            $user->skills()->attach($data['skills']);   // Para usuario nuevo
+          }
+        }); */
+
+        // 2-18-Asignación masiva en Eloquent ORM a fondo (uso de fillable)
+        DB::transaction(function () {
+            $user = User::create([
           'name'  => $this->name,
           'email' => $this->email,
           'password' => bcrypt($this->password),
@@ -104,17 +105,17 @@ class UserCreateRequest extends FormRequest
           'state'  => $this->state,  // 2-34 Usar campos y atributos diferentes
       ]);
 
-      $user->save();
+            $user->save();
 
-      $user->profile()->create([
+            $user->profile()->create([
           'bio' => $this->bio,
           'twitter' => $this->twitter,    // 'present'
           'profession_id' => $this->profession_id,    // 'present'
       ]);
 
-      if ($this->skills != null) {
-          $user->skills()->attach($this->skills);   // Para usuario nuevo
-      }
-    });
-  }
+            if ($this->skills != null) {
+                $user->skills()->attach($this->skills);   // Para usuario nuevo
+            }
+        });
+    }
 }

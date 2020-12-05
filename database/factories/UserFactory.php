@@ -6,9 +6,9 @@ use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 
 $factory->define(User::class, function (Faker $faker) {
-  static $password;
+    static $password;
 
-  return [
+    return [
       'name'     => $faker->name,
       'email'    => $faker->unique()->safeEmail,
       'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
@@ -22,15 +22,15 @@ $factory->define(User::class, function (Faker $faker) {
 // Después que se cree el Usuario, se ejecute la función anónima
 // Para crear un Perfil
 $factory->afterCreating(User::class, function ($user, $faker) {
-  // Obtener el objeto con el Perfil, luego guardarlo asociado
-  // al Usuario a través de la asociación profile()
-  $user->profile()->save(factory(UserProfile::class)->make());
+    // Obtener el objeto con el Perfil, luego guardarlo asociado
+    // al Usuario a través de la asociación profile()
+    $user->profile()->save(factory(UserProfile::class)->make());
 });
 
 // 2-34 Usar campos y atributos diferentes a los de la base de datos
 // Definir un state para estado inactivo del campo active
 $factory->state(User::class, 'inactive', function ($faker) {
-  return [
+    return [
       'active' => false,
   ];
 });

@@ -6,17 +6,17 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateTeamsTable extends Migration
 {
-  public function up()
-  {
-    Schema::create('teams', function (Blueprint $table) {
-      $table->id();
-      $table->string('name')->unique();
-      $table->timestamps();
-    });
-  }
+    public function up()
+    {
+        Schema::create('teams', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->unique();
+            $table->timestamps();
+        });
+    }
   
-  public function down()
-  {
-    Schema::dropIfExists('teams');
-  }
+    public function down()
+    {
+        Schema::dropIfExists('teams');
+    }
 }
