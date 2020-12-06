@@ -1,12 +1,13 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Models\Login;
-use Illuminate\Database\Seeder;
 use App\Models\User;
-use App\Models\UserProfile;
 use App\Models\Profession;
 use App\Models\Skill;
 use App\Models\Team;
+use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
 {
@@ -79,11 +80,6 @@ class UserSeeder extends Seeder
     ]);
 
     $user->skills()->attach($this->skills->random(rand(0, 7)));
-
-    /* factory(UserProfile::class)->create([
-        'user_id' => $user->id,
-        'profession_id' => rand(0, 2) ? $this->professions->random()->id : null,
-    ]); */
 
     // 2-40 Actualizar el perfil del usuario ya existente
     $user->profile->update([
