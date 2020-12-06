@@ -10,7 +10,10 @@ class CreateLoginsTable extends Migration
   {
     Schema::create('logins', function (Blueprint $table) {
       $table->id();
-      $table->foreignId('user_id')->constrained();
+
+      // Al eliminar un Usuario, eliminar los registros de
+      // inicio de sesión
+      $table->foreignId('user_id')->constrained()->onDelete('CASCADE');
       $table->timestamps();
     });
   }
