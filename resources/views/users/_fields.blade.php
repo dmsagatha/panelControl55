@@ -60,16 +60,14 @@
         class="form-check-input"
         type="checkbox"
         value="{{ $skill->id }}"
-        {{-- {{ $errors->any() ? old("skills.{$skill->id}") : $user->skills->contains($skill) ? 'checked' : '' }}> --}}
-        {{ $errors->any() ? old("skills.{$skill->id}") : ($user->skills->contains($skill) ? 'checked' : '') }}>
+        {{ ($errors->any() ? old("skills.{$skill->id}") : $user->skills->contains($skill)) ? 'checked' : '' }}>
     <label class="form-check-label" for="skill_{{ $skill->id }}">{{ $skill->name }}</label>
   </div>
 @endforeach
 {!! $errors->first('skills', '<div class="text-danger">:message</div>') !!}
 
 <h5 class="mt-3">Rol</h5>
-{{-- @foreach (['admin' => 'Admin', 'user' => 'Usuario'] as $role => $name) --}}
-{{-- @foreach (trans('users.roles') as $role => $name) --}}
+
 @foreach (trans('users.roles') as $role => $name)
   <div class="form-check form-check-inline">
     <input class="form-check-input"

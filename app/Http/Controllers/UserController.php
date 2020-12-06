@@ -20,7 +20,7 @@ class UserController extends Controller
         ->with('team', 'skills', 'profile.profession')
         ->withLastLogin()    // QueryBuilder
         ->onlyTrashedIf($request->routeIs('users.trashed'))   //QueryBuilder
-        ->applyFilters()    // QueryBuilder
+        ->applyFilters()     // QueryBuilder
         ->orderByDesc('created_at')
         ->paginate();
 

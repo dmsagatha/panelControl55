@@ -3,7 +3,7 @@
 @section('title', 'Editar usuario')
 
 @section('content')
-  @component('shared._card')
+  <x-card>
     @slot('header', 'Editar usuario')
     
     @include('shared._errors')
@@ -12,9 +12,6 @@
       @csrf @method('PUT')
       @include('users._fields')
       
-      {{-- 2-14-View Components y creación de directivas personalizadas para Laravel y Blade	 --}}
-      {{-- @render('UserFields', ['user' => $user]) --}}
-      
       <div class="card-header white white-text text-center btn-group-xs">
         <button type="submit" class="btn btn-success text-center">Actualizar usuario</button>
         <a href="{{ route('users.index') }}" class="card-link">
@@ -22,5 +19,5 @@
         </a>
       </div>
     </form>
-  @endcomponent
+  </x-card>
 @endsection

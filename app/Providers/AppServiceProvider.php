@@ -24,10 +24,7 @@ class AppServiceProvider extends ServiceProvider
       'edit' => 'editar',
     ]);
 
-    /* Builder::macro('whereQuery', function ($subquery, $value) {
-        $this->addBinding($subquery->getBindings());
-        $this->where(DB::raw("({$subquery->toSql()})"), $value);
-    }); */
+    Paginator::useBootstrap();
 
     $this->app->bind(LengthAwarePaginator::class, \App\LengthAwarePaginator::class);
   }
