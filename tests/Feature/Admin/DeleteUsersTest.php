@@ -3,8 +3,7 @@
 namespace Tests\Feature\Admin;
 
 use App\Models\User;
-use App\Models\UserProfile;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\Skill;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -17,21 +16,17 @@ class DeleteUsersTest extends TestCase
   {
     $user = factory(User::class)->create();
 
-    /* $user->profile()->save(factory(UserProfile::class)->create([
-      'user_id' => $user->id
-    ])); */
-
-    // Evitar que se cree un segundo usuario
-    // 'user_id' => factory(User::class), // UserProfileFactory
-    /* factory(UserProfile::class)->create([
-      'user_id' => $user->id
-    ]); */
+    $user->skills()->attach(factory(Skill::class)->create());
 
     $this->patch("usuarios/{$user->id}/papelera")
         ->assertRedirect('usuarios');
 
     // Opción 1
     $this->assertSoftDeleted('users', [
+      'id' => $user->id,
+    ]);
+
+    $this->assertSoftDeleted('user_skill', [
       'id' => $user->id,
     ]);
 
@@ -52,16 +47,6 @@ class DeleteUsersTest extends TestCase
       'deleted_at' => now()
     ]);
 
-    /* $user->profile()->save(factory(UserProfile::class)->create([
-      'user_id' => $user->id
-    ])); */
-
-    // Evitar que se cree un segundo usuario
-    // 'user_id' => factory(User::class), // UserProfileFactory
-    /* factory(UserProfile::class)->create([
-      'user_id' => $user->id
-    ]); */
-
     $this->delete("usuarios/{$user->id}")
         // ->assertRedirect('usuarios/papelera');
         ->assertRedirect('usuarios');
@@ -77,16 +62,6 @@ class DeleteUsersTest extends TestCase
     $user = factory(User::class)->create([
       'deleted_at' => null,
     ]);
-
-    // Evitar que se cree un segundo usuario
-    // 'user_id' => factory(User::class), // UserProfileFactory
-    /* factory(UserProfile::class)->create([
-      'user_id' => $user->id
-    ]); */
-
-    /* $user->profile()->save(factory(UserProfile::class)->create([
-      'user_id' => $user->id
-    ])); */
 
     $this->delete("usuarios/{$user->id}")
       ->assertStatus(404);

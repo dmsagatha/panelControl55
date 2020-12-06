@@ -80,7 +80,6 @@ class UserController extends Controller
   public function trash(User $user)
   {
     $user->delete();
-    $user->profile()->delete();
 
     return redirect()->route('users.index');
   }
