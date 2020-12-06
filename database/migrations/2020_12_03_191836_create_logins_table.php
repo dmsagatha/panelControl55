@@ -13,7 +13,7 @@ class CreateLoginsTable extends Migration
 
       // Al eliminar un Usuario, eliminar los registros de
       // inicio de sesión
-      $table->foreignId('user_id')->constrained()->onDelete('CASCADE');
+      $table->foreignId('user_id')->constrained()->onDelete('cascade');
       $table->timestamps();
     });
   }

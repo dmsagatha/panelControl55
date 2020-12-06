@@ -11,7 +11,7 @@ class CreateUserProfilesTable extends Migration
     Schema::create('user_profiles', function (Blueprint $table) {
       $table->id();
 
-      // Al eliminar un usuario, eliminar el perfil
+      // Al eliminar un Usuario, eliminar el Perfil
       $table->foreignId('user_id')->unique()->constrained()->onDelete('cascade');
       $table->foreignId('profession_id')
           ->nullable()

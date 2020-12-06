@@ -12,8 +12,8 @@ class CreateUserSkillTable extends Migration
       $table->id();
 
       // Si se elimina un Usuario, que se elimine la asociación
-      // con las habilidades
-      $table->foreignId('user_id')->constrained()->onDelete('CASCADE');
+      // con las Habilidades
+      $table->foreignId('user_id')->constrained()->onDelete('cascade');
       $table->foreignId('skill_id')->constrained();
 
       $table->softDeletes();
