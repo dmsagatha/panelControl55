@@ -11,17 +11,17 @@ use Tests\DuskTestCase;
 
 class CreateUserTest extends DuskTestCase
 {
-    use DatabaseMigrations;
+  use DatabaseMigrations;
 
-    /** @test */
-    public function a_user_can_be_created()
-    {
-        $profession = factory(Profession::class)->create();
-        $skillA = factory(Skill::class)->create();
-        $skillB = factory(Skill::class)->create();
+  /** @test */
+  public function a_user_can_be_created()
+  {
+    $profession = factory(Profession::class)->create();
+    $skillA = factory(Skill::class)->create();
+    $skillB = factory(Skill::class)->create();
 
-        $this->browse(function (Browser $browser) use ($profession, $skillA, $skillB) {
-            $browser->visit('/usuarios/nuevo')
+    $this->browse(function (Browser $browser) use ($profession, $skillA, $skillB) {
+      $browser->visit('/usuarios/nuevo')
             ->type('name', 'Super Admin')
             ->type('email', 'superadmin@admin.net')
             ->type('password', 'superadmin')
@@ -36,33 +36,33 @@ class CreateUserTest extends DuskTestCase
             ->assertPathIs('/usuarios')   // Redirigir
             ->assertSee('Super Admin')
             ->assertSee('superadmin@admin.net');
-        });
+    });
 
-        $this->assertCredentials([
-        'name'  => 'Super Admin',
-        'email' => 'superadmin@admin.net',
-        'password' => 'superadmin',
-        'role' => 'user',
-        'active' => true,
+    $this->assertCredentials([
+      'name' => 'Super Admin',
+      'email' => 'superadmin@admin.net',
+      'password' => 'superadmin',
+      'role' => 'user',
+      'active' => true,
     ]);
 
-        $user = User::findByEmail('superadmin@admin.net');
+    $user = User::findByEmail('superadmin@admin.net');
 
-        $this->assertDatabaseHas('user_profiles', [
-        'bio' => 'Programador',
-        'twitter' => 'https://twitter.com/superadmin',
-        'user_id' => $user->id,
-        'profession_id' => $profession->id,
+    $this->assertDatabaseHas('user_profiles', [
+      'bio' => 'Programador',
+      'twitter' => 'https://twitter.com/superadmin',
+      'user_id' => $user->id,
+      'profession_id' => $profession->id,
     ]);
 
-        $this->assertDatabaseHas('user_skill', [
-        'user_id'  => $user->id,
-        'skill_id' => $skillA->id,
+    $this->assertDatabaseHas('user_skill', [
+      'user_id' => $user->id,
+      'skill_id' => $skillA->id,
     ]);
 
-        $this->assertDatabaseHas('user_skill', [
-        'user_id'  => $user->id,
-        'skill_id' => $skillB->id,
+    $this->assertDatabaseHas('user_skill', [
+      'user_id' => $user->id,
+      'skill_id' => $skillB->id,
     ]);
-    }
+  }
 }

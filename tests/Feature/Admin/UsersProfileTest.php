@@ -11,87 +11,87 @@ use Tests\TestCase;
 
 class UsersProfileTest extends TestCase
 {
-    use RefreshDatabase;
+  use RefreshDatabase;
 
-    protected $defaultData = [
-    'name'  => 'Super Admin',
+  protected $defaultData = [
+    'name' => 'Super Admin',
     'email' => 'superadmin@admin.net',
     // 'password' => 'superadmin',
-    'bio'      => 'Programador de Laravel y Vue.js',
-    'twitter'  => 'https://twitter.com/superadmin',
+    'bio' => 'Programador de Laravel y Vue.js',
+    'twitter' => 'https://twitter.com/superadmin',
   ];
 
-    /** @test */
-    public function a_user_can_edit_its_profile()
-    {
-        $user = factory(User::class)->create();
+  /** @test */
+  public function a_user_can_edit_its_profile()
+  {
+    $user = factory(User::class)->create();
 
-        $newProfession = factory(Profession::class)->create();
+    $newProfession = factory(Profession::class)->create();
 
-        //$this->actingAs($user);
+    //$this->actingAs($user);
 
-        $response = $this->get('/editar-perfil/');
+    $response = $this->get('/editar-perfil/');
 
-        $response->assertStatus(200);
+    $response->assertStatus(200);
 
-        $response = $this->put('/editar-perfil/', [
-      'name'  => 'Super Admin',
+    $response = $this->put('/editar-perfil/', [
+      'name' => 'Super Admin',
       'email' => 'superadmin@admin.net',
-      'bio'   => 'Programador de Laravel y Vue.js',
+      'bio' => 'Programador de Laravel y Vue.js',
       'twitter' => 'https://twitter.com/superadmin',
       'profession_id' => $newProfession->id,
     ]);
 
-        $response->assertRedirect();
+    $response->assertRedirect();
 
-        $this->assertDatabaseHas('users', [
-      'name'  => 'Super Admin',
+    $this->assertDatabaseHas('users', [
+      'name' => 'Super Admin',
       'email' => 'superadmin@admin.net',
     ]);
 
-        $this->assertDatabaseHas('user_profiles', [
-      'bio'     => 'Programador de Laravel y Vue.js',
+    $this->assertDatabaseHas('user_profiles', [
+      'bio' => 'Programador de Laravel y Vue.js',
       'twitter' => 'https://twitter.com/superadmin',
       'profession_id' => $newProfession->id,
     ]);
-    }
+  }
 
-    /** @test */
-    public function the_user_cannot_change_its_role()
-    {
-        $user = factory(User::class)->create([
+  /** @test */
+  public function the_user_cannot_change_its_role()
+  {
+    $user = factory(User::class)->create([
       'role' => 'user'
     ]);
 
-        $response = $this->put('/editar-perfil/', $this->withData([
+    $response = $this->put('/editar-perfil/', $this->withData([
       'role' => 'admin',
     ]));
 
-        $response->assertRedirect();
+    $response->assertRedirect();
 
-        $this->assertDatabaseHas('users', [
-      'id'   => $user->id,
+    $this->assertDatabaseHas('users', [
+      'id' => $user->id,
       'role' => 'user',
     ]);
-    }
+  }
 
-    /** @test */
-    public function the_user_cannot_change_its_password()
-    {
-        factory(User::class)->create([
+  /** @test */
+  public function the_user_cannot_change_its_password()
+  {
+    factory(User::class)->create([
       'password' => bcrypt('old123'),
     ]);
 
-        $response = $this->put('/editar-perfil/', $this->withData([
-      'email'    => 'superadmin@admin.net',
+    $response = $this->put('/editar-perfil/', $this->withData([
+      'email' => 'superadmin@admin.net',
       'password' => 'new456'
     ]));
 
-        $response->assertRedirect();
+    $response->assertRedirect();
 
-        $this->assertCredentials([
-      'email'    => 'superadmin@admin.net',
+    $this->assertCredentials([
+      'email' => 'superadmin@admin.net',
       'password' => 'old123',
     ]);
-    }
+  }
 }

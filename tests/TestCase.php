@@ -8,38 +8,38 @@ use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
-    use CreatesApplication, TestHelpers, DetectRepeatedQueries;
+  use CreatesApplication, TestHelpers, DetectRepeatedQueries;
 
-    protected $defaultData = [];
+  protected $defaultData = [];
 
-    protected function setUp(): void
-    {
-        parent::setUp();
+  protected function setUp(): void
+  {
+    parent::setUp();
 
-        $this->addTestResponseMacros();
+    $this->addTestResponseMacros();
 
-        $this->withoutExceptionHandling();
+    $this->withoutExceptionHandling();
 
-        $this->enableQueryLog();
-    }
+    $this->enableQueryLog();
+  }
 
-    protected function tearDown(): void
-    {
-        $this->flushQueryLog();
+  protected function tearDown(): void
+  {
+    $this->flushQueryLog();
 
-        parent::tearDown();
-    }
+    parent::tearDown();
+  }
 
-    protected function addTestResponseMacros()
-    {
-        TestResponse::macro('viewData', function ($key) {
-            $this->ensureResponseHasView();
-            $this->assertViewHas($key);
-            return $this->original->$key;
-        });
+  protected function addTestResponseMacros()
+  {
+    TestResponse::macro('viewData', function ($key) {
+      $this->ensureResponseHasView();
+      $this->assertViewHas($key);
+      return $this->original->$key;
+    });
 
-        TestResponse::macro('assertViewCollection', function ($var) {
-            return new TestCollectionData($this->viewData($var));
-        });
-    }
+    TestResponse::macro('assertViewCollection', function ($var) {
+      return new TestCollectionData($this->viewData($var));
+    });
+  }
 }
