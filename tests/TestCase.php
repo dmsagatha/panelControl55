@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-use Illuminate\Support\Str;
 use Illuminate\Testing\TestResponse;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
