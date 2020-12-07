@@ -1,36 +1,50 @@
 <?php
 
+namespace Database\Factories;
+
 use App\Models\User;
 use App\Models\UserProfile;
 use Illuminate\Support\Str;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(User::class, function (Faker $faker) {
-  static $password;
+class UserFactory extends Factory
+{
+  protected $model = User::class;
 
-  return [
-    'name' => $faker->name,
-    'email' => $faker->unique()->safeEmail,
-    'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
-    // 'password' => $password ?: $password = bcrypt('secret'),
-    'remember_token' => Str::random(10),
-    'role' => $faker->randomElement(['user', 'admin']),
-    'active' => true,
-  ];
-});
+  public function configure()
+  {
+    // Después que se cree el Usuario, se ejecute la función anónima
+    // Para crear un Perfil
+    return $this->afterCreating(function ($user) {
+      // Obtener el objeto con el Perfil, luego guardarlo asociado
+      // al Usuario a través de la asociación profile()
+      $user->profile()->save(UserProfile::factory()->make());
+    });
+  }
 
-// Después que se cree el Usuario, se ejecute la función anónima
-// Para crear un Perfil
-$factory->afterCreating(User::class, function ($user, $faker) {
-  // Obtener el objeto con el Perfil, luego guardarlo asociado
-  // al Usuario a través de la asociación profile()
-  $user->profile()->save(factory(UserProfile::class)->make());
-});
+  public function definition()
+  {
+    return [
+      'name' => $this->faker->name,
+      'email' => $this->faker->unique()->safeEmail,
+      'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
+      // 'password' => $password ?: $password = bcrypt('secret'),
+      'remember_token' => Str::random(10),
+      'role' => $this->faker->randomElement(['user', 'admin']),
+      'active' => true,
+    ];
+  }
 
-// 2-34 Usar campos y atributos diferentes a los de la base de datos
-// Definir un state para estado inactivo del campo active
-$factory->state(User::class, 'inactive', function ($faker) {
-  return [
-    'active' => false,
-  ];
-});
+  /**
+   *  2-34 Usar campos y atributos diferentes a los de la base de datos
+   *  Definir un state para estado inactivo del campo active
+   */
+  public function inactive()
+  {
+    return $this->state(function () {
+      return [
+        'active' => false,
+      ];
+    });
+  }
+}

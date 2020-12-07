@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class UserProfile extends Model
 {
-  use SoftDeletes;
+  use SoftDeletes, HasFactory;
 
   protected $table = 'user_profiles';
 
@@ -17,6 +18,8 @@ class UserProfile extends Model
 
   public function profession()
   {
-    return $this->belongsTo(Profession::class)->withDefault();  // _row
+    return $this->belongsTo(Profession::class)->withDefault([
+      'title' => '(Sin profesión)'
+    ]);  // _row
   }
 }

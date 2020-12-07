@@ -27,10 +27,10 @@ class CreateUsersTest extends TestCase
   /** @test */
   public function it_loads_the_new_users_page()
   {
-    $profession = factory(Profession::class)->create();
+    $profession = Profession::factory()->create();
 
-    $skillA = factory(Skill::class)->create();
-    $skillB = factory(Skill::class)->create();
+    $skillA = Skill::factory()->create();
+    $skillB = Skill::factory()->create();
 
     $this->get('/usuarios/nuevo')
         ->assertStatus(200)
@@ -47,11 +47,11 @@ class CreateUsersTest extends TestCase
   /** @test */
   public function it_creates_a_new_user()
   {
-    $profession = factory(Profession::class)->create();
+    $profession = Profession::factory()->create();
 
-    $skillA = factory(Skill::class)->create();
-    $skillB = factory(Skill::class)->create();
-    $skillC = factory(Skill::class)->create();
+    $skillA = Skill::factory()->create();
+    $skillB = Skill::factory()->create();
+    $skillC = Skill::factory()->create();
 
     $this->post('/usuarios/', $this->withData([
       'skills' => [$skillA->id, $skillB->id],
@@ -217,7 +217,7 @@ class CreateUsersTest extends TestCase
   {
     $this->handleValidationExceptions();
 
-    factory(User::class)->create([
+    User::factory()->create([
       'email' => 'superadmin@admin.net'
     ]);
 
@@ -261,7 +261,7 @@ class CreateUsersTest extends TestCase
   {
     $this->withExceptionHandling();
 
-    $deletedProfession = factory(Profession::class)->create([
+    $deletedProfession = Profession::factory()->create([
       'deleted_at' => now()->format('Y-m-d'),
     ]);
 
@@ -293,8 +293,8 @@ class CreateUsersTest extends TestCase
   {
     $this->handleValidationExceptions();
 
-    $skillA = factory(Skill::class)->create();
-    $skillB = factory(Skill::class)->create();
+    $skillA = Skill::factory()->create();
+    $skillB = Skill::factory()->create();
 
     $this->post('/usuarios/', $this->withData([
       'skills' => [$skillA->id, $skillB->id + 1],

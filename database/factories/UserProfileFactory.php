@@ -1,18 +1,22 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
 use App\Models\UserProfile;
 use App\Models\Profession;
-use App\Models\User;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(UserProfile::class, function (Faker $faker) {
-  $professions = Profession::pluck('id')->all();
+class UserProfileFactory extends Factory
+{
+  protected $model = UserProfile::class;
 
-  return [
-    // 'user_id' => factory(User::class),
-    'bio' => $faker->paragraph(),
-    'profession_id' => $faker->randomElement($professions),
-  ];
-});
+  public function definition()
+  {
+    $professions = Profession::pluck('id')->all();
+
+    return [
+      'bio' => $this->faker->paragraph,
+      'profession_id' => $this->faker->randomElement($professions),
+    ];
+  }
+}

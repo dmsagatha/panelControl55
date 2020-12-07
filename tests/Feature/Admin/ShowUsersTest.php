@@ -14,7 +14,7 @@ class ShowUsersTest extends TestCase
   /** @test */
   public function it_displays_the_users_details()
   {
-    $user = factory(User::class)->create([
+    $user = User::factory()->create([
       'name' => 'Super Admin',
     ]);
 
