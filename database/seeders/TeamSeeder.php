@@ -9,8 +9,8 @@ class TeamSeeder extends Seeder
 {
   public function run()
   {
-   Team::factory()->create(['name' => 'Styde']);
+    Team::factory()->create(['name' => 'Styde']);
 
-   Team::factory()->times(99)->create();
+    Team::factory()->times(19)->create();
   }
 }

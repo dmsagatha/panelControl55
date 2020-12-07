@@ -22,7 +22,7 @@ class ProfessionSeeder extends Seeder
       'title' => 'Diseñador web',
     ]);
 
-    // 118 - Model Factories
-    factory(Profession::class)->times(17)->create();
+    // 3-02 Cambios en Model Factories y Seeders
+    Profession::factory()->times(17)->create();
   }
 }
