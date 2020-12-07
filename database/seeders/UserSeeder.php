@@ -47,7 +47,7 @@ class UserSeeder extends Seeder
 
   protected function createAdmin()
   {
-    $admin = factory(User::class)->create([
+    $admin = User::factory()->create([
       'name' => 'Super Admin',
       'email' => 'superadmin@admin.net',
       'password' => bcrypt('superadmin'),
@@ -73,7 +73,7 @@ class UserSeeder extends Seeder
    */
   protected function createRandomUser()
   {
-    $user = factory(User::class)->create([
+    $user = User::factory()->create([
       'team_id' => rand(0, 2) ? null : $this->teams->random()->id,
       'active' => rand(0, 3) ? true : false,
       'created_at' => now()->subDays(rand(1, 90)),
@@ -86,7 +86,7 @@ class UserSeeder extends Seeder
       'profession_id' => rand(0, 2) ? $this->professions->random()->id : null,
     ]);
 
-    factory(Login::class)->times(rand(1, 10))->create([
+    Login::factory()->times(rand(1, 10))->create([
       'user_id' => $user->id,
     ]);
   }

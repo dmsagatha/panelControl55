@@ -15,39 +15,35 @@ class UserTest extends TestCase
   /** @test */
   public function gets_the_last_login_datetime_of_each_user()
   {
-    $john = factory(User::class)->create(['name' => 'John']);
-    factory(Login::class)->create([
+    $john = User::factory()->create(['name' => 'John']);
+    Login::factory()->create([
       'user_id' => $john->id,
       'created_at' => '2019-09-18 12:30:00',
     ]);
-    factory(Login::class)->create([
+    Login::factory()->create([
       'user_id' => $john->id,
       'created_at' => '2019-09-18 12:31:00',
     ]);
-    factory(Login::class)->create([
+    Login::factory()->create([
       'user_id' => $john->id,
       'created_at' => '2019-09-17 12:31:00',
     ]);
 
-    $jane = factory(User::class)->create(['name' => 'Jane']);
-    factory(Login::class)->create([
+    $jane = User::factory()->create(['name' => 'Jane']);
+    Login::factory()->create([
       'user_id' => $jane->id,
       'created_at' => '2019-09-15 12:00:00',
     ]);
-    factory(Login::class)->create([
+    Login::factory()->create([
       'user_id' => $jane->id,
       'created_at' => '2019-09-15 12:01:00',
     ]);
-    factory(Login::class)->create([
+    Login::factory()->create([
       'user_id' => $jane->id,
       'created_at' => '2019-09-15 11:59:59',
     ]);
 
     $users = User::withLastLogin()->get();
-
-    /* $this->assertTrue(
-      $users->firstWhere('name', 'John')->lastLogin->created_at->eq('2019-09-18 12:31:00')
-    ); */
 
     $this->assertInstanceOf(Carbon::class, $users->firstWhere('name', 'John')->last_login_at);
 
