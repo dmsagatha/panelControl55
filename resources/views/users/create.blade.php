@@ -6,7 +6,7 @@
   <x-card>
     @slot('header', 'Crear usuario')
     
-    @include('shared._errors')
+    <x-validation-errors />
 
     <form method="POST" action="{{ route('users.store') }}">
       @include('users._fields')
