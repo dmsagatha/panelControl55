@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Models\Sortable;
+use App\Sortable;
 use Tests\TestCase;
 
 class SorteableTest extends TestCase

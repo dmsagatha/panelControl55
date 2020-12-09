@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\UserQuery;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;

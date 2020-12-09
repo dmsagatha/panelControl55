@@ -3,9 +3,7 @@
 namespace Tests\Feature\Admin;
 
 use App\Models\User;
-use App\Models\UserProfile;
 use App\Models\Profession;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\Sortable;
+use App\Sortable;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\Paginator;
