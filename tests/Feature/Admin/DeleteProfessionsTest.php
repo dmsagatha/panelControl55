@@ -4,9 +4,8 @@ namespace Tests\Feature\Admin;
 
 use App\Models\Profession;
 use App\Models\User;
-use App\Models\UserProfile;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class DeleteProfessionsTest extends TestCase
 {

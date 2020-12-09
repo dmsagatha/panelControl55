@@ -3,11 +3,9 @@
 namespace Tests\Feature\Admin;
 
 use App\Models\User;
-use App\Models\UserProfile;
 use App\Models\Profession;
 use App\Models\Skill;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class UpdateUsersTest extends TestCase

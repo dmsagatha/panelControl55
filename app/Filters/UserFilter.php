@@ -2,7 +2,7 @@
 
 namespace App\Filters;
 
-use App\Models\Sortable;
+use App\Sortable;
 use App\Rules\SortableColumn;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;

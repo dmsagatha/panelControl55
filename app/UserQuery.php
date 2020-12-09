@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App;
 
-use App\Models\QueryBuilder;
+use App\Models\Login;
+use App\QueryBuilder;
 
 class UserQuery extends QueryBuilder
 {
