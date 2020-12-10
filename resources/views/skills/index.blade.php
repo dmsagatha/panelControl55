@@ -1,8 +1,7 @@
-@extends('layout')
+<x-app-layout>
 
-@section('title', 'Habilidades')
-
-@section('content')
+  <x-slot name="title">Habilidades</x-slot>
+  
   <div class="d-flex justify-content-between align-items-end mb-3">
     <h1 class="pb-1">Listado de habilidades</h1>
   </div>
@@ -35,7 +34,7 @@
   @else
     <p>No hay usuarios registrados.</p>
   @endif
-@endsection
+</x-app-layout>
 
 @section('sidebar')
   @parent
