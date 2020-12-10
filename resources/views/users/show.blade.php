@@ -1,8 +1,7 @@
-@extends('layout')
+<x-app-layout>
 
-@section('title', "Usuario {$user->name}")
+  <x-slot name="title">Usuarios {$user->name}</x-slot>
 
-@section('content')
   <div class="card">
     <div class="card-body">
       <h1 class="mt-3">Usuario #{{ $user->id }}</h1>
@@ -15,4 +14,4 @@
       </p>
     </div>
   </div>
-@endsection
+</x-app-layout>
