@@ -1,8 +1,7 @@
-@extends('layout')
+<x-app-layout>
 
-@section('title', 'Editar usuario')
-
-@section('content')
+  <x-slot name="title">Editar usuario</x-slot>
+  
   <x-card>
     @slot('header', 'Editar usuario')
     
@@ -20,4 +19,4 @@
       </div>
     </form>
   </x-card>
-@endsection
+</x-app-layout>

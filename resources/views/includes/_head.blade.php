@@ -4,7 +4,8 @@
 <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
 <meta name="generator" content="Jekyll v4.1.1">
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<title>@yield('title') - PanelControl</title>
+
+<title>{{ isset($title) ? "{$title} -" : '' }} PanelControl</title>
 
 <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/sticky-footer-navbar/">
 
