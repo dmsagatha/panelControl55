@@ -9,7 +9,7 @@
   <div class="collapse navbar-collapse" id="navbarCollapse">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="{{ route('users.index') }}">Usuarios <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{{ route('users.index') }}">Usuarios</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{{ url('/profesiones') }}">Profesiones</a>
