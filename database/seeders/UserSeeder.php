@@ -33,7 +33,7 @@ class UserSeeder extends Seeder
      * Crear 999 Usuarios, asociar un Equipo y Habilidades de
      * forma aleatoria y crear el Perfil asociado a dicho Usuario
     */
-    foreach (range(1, 39) as $i) {
+    foreach (range(1, 99) as $i) {
       $this->createRandomUser();
     }
   }
