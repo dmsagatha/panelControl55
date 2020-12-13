@@ -29,6 +29,10 @@ class UserSeeder extends Seeder
 
     $this->createAdmin();
 
+    $this->createRandomUser([
+      'api_token' => 'user-api-token',
+    ]);
+
     /**
      * Crear 999 Usuarios, asociar un Equipo y Habilidades de
      * forma aleatoria y crear el Perfil asociado a dicho Usuario
@@ -55,6 +59,7 @@ class UserSeeder extends Seeder
       'created_at' => now(), //->addDay(),    // 1 día mas
       'team_id' => $this->teams->firstWhere('name', 'Styde'),
       'active' => true,
+      'api_token' => 'admin-api-token',
     ]);
 
     $admin->skills()->attach($this->skills);
@@ -71,13 +76,13 @@ class UserSeeder extends Seeder
    * Crear Usuarios, asociar un Equipo y Habilidades de
    * forma aleatoria y crear el Perfil asociado a dicho Usuario
    */
-  protected function createRandomUser()
+  protected function createRandomUser(array $customAttributes = [])
   {
-    $user = User::factory()->create([
+    $user = User::factory()->create(array_merge([
       'team_id' => rand(0, 2) ? null : $this->teams->random()->id,
       'active' => rand(0, 3) ? true : false,
       'created_at' => now()->subDays(rand(1, 90)),
-    ]);
+    ], $customAttributes));
 
     $user->skills()->attach($this->skills->random(rand(0, 7)));
 
