@@ -30,7 +30,7 @@ class RouteServiceProvider extends ServiceProvider
 
     $this->mapWebRoutes();
 
-    //
+    $this->configureRateLimiting();
   }
 
   /**
@@ -58,5 +58,10 @@ class RouteServiceProvider extends ServiceProvider
     Route::prefix('api')
              ->middleware('api')
              ->group(base_path('routes/api.php'));
+  }
+
+  private function configureRateLimiting()
+  {
+      RateLimiter::for('api', fn() => Limit::perMinute(3));
   }
 }
