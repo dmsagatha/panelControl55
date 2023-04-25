@@ -20,7 +20,6 @@
 
     @include('includes._footer')
 
-    <script src="{{ mix('js/app.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/gijgo@1.9.10/js/gijgo.min.js"></script>
 
     <script>

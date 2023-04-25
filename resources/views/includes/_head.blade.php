@@ -9,9 +9,11 @@
 
 <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/sticky-footer-navbar/">
 
+@vite(['resources/js/app.js'])
+
 <!-- CSS --><!-- Font Awesome 5.13 -->
 <link rel="stylesheet" href="{{ asset('css/all.min.css') }}">
-<link rel="stylesheet" href="{{ mix('/css/app.css') }}">
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" integrity="sha512-UyNhw5RNpQaCai2EdC+Js0QL4RlVmiq41DkmCJsRV3ZxipG2L0HhTqIf/H9Hp8ez2EnFlkBnjRGJU2stW3Lj+w==" crossorigin="anonymous" />
 <link href="https://cdn.jsdelivr.net/npm/gijgo@1.9.10/css/gijgo.min.css" rel="stylesheet">
 <!-- Custom styles for this template -->
